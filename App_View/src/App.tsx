@@ -6,7 +6,6 @@ const App: FC = () => {
   return (
     <>
       <Header />
-      <h1 className="text-gray-300">hi app</h1>
     </>
   );
 };

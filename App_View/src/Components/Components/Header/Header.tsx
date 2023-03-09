@@ -9,7 +9,7 @@ const Header: React.FC = () => {
           My App
         </Link>
         <div className="flex items-center space-x-4">
-          <Link to="/recipes" className="text-gray-300 hover:text-white">
+          <Link to="/" className="text-gray-300 hover:text-white">
             Recipes
           </Link>
           <Link to="/create" className="text-gray-300 hover:text-white">

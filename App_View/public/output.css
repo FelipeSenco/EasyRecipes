@@ -522,12 +522,24 @@ video {
   display: flex;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -560,8 +572,17 @@ video {
   line-height: 1.75rem;
 }
 
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
+}
+
 .font-medium {
   font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .text-gray-300 {
