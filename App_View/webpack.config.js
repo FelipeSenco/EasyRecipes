@@ -26,6 +26,20 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          "postcss-loader",
+        ],
+      },
     ],
   },
   devServer: {
@@ -34,5 +48,12 @@ module.exports = {
     },
     port: 3000,
     open: true,
+    client: {
+      logging: "none",
+      overlay: {
+        warnings: false,
+        errors: true,
+      },
+    },
   },
 };
