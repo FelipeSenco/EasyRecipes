@@ -1,18 +1,12 @@
 import { FC } from "react";
 import React from "react";
-import Header from "./Components/Header";
+import Header from "./Header";
 import { Outlet } from "react-router-dom";
-import Footer from "./Components/Footer";
+import Footer from "./Footer";
 
 const App: FC = () => {
   return (
-    <div
-    // style={{
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   justifyContent: "space-between",
-    // }}
-    >
+    <div>
       <Header />
       <Outlet />
       <Footer />

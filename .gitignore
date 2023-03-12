@@ -7,3 +7,4 @@ appsettings.Production.json
 app/*.pfx
 app/*.log
 app/*.txt
+roadmap.txt
