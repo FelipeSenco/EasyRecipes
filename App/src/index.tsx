@@ -2,10 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./Components/App";
 import "./input.css";
+import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./Components/Errors/RouterError";
 import About from "./Components/About";
-import Recipes from "./Components/Main/Recipes";
+import Recipes from "./Components/Main/Home";
+import { UserProvider } from "./Contexts/UserContext";
+import { UserApi } from "./Api/UserApi";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const root = document.getElementById("root");
+if (!root) throw new Error("No root element found");
+
+const reactRoot = createRoot(root);
 
 const router = createBrowserRouter([
   {
@@ -27,9 +36,15 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.render(
+const userApi = new UserApi();
+const queryClient = new QueryClient();
+
+reactRoot.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <QueryClientProvider client={queryClient}>
+      <UserProvider api={userApi}>
+        <RouterProvider router={router} />
+      </UserProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
