@@ -10,6 +10,9 @@ import Recipes from "./Components/Main/Home";
 import { UserProvider } from "./Contexts/UserContext";
 import { UserApi } from "./Api/UserApi";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Games from "./Components/Main/Games";
+import AppContext, { AppProvider } from "./Contexts/AppContext";
+import { BuildOrdersProvider } from "./Contexts/BuildOrdersContext";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -31,6 +34,7 @@ const router = createBrowserRouter([
         element: <h1>Create</h1>,
       },
       { path: "/about", element: <About /> },
+      // { path: "/games", element: <Games /> },
       { path: "*", element: <NotFound /> },
     ],
   },
@@ -42,9 +46,13 @@ const queryClient = new QueryClient();
 reactRoot.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <UserProvider api={userApi}>
-        <RouterProvider router={router} />
-      </UserProvider>
+      <AppProvider>
+        <UserProvider api={userApi}>
+          <BuildOrdersProvider>
+            <RouterProvider router={router} />
+          </BuildOrdersProvider>
+        </UserProvider>
+      </AppProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

@@ -1,24 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AppContext from "../../Contexts/AppContext";
+import { Games } from "../../Types/enums";
+import { StarcraftBuildOrders, WarcraftBuildOrders } from "./BuildOrders";
 
 const Home: React.FC = () => {
-  const [counter, setCounter] = useState(1);
-
-  const onClick = () => {
-    setCounter(counter + 1);
-  };
-
-  const testFunction = () => {
-    console.log("counter: " + counter);
-  };
-
-  useEffect(() => {
-    testFunction();
-  }, [counter]);
-
+  const { selectedGame } = useContext(AppContext);
   return (
-    <div>
-      <button onClick={onClick}>Increase</button>
-      <div>Counter: {counter}</div>
+    <div className="flex">
+      {selectedGame === Games.WARCRAFT_3 && <WarcraftBuildOrders />}
+      {selectedGame === Games.STARCRAFT_2 && <StarcraftBuildOrders />}
     </div>
   );
 };
