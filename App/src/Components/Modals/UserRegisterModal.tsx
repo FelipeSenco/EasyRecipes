@@ -11,6 +11,7 @@ const RegisterModal: FC = () => {
   const userContext = useContext(UserContext);
   const { registerModalOpen, setRegisterModalOpen } = userContext;
   const createUser = useCreateUserQuery();
+  const [showValidationMessages, setShowValidationMessages] = useState(false);
 
   //input states
   const [firstName, setFirstName] = useState("");
@@ -22,16 +23,17 @@ const RegisterModal: FC = () => {
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date("01/01/2000"));
 
-  //validation states
-  const [firstNameValid, setFirstNameValid] = useState(false);
-  const [lastNameValid, setLastNameValid] = useState(false);
-  const [countryValid, setCountryValid] = useState(false);
-  const [userNameValid, setUserNameValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
-  const [dateOfBirthValid, setDateOfBirthValid] = useState(false);
-  const [showValidationMessages, setShowValidationMessages] = useState(false);
+  //validation state
+  const [validationState, setValidationState] = useState({
+    firstNameValid: false,
+    lastNameValid: false,
+    countryValid: false,
+    userNameValid: false,
+    emailValid: false,
+    dateOfBirthValid: false,
+    passwordValid: false,
+    confirmPasswordValid: false,
+  });
   const [allInputsValid, setAllInputsValid] = useState(false);
 
   useEffect(() => {
@@ -60,18 +62,22 @@ const RegisterModal: FC = () => {
     const passwordValid = password.length >= 8 && password.length <= 16;
     const confirmPasswordValid = confirmPassword.length >= 8 && confirmPassword.length <= 16 && confirmPassword === password;
     const emailValid = email.length >= 8 && email.length <= 50 && emailRegex.test(email);
-    const dateValid = !isNaN(dateOfBirth.getTime()) && dateOfBirth.getTime() < new Date().getTime();
+    const dateOfBirthValid = !isNaN(dateOfBirth.getTime()) && dateOfBirth.getTime() < new Date().getTime();
 
-    setFirstNameValid(firstNameValid);
-    setLastNameValid(lastNameValid);
-    setCountryValid(countryValid);
-    setUserNameValid(userNameValid);
-    setPasswordValid(passwordValid);
-    setConfirmPasswordValid(confirmPasswordValid);
-    setEmailValid(emailValid);
-    setDateOfBirthValid(dateValid);
+    const newState = {
+      firstNameValid,
+      lastNameValid,
+      countryValid,
+      userNameValid,
+      emailValid,
+      dateOfBirthValid,
+      passwordValid,
+      confirmPasswordValid,
+    };
 
-    return userNameValid && passwordValid && confirmPasswordValid && emailValid && dateValid && firstNameValid && lastNameValid && countryValid;
+    setValidationState(newState);
+
+    return Object.values(newState).every((value) => value === true);
   };
 
   Modal.setAppElement("#root");
@@ -118,7 +124,7 @@ const RegisterModal: FC = () => {
           onChange={(e) => setFirstName(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !firstNameValid && <p className="text-red-500 text-xs italic">Please enter a valid first name.</p>}
+        {showValidationMessages && !validationState.firstNameValid && <p className="text-red-500 text-xs italic">Please enter a valid first name.</p>}
       </div>
       <div className="mb-4">
         <input
@@ -129,7 +135,7 @@ const RegisterModal: FC = () => {
           onChange={(e) => setLastName(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !lastNameValid && <p className="text-red-500 text-xs italic">Please enter a valid last name.</p>}
+        {showValidationMessages && !validationState.lastNameValid && <p className="text-red-500 text-xs italic">Please enter a valid last name.</p>}
       </div>
       <div className="mb-4">
         <CountryDropdown
@@ -137,7 +143,7 @@ const RegisterModal: FC = () => {
           onChange={(value) => setCountry(value)}
           classes="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !countryValid && <p className="text-red-500 text-xs italic">Please enter a valid country.</p>}
+        {showValidationMessages && !validationState.countryValid && <p className="text-red-500 text-xs italic">Please enter a valid country.</p>}
       </div>
       <div className="mb-4">
         <input
@@ -148,7 +154,7 @@ const RegisterModal: FC = () => {
           onChange={(e) => setUserName(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !userNameValid && <p className="text-red-500 text-xs italic">Please enter a valid username.</p>}
+        {showValidationMessages && !validationState.userNameValid && <p className="text-red-500 text-xs italic">Please enter a valid username.</p>}
       </div>
       <div className="mb-4">
         <input
@@ -159,7 +165,7 @@ const RegisterModal: FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !emailValid && <p className="text-red-500 text-xs italic">Please enter a valid email.</p>}
+        {showValidationMessages && !validationState.emailValid && <p className="text-red-500 text-xs italic">Please enter a valid email.</p>}
       </div>
       <div className="mb-4">
         <input
@@ -173,7 +179,9 @@ const RegisterModal: FC = () => {
           }}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !dateOfBirthValid && <p className="text-red-500 text-xs italic">Please enter your date of birth.</p>}
+        {showValidationMessages && !validationState.dateOfBirthValid && (
+          <p className="text-red-500 text-xs italic">Please enter your date of birth.</p>
+        )}
       </div>
       <div className="mb-4">
         <input
@@ -184,7 +192,9 @@ const RegisterModal: FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !passwordValid && <p className="text-red-500 text-xs italic">Please enter a valid password. (min. 8 characters)</p>}
+        {showValidationMessages && !validationState.passwordValid && (
+          <p className="text-red-500 text-xs italic">Please enter a valid password. (min. 8 characters)</p>
+        )}
       </div>
       <div className="mb-4">
         <input
@@ -195,7 +205,9 @@ const RegisterModal: FC = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {showValidationMessages && !confirmPasswordValid && <p className="text-red-500 text-xs italic">Please confirm your password.</p>}
+        {showValidationMessages && !validationState.confirmPasswordValid && (
+          <p className="text-red-500 text-xs italic">Please confirm your password.</p>
+        )}
       </div>
       {createUser.isError && <p className="text-red-500 text-m italic bold mb-4">An error occurred while registering. Please try again.</p>}
       <div className="flex justify-between">
@@ -239,11 +251,13 @@ const RegistrationSuccessFulModal: FC<{ open: boolean }> = ({ open = false }) =>
         },
       }}
     >
-      <h2 className="font-bold text-2xl mb-4">Registration Successful</h2>
-      <p className="mb-4">Your registration was successful.</p>
-      <button onClick={() => setRegisterModalOpen(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Ok
-      </button>
+      <div className="flex flex-col justify-center align-center">
+        <h2 className="font-bold text-2xl mb-4">Registration Successful</h2>
+        <p className="mb-4">Your registration was successful.</p>
+        <button onClick={() => setRegisterModalOpen(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Ok
+        </button>
+      </div>
     </Modal>
   );
 };

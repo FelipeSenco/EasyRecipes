@@ -32,7 +32,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, api }) => 
     console.log(user);
     const res = await api.createUser(user);
     console.log(res);
-    throw new Error("Not implemented");
+    // throw new Error("Not implemented");
     return res;
   };
 
