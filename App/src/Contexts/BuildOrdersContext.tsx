@@ -3,11 +3,13 @@ import { wc3BuildOrderMocks } from "../__tests__/__mocks__/buildOrderMocks";
 import { WarcraftBuildOrder } from "../Types/BuildOrders";
 
 interface BuildOrdersContextType {
-  getWarcraftBuildorders: () => Promise<WarcraftBuildOrder[]>;
+  getWarcraftBuildOrders: () => Promise<WarcraftBuildOrder[]>;
+  getWarcraftBuildOrderById: (id: string) => Promise<WarcraftBuildOrder>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
-  getWarcraftBuildorders: () => Promise.resolve([]),
+  getWarcraftBuildOrders: () => Promise.resolve([]),
+  getWarcraftBuildOrderById: () => Promise.resolve({} as WarcraftBuildOrder),
 });
 
 interface BuildOrdersProviderProps {
@@ -15,7 +17,7 @@ interface BuildOrdersProviderProps {
 }
 
 export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ children }) => {
-  const getWarcraftBuildorders = async (): Promise<WarcraftBuildOrder[]> => {
+  const getWarcraftBuildOrders = async (): Promise<WarcraftBuildOrder[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(wc3BuildOrderMocks);
@@ -23,7 +25,15 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     });
   };
 
-  return <BuildOrdersContext.Provider value={{ getWarcraftBuildorders }}>{children}</BuildOrdersContext.Provider>;
+  const getWarcraftBuildOrderById = async (id: string): Promise<WarcraftBuildOrder> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(wc3BuildOrderMocks.find((build) => build.id === id) as WarcraftBuildOrder);
+      }, 1000);
+    });
+  };
+
+  return <BuildOrdersContext.Provider value={{ getWarcraftBuildOrders, getWarcraftBuildOrderById }}>{children}</BuildOrdersContext.Provider>;
 };
 
 export default BuildOrdersContext;

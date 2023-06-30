@@ -10,12 +10,17 @@ const App: FC = () => {
       <div className="w-auto">
         <Header />
       </div>
-      <main className="flex-grow">
-        <Outlet />
-      </main>
-      <div className="w-auto">
-        <Footer />
+
+      <div className="flex h-full flex-grow">
+        <aside className="w-1/5 bg-red-100">Ad Space</aside>
+
+        <main className="flex-grow flex-col flex">
+          <Outlet />
+        </main>
+
+        <aside className="w-1/5 bg-red-100">Ad Space</aside>
       </div>
+      <Footer />
     </div>
   );
 };

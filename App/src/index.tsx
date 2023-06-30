@@ -1,7 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./Components/App";
 import "./input.css";
+import "tailwindcss/tailwind.css";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./Components/Errors/RouterError";
@@ -10,9 +10,9 @@ import Recipes from "./Components/Main/Home";
 import { UserProvider } from "./Contexts/UserContext";
 import { UserApi } from "./Api/UserApi";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Games from "./Components/Main/Games";
-import AppContext, { AppProvider } from "./Contexts/AppContext";
+import { AppProvider } from "./Contexts/AppContext";
 import { BuildOrdersProvider } from "./Contexts/BuildOrdersContext";
+import WarcraftBuildOrderDetail from "./Components/Main/WarcraftBuildOrder";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -34,6 +34,10 @@ const router = createBrowserRouter([
         element: <h1>Create</h1>,
       },
       { path: "/about", element: <About /> },
+      {
+        path: "/warcraft-build-order/:id",
+        element: <WarcraftBuildOrderDetail />,
+      },
       // { path: "/games", element: <Games /> },
       { path: "*", element: <NotFound /> },
     ],

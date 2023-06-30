@@ -17,14 +17,15 @@ export enum HumanStructures {
 }
 
 export enum WarcraftFactions {
-  HUMANS = "Human Alliance",
-  ORCS = "Orcish Horde",
-  UNDEADS = "Undead Scourge",
-  NIGHT_ELVES = "Night Elves",
+  HUMANS = "Human",
+  ORCS = "Orc",
+  UNDEADS = "Undead",
+  NIGHT_ELVES = "Night Elf",
+  ALL = "All",
 }
 
 export enum StarcraftFactions {
-  TERRANS = "Terrans",
-  ZERGS = "Zergs",
+  TERRANS = "Terran",
+  ZERGS = "Zerg",
   PROTOSS = "Protoss",
 }

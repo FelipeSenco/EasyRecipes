@@ -1,10 +1,12 @@
 export interface WarcraftBuildOrder {
-  id: number;
+  id: string;
   name: string;
   description: string;
   game: Games;
   faction: WarcraftFactions;
+  opponentFaction: WarcraftFactions;
   steps: BuildOrderItem[];
+  createdBy: string;
 }
 
 export interface StarcraftBuildOrder {
@@ -13,7 +15,9 @@ export interface StarcraftBuildOrder {
   description: string;
   game: Games;
   faction: StarcraftFactions;
+  opponentFaction: StarcraftFactions;
   steps: BuildOrderItem[];
+  createdBy: string;
 }
 
 export interface BuildOrderItem {

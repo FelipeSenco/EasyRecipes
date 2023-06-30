@@ -3,10 +3,12 @@ import { Games, WarcraftFactions } from "../../Types/enums";
 
 export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
-    id: 1,
+    id: "1",
     name: "Early base building game",
     game: Games.WARCRAFT_3,
     faction: WarcraftFactions.HUMANS,
+    opponentFaction: WarcraftFactions.NIGHT_ELVES,
+    createdBy: "John Doe",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
     steps: [
@@ -31,10 +33,12 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "Give them a blast",
     game: Games.WARCRAFT_3,
     faction: WarcraftFactions.HUMANS,
+    opponentFaction: WarcraftFactions.ORCS,
+    createdBy: "Alice is Pains",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
     steps: [
@@ -59,10 +63,12 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "Crash them all with human",
     game: Games.WARCRAFT_3,
     faction: WarcraftFactions.HUMANS,
+    opponentFaction: WarcraftFactions.ALL,
+    createdBy: "HookShot HotShot",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
     steps: [
@@ -88,3 +94,14 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   },
 ];
 const Sc2BuildOrderMocks = [];
+
+export const emptyWarcrafBuildOrder: WarcraftBuildOrder = {
+  id: "",
+  name: "",
+  game: "",
+  faction: "",
+  opponentFaction: "",
+  createdBy: "",
+  description: "",
+  steps: [],
+};
