@@ -4,6 +4,17 @@ import LoadingModal from "../Modals/LoadingModal";
 import { WarcraftBuildOrder } from "../../Types/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../../Types/Routes";
+import { Games } from "../../Types/enums";
+
+interface BuildOrderPageProps {
+  selectedGame: Games;
+}
+
+export const BuildOrderPage: FC<BuildOrderPageProps> = ({ selectedGame }) => {
+  if (selectedGame === Games.STARCRAFT_2) return <StarcraftBuildOrders />;
+  if (selectedGame === Games.STORMGATE) return <StormgateBuildOrders />;
+  return <WarcraftBuildOrders />;
+};
 
 export const WarcraftBuildOrders: FC = () => {
   const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
@@ -13,7 +24,7 @@ export const WarcraftBuildOrders: FC = () => {
   if (isError) return <div>Something went wrong...</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" data-testid="warcraft-build-orders">
       <WarcraftBuildOrderList buildOrders={buildOrders} />
       <LoadingModal open={isFetching} />
     </div>
@@ -21,11 +32,11 @@ export const WarcraftBuildOrders: FC = () => {
 };
 
 export const StarcraftBuildOrders: FC = () => {
-  return <div>Starcraft build orders</div>;
+  return <div data-testid="starcraft-build-orders">Starcraft build orders</div>;
 };
 
 export const StormgateBuildOrders: FC = () => {
-  return <div>Stormgate build orders</div>;
+  return <div data-testid="stormgate-build-orders">Stormgate build orders</div>;
 };
 
 type WarcraftBuildOrderListProps = {

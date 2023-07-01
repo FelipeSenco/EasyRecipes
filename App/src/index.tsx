@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import App from "./Components/App";
 import "./input.css";
 import "tailwindcss/tailwind.css";
@@ -6,13 +6,11 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./Components/Errors/RouterError";
 import About from "./Components/About";
-import Recipes from "./Components/Main/Home";
-import { UserProvider } from "./Contexts/UserContext";
 import { UserApi } from "./Api/UserApi";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { AppProvider } from "./Contexts/AppContext";
-import { BuildOrdersProvider } from "./Contexts/BuildOrdersContext";
 import WarcraftBuildOrderDetail from "./Components/Main/WarcraftBuildOrder";
+import Providers from "./Contexts/Providers";
+import AppContext from "./Contexts/AppContext";
+import Home from "./Components/Main/Home";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -27,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Recipes />,
+        element: <Home />,
       },
       {
         path: "/create",
@@ -45,18 +43,11 @@ const router = createBrowserRouter([
 ]);
 
 const userApi = new UserApi();
-const queryClient = new QueryClient();
 
 reactRoot.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AppProvider>
-        <UserProvider api={userApi}>
-          <BuildOrdersProvider>
-            <RouterProvider router={router} />
-          </BuildOrdersProvider>
-        </UserProvider>
-      </AppProvider>
-    </QueryClientProvider>
+    <Providers userApi={userApi}>
+      <RouterProvider router={router} />
+    </Providers>
   </React.StrictMode>
 );

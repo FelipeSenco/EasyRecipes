@@ -1,31 +1,34 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../Contexts/UserContext";
 import GameSelection from "./Collection/GameSelection";
 
-const Header: React.FC = () => {
-  const { setRegisterModalOpen } = useContext(UserContext);
+interface HeaderProps {
+  onRegisterClick: () => void;
+  onLoginClick: () => void;
+}
 
-  const onRegisterClick = () => {
-    setRegisterModalOpen(true);
-  };
-
+const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
   return (
-    <header className="bg-gray-800 shadow-md">
+    <header className="bg-gray-800 shadow-md" data-testid="header">
       <nav className="flex items-center justify-between max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <Link to="/" className="text-2xl font-medium text-white">
+        <Link to="/" className="text-2xl font-medium text-white" data-testid="home-link-logo">
           Build Order Builder
         </Link>
         <div className="flex items-center space-x-4">
-          <Link to="/" className="text-gray-300 hover:text-white">
+          <Link to="/" className="text-gray-300 hover:text-white" data-testid="home-link">
             Build Orders
           </Link>
         </div>
         <div className="flex gap-3">
-          <button onClick={() => console.log("Login")} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded">
+          <button onClick={onLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded" data-testid="login-button">
             Login
           </button>
-          <button onClick={onRegisterClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded">
+          <button
+            onClick={onRegisterClick}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded"
+            data-testid="register-button"
+          >
             Register
           </button>
         </div>

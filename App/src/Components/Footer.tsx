@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4 w-auto shadow-xl">
+    <footer className="bg-gray-800 text-white py-4 w-auto shadow-xl" data-testid="footer">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-sm">&copy; 2023 Easy Recipes. All rights reserved.</div>
         <div className="text-sm">

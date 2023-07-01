@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios";
 import { ApplicationUser } from "../Types/User";
 
 export class UserApi {

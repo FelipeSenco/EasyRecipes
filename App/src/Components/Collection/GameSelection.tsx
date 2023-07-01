@@ -10,39 +10,36 @@ const GameSelection: FC = () => {
   };
 
   return (
-    <div className="flex flex-row">
-      <div>
-        <button
-          className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 mr-5 rounded"
-          style={{ background: selectedGame === Games.WARCRAFT_3 ? selectedBackground : "inherit" }}
-          value={Games.WARCRAFT_3}
-          onClick={onClick}
-        >
-          Warcraft III
-        </button>
-      </div>
+    <div className="flex flex-row" data-testid="game-selection">
+      <button
+        data-testid="warcraft-button"
+        className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 mr-5 rounded"
+        style={{ background: selectedGame === Games.WARCRAFT_3 ? selectedBackground : "inherit" }}
+        value={Games.WARCRAFT_3}
+        onClick={onClick}
+      >
+        Warcraft III
+      </button>
 
-      <div>
-        <button
-          className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 mr-5 rounded"
-          value={Games.STARCRAFT_2}
-          onClick={onClick}
-          style={{ background: selectedGame === Games.STARCRAFT_2 ? selectedBackground : "inherit" }}
-        >
-          Starcraft II
-        </button>
-      </div>
+      <button
+        data-testid="starcraft-button"
+        className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 mr-5 rounded"
+        value={Games.STARCRAFT_2}
+        onClick={onClick}
+        style={{ background: selectedGame === Games.STARCRAFT_2 ? selectedBackground : "inherit" }}
+      >
+        Starcraft II
+      </button>
 
-      <div>
-        <button
-          className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 rounded"
-          value={Games.STORMGATE}
-          onClick={onClick}
-          style={{ background: selectedGame === Games.STORMGATE ? selectedBackground : "inherit" }}
-        >
-          Stormgate
-        </button>
-      </div>
+      <button
+        data-testid="stormgate-button"
+        className="text-green-300 hover:text-yellow-500 hover:bg-green-900 px-1 rounded"
+        value={Games.STORMGATE}
+        onClick={onClick}
+        style={{ background: selectedGame === Games.STORMGATE ? selectedBackground : "inherit" }}
+      >
+        Stormgate
+      </button>
     </div>
   );
 };

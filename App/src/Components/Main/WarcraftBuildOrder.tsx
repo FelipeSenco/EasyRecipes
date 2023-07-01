@@ -41,9 +41,9 @@ const WarcraftBuildOrderDetail: FC = () => {
         </div>
         <button
           onClick={() => navigate(-1)}
-          className="w-1/4 flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+          className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
         >
-          Go back home
+          Go back
         </button>
       </div>
 

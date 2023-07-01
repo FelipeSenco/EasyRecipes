@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { wc3BuildOrderMocks } from "../__tests__/__mocks__/buildOrderMocks";
+import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
 import { WarcraftBuildOrder } from "../Types/BuildOrders";
 
 interface BuildOrdersContextType {

@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
-import { emptyWarcrafBuildOrder } from "../../__tests__/__mocks__/buildOrderMocks";
+import { emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 
 export const useWarcraftBuildOrderQuery = (enabled: boolean) => {
   const { getWarcraftBuildOrders } = useContext(BuildOrdersContext);
