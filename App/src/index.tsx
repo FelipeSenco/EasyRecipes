@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import App from "./Components/App";
 import "./input.css";
 import "tailwindcss/tailwind.css";
@@ -7,10 +7,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./Components/Errors/RouterError";
 import About from "./Components/About";
 import { UserApi } from "./Api/UserApi";
-import WarcraftBuildOrderDetail from "./Components/Main/WarcraftBuildOrder";
 import Providers from "./Contexts/Providers";
-import AppContext from "./Contexts/AppContext";
 import Home from "./Components/Main/Home";
+import { BuildOrdersApi } from "./Api/BuildOrdersApi";
+import { WarcraftBuildOrderPage } from "./Components/Main/WarcraftBuildOrder";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
       },
       { path: "/about", element: <About /> },
       {
-        path: "/warcraft-build-order/:id",
-        element: <WarcraftBuildOrderDetail />,
+        path: "/warcraft/build-order/:id",
+        element: <WarcraftBuildOrderPage />,
       },
       // { path: "/games", element: <Games /> },
       { path: "*", element: <NotFound /> },
@@ -43,10 +43,11 @@ const router = createBrowserRouter([
 ]);
 
 const userApi = new UserApi();
+const buildOrdersApi = new BuildOrdersApi();
 
 reactRoot.render(
   <React.StrictMode>
-    <Providers userApi={userApi}>
+    <Providers userApi={userApi} buildOrdersApi={buildOrdersApi}>
       <RouterProvider router={router} />
     </Providers>
   </React.StrictMode>

@@ -6,15 +6,18 @@ import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { act } from "react-dom/test-utils";
 import Home from "../Components/Main/Home";
+import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 jest.mock("../Api/UserApi");
+jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
+const mockBuildOrdersApi = new BuildOrdersApi();
 
 const renderApp = () => {
   render(
     <MemoryRouter>
-      <Providers userApi={mockUserApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
         <Routes>
           <Route
             path="/"

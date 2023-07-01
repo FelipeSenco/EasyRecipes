@@ -4,10 +4,13 @@ import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import Header from "../Components/Header";
+import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 jest.mock("../Api/UserApi");
+jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
+const mockBuildOrdersApi = new BuildOrdersApi();
 
 const onRegisterMock = jest.fn();
 const onLoginMock = jest.fn();
@@ -15,10 +18,10 @@ const onLoginMock = jest.fn();
 const renderHeader = () => {
   render(
     <MemoryRouter initialEntries={["/mock-route"]}>
-      <Providers userApi={mockUserApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
         <Routes>
           <Route path="/mock-route" element={<Header onRegisterClick={onRegisterMock} onLoginClick={onLoginMock} />} />
-          <Route path="/" element={<div></div>} />
+          <Route path="/" element={<div>Test Route</div>} />
         </Routes>
       </Providers>
     </MemoryRouter>
@@ -43,7 +46,9 @@ describe("Header", () => {
       fireEvent.click(logoElement);
     });
 
-    expect(window.location.pathname).toBe("/");
+    const routeTest = screen.getByText("Test Route");
+
+    expect(routeTest).toBeDefined();
   });
 
   test("Clicking Build Orders triggers '/' route", () => {
@@ -55,7 +60,9 @@ describe("Header", () => {
       fireEvent.click(buildOrderLink);
     });
 
-    expect(window.location.pathname).toBe("/");
+    const routeTest = screen.getByText("Test Route");
+
+    expect(routeTest).toBeDefined();
   });
 
   test("Clicking Login calls onLoginClick", () => {

@@ -5,15 +5,18 @@ import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { BuildOrderPage } from "../Components/Main/BuildOrders";
 import { Games } from "../Types/enums";
+import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 jest.mock("../Api/UserApi");
+jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
+const mockBuildOrdersApi = new BuildOrdersApi();
 
 const renderComponent = (selectedGame: Games) => {
   render(
     <MemoryRouter>
-      <Providers userApi={mockUserApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
         <Routes>
           <Route path="/" element={<BuildOrderPage selectedGame={selectedGame} />} />
         </Routes>

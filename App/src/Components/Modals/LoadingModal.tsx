@@ -5,6 +5,7 @@ import Modal from "react-modal";
 const LoadingModal: FC<{ open: boolean }> = ({ open }) => (
   <Modal
     shouldCloseOnOverlayClick={false}
+    data-testid="loading-modal"
     isOpen={open}
     contentLabel="Loading Modal"
     style={{

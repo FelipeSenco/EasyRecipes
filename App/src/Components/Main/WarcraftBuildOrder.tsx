@@ -4,11 +4,26 @@ import { BuildOrderItem, WarcraftBuildOrder } from "../../Types/BuildOrders";
 import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQueries";
 import NotFound from "../Errors/RouterError";
 import LoadingModal from "../Modals/LoadingModal";
+import { UseQueryResult } from "react-query";
 
-const WarcraftBuildOrderDetail: FC = () => {
-  const id = useParams().id || "";
+export const WarcraftBuildOrderPage: FC = () => {
+  const { id } = useParams();
+
+  const query = useWarcraftBuildOrderByIdQuery(id as string, false);
+
+  return (
+    <div className="flex flex-grow" data-testid="warcraft-build-order-page">
+      <WarcraftBuildOrderDetail warcraftBuildOrderQuery={query} />
+    </div>
+  );
+};
+
+interface WarcraftBuildOrderDetailProps {
+  warcraftBuildOrderQuery: UseQueryResult<WarcraftBuildOrder, unknown>;
+}
+const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ warcraftBuildOrderQuery }) => {
   const navigate = useNavigate();
-  const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id, false);
+  const { data: buildOrder, isFetching, isError, refetch } = warcraftBuildOrderQuery;
 
   if (!buildOrder?.id) refetch();
 
@@ -16,7 +31,10 @@ const WarcraftBuildOrderDetail: FC = () => {
 
   return (
     <>
-      <div className="bg-gray-900 text-white p-4 rounded shadow-md flex-grow flex flex-col justify-between">
+      <div
+        className="bg-gray-900 text-white p-4 rounded shadow-md flex-grow flex flex-col justify-between"
+        data-testid={"warcraft-build-order" + buildOrder.id}
+      >
         <div className="">
           <h2 className="text-xl font-bold">{buildOrder.name}</h2>
           <p>{buildOrder.description}</p>
@@ -26,7 +44,7 @@ const WarcraftBuildOrderDetail: FC = () => {
             </p>
           </div>
           <div className="mt-4">
-            <h3 className="text-lg font-semibold">Steps:</h3>
+            <h3 className="text-lg font-semibold">Build Order:</h3>
             <ul className="list-disc pl-5">
               {buildOrder.steps.map((step: BuildOrderItem, index: number) => (
                 <li key={index} className="flex justify-left gap-2 mb-1">
@@ -41,6 +59,7 @@ const WarcraftBuildOrderDetail: FC = () => {
         </div>
         <button
           onClick={() => navigate(-1)}
+          data-testid="go-back-button"
           className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
         >
           Go back

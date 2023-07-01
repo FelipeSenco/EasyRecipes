@@ -5,6 +5,8 @@ import { WarcraftBuildOrder } from "../../Types/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../../Types/Routes";
 import { Games } from "../../Types/enums";
+import NotFound from "../Errors/RouterError";
+import { UseQueryResult } from "react-query";
 
 interface BuildOrderPageProps {
   selectedGame: Games;
@@ -17,16 +19,11 @@ export const BuildOrderPage: FC<BuildOrderPageProps> = ({ selectedGame }) => {
 };
 
 export const WarcraftBuildOrders: FC = () => {
-  const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
-
-  if (buildOrders?.length === 0) refetch();
-
-  if (isError) return <div>Something went wrong...</div>;
+  const buildOrdersQuery = useWarcraftBuildOrderQuery(false);
 
   return (
     <div className="flex flex-col" data-testid="warcraft-build-orders">
-      <WarcraftBuildOrderList buildOrders={buildOrders} />
-      <LoadingModal open={isFetching} />
+      <WarcraftBuildOrderList buildOrdersQuery={buildOrdersQuery} />
     </div>
   );
 };
@@ -40,27 +37,32 @@ export const StormgateBuildOrders: FC = () => {
 };
 
 type WarcraftBuildOrderListProps = {
-  buildOrders?: WarcraftBuildOrder[];
+  buildOrdersQuery: UseQueryResult<WarcraftBuildOrder[], unknown>;
 };
 
-const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders }) => {
+export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrdersQuery }) => {
+  const { data: buildOrders, isFetching, isError, refetch } = buildOrdersQuery;
   const navigate = useNavigate();
+
+  if (buildOrders?.length === 0) refetch();
+
   const handleBuildOrderClick = (id: string) => {
     navigate(Routes.WarcraftBuildOrders.replace("{id}", id));
   };
 
-  if (!buildOrders) return <div>No build orders found</div>;
+  if (!buildOrders || isError) return <NotFound />;
 
   return (
-    <div className="flex flex-col space-y-4 text-white p-4">
+    <div className="flex flex-col space-y-4 text-white p-4" data-testid="warcraft-build-order-list">
       {buildOrders.map((order) => (
         <div
+          data-testid={`warcraft-build-order-item-${order.id}`}
           onClick={() => handleBuildOrderClick(order.id)}
           key={order.id}
           className="p-4 border bg-gray-800 border-gray-700 rounded shadow-lg cursor-pointer"
         >
           <h2 className="text-xl font-bold">
-            {order.name}{" "}
+            {order.name}
             <p className="text-sm text-gray-300">
               {order.faction} vs {order.opponentFaction}
             </p>
@@ -68,6 +70,7 @@ const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders }
           <p className="text-sm text-gray-400">Created by: {order.createdBy}</p>
         </div>
       ))}
+      <LoadingModal open={isFetching} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { createContext } from "react";
 import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
 import { WarcraftBuildOrder } from "../Types/BuildOrders";
+import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 interface BuildOrdersContextType {
   getWarcraftBuildOrders: () => Promise<WarcraftBuildOrder[]>;
@@ -14,23 +15,18 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
 
 interface BuildOrdersProviderProps {
   children: React.ReactNode;
+  api: BuildOrdersApi;
 }
 
-export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ children }) => {
+export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ children, api }) => {
   const getWarcraftBuildOrders = async (): Promise<WarcraftBuildOrder[]> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(wc3BuildOrderMocks);
-      }, 1000);
-    });
+    const res = await api.getWarcraftBuildOrders(wc3BuildOrderMocks);
+    return res;
   };
 
   const getWarcraftBuildOrderById = async (id: string): Promise<WarcraftBuildOrder> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(wc3BuildOrderMocks.find((build) => build.id === id) as WarcraftBuildOrder);
-      }, 1000);
-    });
+    const res = await api.getWarcraftBuildOrderById(id);
+    return res;
   };
 
   return <BuildOrdersContext.Provider value={{ getWarcraftBuildOrders, getWarcraftBuildOrderById }}>{children}</BuildOrdersContext.Provider>;
