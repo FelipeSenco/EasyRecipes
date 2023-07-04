@@ -1,7 +1,7 @@
 export enum Games {
-  WARCRAFT_3 = "Warcraft III",
-  STARCRAFT_2 = "Starcraft II",
-  STORMGATE = "Stormgate",
+  Warcraft_III,
+  Starcraft_II,
+  Stormgate,
 }
 
 export enum HumanUnits {
@@ -17,10 +17,10 @@ export enum HumanStructures {
 }
 
 export enum WarcraftFactions {
-  HUMANS = "Human",
-  ORCS = "Orc",
-  UNDEADS = "Undead",
-  NIGHT_ELVES = "Night Elf",
+  HUMAN = "Human",
+  ORC = "Orc",
+  UNDEAD = "Undead",
+  NIGHT_ELf = "Night Elf",
   ALL = "All",
 }
 
@@ -29,3 +29,11 @@ export enum StarcraftFactions {
   ZERGS = "Zerg",
   PROTOSS = "Protoss",
 }
+
+export const warcraftFactionsDisplay: { [key: number]: string } = {
+  0: "Human",
+  1: "Orc",
+  2: "Undead",
+  3: "Night Elf",
+  4: "All",
+};

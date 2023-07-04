@@ -2,27 +2,32 @@ export interface WarcraftBuildOrder {
   id: string;
   name: string;
   description: string;
-  game: Games;
-  faction: WarcraftFactions;
-  opponentFaction: WarcraftFactions;
-  steps: BuildOrderItem[];
+  game: number;
+  faction: number;
+  opponentFaction: number;
+  actions: BuildOrderAction[];
   createdBy: string;
+  patch?: string;
+  videoUrl?: string;
+  consideartions?: string;
 }
 
 export interface StarcraftBuildOrder {
   id: number;
   name: string;
   description: string;
-  game: Games;
-  faction: StarcraftFactions;
-  opponentFaction: StarcraftFactions;
-  steps: BuildOrderItem[];
+  game: number;
+  faction: number;
+  opponentFaction: number;
+  actions: BuildOrderAction[];
   createdBy: string;
+  patch?: string;
+  videoUrl?: string;
+  consideartions?: string;
 }
 
-export interface BuildOrderItem {
-  buildOrderId: number;
+export interface BuildOrderAction {
   supply: number;
-  time: string;
+  clock: string;
   instruction: string;
 }

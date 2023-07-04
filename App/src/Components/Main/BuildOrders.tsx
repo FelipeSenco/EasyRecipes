@@ -4,7 +4,7 @@ import LoadingModal from "../Modals/LoadingModal";
 import { WarcraftBuildOrder } from "../../Types/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../../Types/Routes";
-import { Games } from "../../Types/enums";
+import { Games, warcraftFactionsDisplay } from "../../Types/enums";
 import NotFound from "../Errors/RouterError";
 import { UseQueryResult } from "react-query";
 
@@ -13,8 +13,8 @@ interface BuildOrderPageProps {
 }
 
 export const BuildOrderPage: FC<BuildOrderPageProps> = ({ selectedGame }) => {
-  if (selectedGame === Games.STARCRAFT_2) return <StarcraftBuildOrders />;
-  if (selectedGame === Games.STORMGATE) return <StormgateBuildOrders />;
+  if (selectedGame === Games.Starcraft_II) return <StarcraftBuildOrders />;
+  if (selectedGame === Games.Stormgate) return <StormgateBuildOrders />;
   return <WarcraftBuildOrders />;
 };
 
@@ -64,7 +64,7 @@ export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildO
           <h2 className="text-xl font-bold">
             {order.name}
             <p className="text-sm text-gray-300">
-              {order.faction} vs {order.opponentFaction}
+              {warcraftFactionsDisplay[order.faction]} vs {warcraftFactionsDisplay[order.opponentFaction]}
             </p>
           </h2>
           <p className="text-sm text-gray-400">Created by: {order.createdBy}</p>

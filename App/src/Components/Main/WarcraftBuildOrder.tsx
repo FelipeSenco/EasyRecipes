@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BuildOrderItem, WarcraftBuildOrder } from "../../Types/BuildOrders";
+import { BuildOrderAction, WarcraftBuildOrder } from "../../Types/BuildOrders";
 import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQueries";
 import NotFound from "../Errors/RouterError";
 import LoadingModal from "../Modals/LoadingModal";
 import { UseQueryResult } from "react-query";
+import { warcraftFactionsDisplay } from "../../Types/enums";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -40,17 +41,17 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ warcraftB
           <p>{buildOrder.description}</p>
           <div className="mt-2">
             <p>
-              {buildOrder.faction} vs {buildOrder.opponentFaction}
+              {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
             </p>
           </div>
           <div className="mt-4">
             <h3 className="text-lg font-semibold">Build Order:</h3>
             <ul className="list-disc pl-5">
-              {buildOrder.steps.map((step: BuildOrderItem, index: number) => (
+              {buildOrder.actions.map((action: BuildOrderAction, index: number) => (
                 <li key={index} className="flex justify-left gap-2 mb-1">
-                  <span className="font-medium">{step.time}</span>
-                  <span className="font-medium">{step.supply}</span>
-                  <span>{step.instruction}</span>
+                  <span className="font-medium">{action.clock}</span>
+                  <span className="font-medium">{action.supply}</span>
+                  <span>{action.instruction}</span>
                 </li>
               ))}
             </ul>

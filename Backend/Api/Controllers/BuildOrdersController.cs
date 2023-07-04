@@ -1,21 +1,23 @@
 
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BuildOrdersController : ControllerBase
 {
+    private readonly IBuildOrdersService _buildOrdersService;
 
-    [HttpGet("/warcraft/build-orders")]
+    public BuildOrdersController(IBuildOrdersService buildOrdersService)
+    {
+        _buildOrdersService = buildOrdersService;
+    }
+
+    [HttpGet("warcraft")]    
     public async Task<IActionResult> GetWarcraftBuildOrders()
     {
+        var response = await _buildOrdersService.GetWarcraftBuildOrders();        
 
-
-        if (true)
-        {
-            return BadRequest("test error");
-        }
-
-        return Ok(new { message = "User created successfully!" });
+        return Ok(response);
     }
 }
