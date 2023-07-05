@@ -1,9 +1,11 @@
 ﻿using Domain.Models;
+using Domain.Models.Interfaces;
+
 namespace Domain.Repositories.Interfaces
 {
     public interface IBuildOrdersRepository
     {
-       Task<List<WarcraftBuildOrder>> GetWarcraftBuildOrders();
-       Task<WarcraftBuildOrder> GetWarcraftBuildOrderById(string id);
+       Task<List<IBuildOrder>> GetBuildOrders();
+       Task<IBuildOrder> GetBuildOrderById(string id);
     }
 }

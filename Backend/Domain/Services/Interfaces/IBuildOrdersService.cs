@@ -1,15 +1,11 @@
-﻿using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Domain.Models.Interfaces;
 
 namespace Domain.Services.Interfaces
 {
     public interface IBuildOrdersService
     {
-        Task<List<WarcraftBuildOrder>> GetWarcraftBuildOrders();
-        Task<WarcraftBuildOrder> GetWarcraftBuildOrderById(string id);
+        Task<List<IBuildOrder>> GetBuildOrders();
+        Task<IBuildOrder> GetBuildOrderById(string id);
     }
 }

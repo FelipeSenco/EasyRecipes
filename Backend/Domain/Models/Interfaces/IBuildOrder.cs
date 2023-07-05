@@ -1,33 +1,21 @@
-﻿using Domain.Models.Interfaces;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Models
-{   
-    public class WarcraftBuildOrder : IBuildOrder
+namespace Domain.Models.Interfaces
+{
+    public interface IBuildOrder
     {
-        [BsonId]
         public Guid Id { get; set; }
-
-        [BsonElement("name")]
         public string Name { get; set; }
-
-        [BsonElement("description")]
         public string Description { get; set; }
-
-        [BsonElement("game")]
         public Games Game { get; set; }
-
-        [BsonElement("faction")]
         public WarcraftFactions Faction { get; set; }
-
-        [BsonElement("opponentFaction")]
         public WarcraftFactions OpponentFaction { get; set; }
-
-        [BsonElement("actions")]
-        public List<BuildOrderAction> Actions { get; set; } = new();
-
-        [BsonElement("createdBy")]
+        public List<BuildOrderAction> Actions { get; set; }
         public string CreatedBy { get; set; }
 
         // Optional properties

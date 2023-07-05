@@ -9,8 +9,8 @@ export class BuildOrdersApi {
   constructor() {
     this.apiUrl = process.env.API_URL;
     this.endpoints = {
-      getWarcraftBuildOrders: this.apiUrl + "/BuildOrders/warcraft",
-      getWarcraftBuildOrderById: this.apiUrl + "/BuildOrders/warcraft/detail?id={id}",
+      getWarcraftBuildOrders: this.apiUrl + "/WarcraftBuildOrders",
+      getWarcraftBuildOrderById: this.apiUrl + "/WarcraftBuildOrders/detail?id={id}",
     };
   }
 

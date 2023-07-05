@@ -4,27 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BuildOrdersController : ControllerBase
+public class WarcraftBuildOrdersController : ControllerBase
 {
     private readonly IBuildOrdersService _buildOrdersService;
 
-    public BuildOrdersController(IBuildOrdersService buildOrdersService)
+    public WarcraftBuildOrdersController(IBuildOrdersService buildOrdersService)
     {
         _buildOrdersService = buildOrdersService;
     }
 
-    [HttpGet("warcraft")]    
+    [HttpGet]    
     public async Task<IActionResult> GetWarcraftBuildOrders()
     {
-        var response = await _buildOrdersService.GetWarcraftBuildOrders();        
+        var response = await _buildOrdersService.GetBuildOrders();        
 
         return Ok(response);
     }
 
-    [HttpGet("warcraft/detail")]
+    [HttpGet("detail")]
     public async Task<IActionResult> GetWarcraftBuildOrderById([FromQuery] string id)
     {
-        var response = await _buildOrdersService.GetWarcraftBuildOrderById(id);
+        var response = await _buildOrdersService.GetBuildOrderById(id);
         return Ok(response);
     }
 }

@@ -1,14 +1,15 @@
 ﻿using Domain.Models;
+using Domain.Models.Interfaces;
 
 namespace Domain.Mocks
 {
     public static class WarcraftBuildOrderMocks
     {
-        private static List<WarcraftBuildOrder> warcraftOrdersMock = new()
+        private static List<IBuildOrder> warcraftOrdersMock = new()
         {
             new WarcraftBuildOrder
             {
-                Id = "1",
+                Id = new Guid(),
                 Name = "Build Order 1",
                 Description = "This is build order 1",
                 Game = Games.Warcraft_III,
@@ -29,7 +30,7 @@ namespace Domain.Mocks
             },
             new WarcraftBuildOrder
             {
-                Id = "2",
+                Id = new Guid(),
                 Name = "Build Order 2",
                 Description = "This is build order 2",
                 Game = Games.Warcraft_III,
@@ -52,7 +53,7 @@ namespace Domain.Mocks
             },
             new WarcraftBuildOrder
             {
-                Id = "3",
+                Id = new Guid(),
                 Name = "Build Order 3",
                 Description = "This is build order 3",
                 Game = Games.Warcraft_III,
@@ -75,7 +76,7 @@ namespace Domain.Mocks
             },
             new WarcraftBuildOrder
             {
-                Id = "4",
+                Id = new Guid(),
                 Name = "Build Order 4",
                 Description = "This is build order 4",
                 Game = Games.Warcraft_III,
@@ -98,7 +99,7 @@ namespace Domain.Mocks
             },
             new WarcraftBuildOrder
             {
-                Id = "5",
+                Id = new Guid(),
                 Name = "Build Order 5",
                 Description = "This is build order 5",
                 Game = Games.Warcraft_III,
@@ -121,6 +122,6 @@ namespace Domain.Mocks
             }
         };
 
-        internal static List<WarcraftBuildOrder> WarcraftOrdersMock { get => warcraftOrdersMock; set => warcraftOrdersMock = value; }
+        internal static List<IBuildOrder> WarcraftOrdersMock { get => warcraftOrdersMock; set => warcraftOrdersMock = value; }
     }
 }
