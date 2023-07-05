@@ -1,11 +1,11 @@
 import { WarcraftBuildOrder } from "../Types/BuildOrders";
-import { Games, WarcraftFactions } from "../Types/enums";
+import { Games } from "../Types/enums";
 
 export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "1",
     name: "Early base building game",
-    game: Games.Warcraft_III,
+    game: 0,
     faction: 0,
     opponentFaction: 3,
     createdBy: "John Doe",
@@ -33,7 +33,7 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "2",
     name: "Give them a blast",
-    game: Games.Warcraft_III,
+    game: 0,
     faction: 0,
     opponentFaction: 1,
     createdBy: "Alice is Pains",
@@ -61,7 +61,7 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "3",
     name: "Crash them all with human",
-    game: Games.Warcraft_III,
+    game: 0,
     faction: 0,
     opponentFaction: 4,
     createdBy: "HookShot HotShot",

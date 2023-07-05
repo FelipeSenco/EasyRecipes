@@ -1,5 +1,4 @@
 import React, { createContext } from "react";
-import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
 import { WarcraftBuildOrder } from "../Types/BuildOrders";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
@@ -20,7 +19,7 @@ interface BuildOrdersProviderProps {
 
 export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ children, api }) => {
   const getWarcraftBuildOrders = async (): Promise<WarcraftBuildOrder[]> => {
-    const res = await api.getWarcraftBuildOrders(wc3BuildOrderMocks);
+    const res = await api.getWarcraftBuildOrders();
     return res;
   };
 

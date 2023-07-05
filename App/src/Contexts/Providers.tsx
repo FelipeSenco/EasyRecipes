@@ -10,10 +10,10 @@ interface ProvidersProps {
   children: React.ReactNode;
   userApi: UserApi;
   buildOrdersApi: BuildOrdersApi;
+  queryClient: QueryClient;
 }
 
-const Providers: FC<ProvidersProps> = ({ children, userApi, buildOrdersApi }) => {
-  const queryClient = new QueryClient();
+const Providers: FC<ProvidersProps> = ({ children, userApi, buildOrdersApi, queryClient }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AppProvider>

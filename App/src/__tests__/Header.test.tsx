@@ -4,13 +4,13 @@ import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import Header from "../Components/Header";
-import { BuildOrdersApi } from "../Api/BuildOrdersApi";
+import { mockBuildOrdersApi } from "../__mocks__/mockApis";
+import { QueryClient } from "react-query";
 
 jest.mock("../Api/UserApi");
-jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
-const mockBuildOrdersApi = new BuildOrdersApi();
+const queryClient = new QueryClient();
 
 const onRegisterMock = jest.fn();
 const onLoginMock = jest.fn();
@@ -18,7 +18,7 @@ const onLoginMock = jest.fn();
 const renderHeader = () => {
   render(
     <MemoryRouter initialEntries={["/mock-route"]}>
-      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
         <Routes>
           <Route path="/mock-route" element={<Header onRegisterClick={onRegisterMock} onLoginClick={onLoginMock} />} />
           <Route path="/" element={<div>Test Route</div>} />
@@ -34,7 +34,7 @@ describe("Header", () => {
 
     const header = screen.getByTestId("header");
 
-    expect(header).toBeDefined();
+    expect(header).not.toBeNull();
   });
 
   test("Clicking Title and Logo trigger '/' route", () => {
@@ -48,7 +48,7 @@ describe("Header", () => {
 
     const routeTest = screen.getByText("Test Route");
 
-    expect(routeTest).toBeDefined();
+    expect(routeTest).not.toBeNull();
   });
 
   test("Clicking Build Orders triggers '/' route", () => {
@@ -62,7 +62,7 @@ describe("Header", () => {
 
     const routeTest = screen.getByText("Test Route");
 
-    expect(routeTest).toBeDefined();
+    expect(routeTest).not.toBeNull();
   });
 
   test("Clicking Login calls onLoginClick", () => {

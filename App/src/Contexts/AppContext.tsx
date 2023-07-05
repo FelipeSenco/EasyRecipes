@@ -8,7 +8,7 @@ interface AppContextType {
 }
 
 const AppContext = createContext<AppContextType>({
-  selectedGame: Games.WARCRAFT_3,
+  selectedGame: Games.Warcraft_III,
   setSelectedGame: () => {},
 });
 
@@ -17,7 +17,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [selectedGame, setSelectedGame] = useState<Games>(Games.WARCRAFT_3);
+  const [selectedGame, setSelectedGame] = useState<Games>(Games.Warcraft_III);
 
   return (
     <AppContext.Provider

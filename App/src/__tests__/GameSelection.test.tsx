@@ -6,18 +6,18 @@ import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { act } from "react-dom/test-utils";
 import Home from "../Components/Main/Home";
-import { BuildOrdersApi } from "../Api/BuildOrdersApi";
+import { mockBuildOrdersApi } from "../__mocks__/mockApis";
+import { QueryClient } from "react-query";
 
 jest.mock("../Api/UserApi");
-jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
-const mockBuildOrdersApi = new BuildOrdersApi();
+const queryClient = new QueryClient();
 
 const renderApp = () => {
   render(
     <MemoryRouter>
-      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
         <Routes>
           <Route
             path="/"
@@ -39,10 +39,10 @@ describe("GameSelection", () => {
     renderApp();
     const gameSelection = screen.getByTestId("game-selection");
 
-    await waitFor(() => expect(gameSelection).toBeDefined());
+    await waitFor(() => expect(gameSelection).not.toBeNull());
   });
 
-  test("Clicking Warcraft change the game selection", async () => {
+  test("Clicking Starcraft change the game selection", async () => {
     renderApp();
 
     const button = screen.getByTestId("starcraft-button");
@@ -53,7 +53,7 @@ describe("GameSelection", () => {
 
     const starcraft = screen.getByTestId("starcraft-build-orders");
 
-    await waitFor(() => expect(starcraft).toBeDefined());
+    await waitFor(() => expect(starcraft).not.toBeNull());
   });
 
   test("Clicking Stormgate change the game selection", async () => {
@@ -67,7 +67,7 @@ describe("GameSelection", () => {
 
     const stormgate = screen.getByTestId("stormgate-build-orders");
 
-    await waitFor(() => expect(stormgate).toBeDefined());
+    await waitFor(() => expect(stormgate).not.toBeNull());
   });
 
   test("Clicking Warcraft change the game selection", async () => {
@@ -80,6 +80,6 @@ describe("GameSelection", () => {
     });
 
     const warcraft = screen.getByTestId("warcraft-build-orders");
-    await waitFor(() => expect(warcraft).toBeDefined());
+    await waitFor(() => expect(warcraft).not.toBeNull());
   });
 });

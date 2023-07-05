@@ -1,7 +1,7 @@
 export enum Games {
-  Warcraft_III,
-  Starcraft_II,
-  Stormgate,
+  Warcraft_III = "Warcraft III",
+  Starcraft_II = "Starcraft II",
+  Stormgate = "Stormgate",
 }
 
 export enum HumanUnits {

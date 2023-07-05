@@ -3,24 +3,23 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, createMemoryRouter, useNavigate, useParams } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
-import { WarcraftBuildOrderList, WarcraftBuildOrders } from "../Components/Main/BuildOrders";
-import { BuildOrdersApi } from "../Api/BuildOrdersApi";
-import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
-import WarcraftBuildOrderDetail from "../Components/Main/WarcraftBuildOrder";
+import { WarcraftBuildOrders } from "../Components/Main/BuildOrders";
 import { act } from "react-dom/test-utils";
+import { mockBuildOrdersApi } from "../__mocks__/mockApis";
+import { QueryClient } from "react-query";
+import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
+import { testErrorMessage } from "../utils";
 
 jest.mock("../Api/UserApi");
-jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
-const mockBuildOrdersApi = new BuildOrdersApi();
-
-const queryDataMock = {
-  data: wc3BuildOrderMocks,
-  isFetching: false,
-  isError: false,
-  refetch: jest.fn(),
-} as any;
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 const RouterTester: FC = () => {
   const { id } = useParams();
@@ -28,12 +27,12 @@ const RouterTester: FC = () => {
   return <div>Test Route {id}</div>;
 };
 
-const renderList = (queryDataMock: any) => {
+const renderList = () => {
   render(
     <MemoryRouter>
-      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
         <Routes>
-          <Route path="/" element={<WarcraftBuildOrderList buildOrdersQuery={queryDataMock} />} />
+          <Route path="/" element={<WarcraftBuildOrders />} />
           <Route path="/warcraft/build-order/:id" element={<RouterTester />} />
         </Routes>
       </Providers>
@@ -42,27 +41,23 @@ const renderList = (queryDataMock: any) => {
 };
 
 describe("Warcraft Build Orders", () => {
+  beforeEach(() => {
+    queryClient.setQueryData("warcraft-build-orders", []);
+  });
+
   test("Render the component and call the api to fetch data", async () => {
-    render(
-      <MemoryRouter>
-        <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
-          <Routes>
-            <Route path="/" element={<WarcraftBuildOrders />} />
-          </Routes>
-        </Providers>
-      </MemoryRouter>
-    );
+    renderList();
 
     const warcraft = screen.getByTestId("warcraft-build-orders");
 
     await waitFor(() => {
-      expect(warcraft).toBeDefined();
+      expect(warcraft).not.toBeNull();
       expect(mockBuildOrdersApi.getWarcraftBuildOrders).toHaveBeenCalledTimes(1);
     });
   });
 
   test("Render the build order list if data is loaded", async () => {
-    renderList(queryDataMock);
+    renderList();
 
     const notFound = document.querySelector(locators.notFound);
     const list = document.querySelector(locators.buildOrderList);
@@ -70,43 +65,48 @@ describe("Warcraft Build Orders", () => {
 
     await waitFor(() => {
       expect(notFound).toBeNull();
-      expect(list).toBeDefined();
+      expect(list).not.toBeNull();
       expect(loading).toBeNull();
     });
   });
 
   test("Render not found page if fetching errors", async () => {
-    renderList({ ...queryDataMock, isError: true });
+    mockBuildOrdersApi.getWarcraftBuildOrders = jest.fn().mockRejectedValue(new Error(testErrorMessage));
 
-    const notFound = document.querySelector(locators.notFound);
-    const list = document.querySelector(locators.buildOrderList);
-    const loading = document.querySelector(locators.loading);
+    await act(async () => {
+      renderList();
+    });
 
     await waitFor(() => {
-      expect(notFound).toBeDefined();
+      const notFound = document.querySelector(locators.notFound);
+      const list = document.querySelector(locators.buildOrderList);
+      const loading = document.querySelector(locators.loading);
+      expect(notFound).not.toBeNull();
       expect(list).toBeNull();
       expect(loading).toBeNull();
     });
   });
 
   test("Render loading modal if still fetching", async () => {
-    renderList({ ...queryDataMock, isFetching: true });
-
-    const notFound = document.querySelector(locators.notFound);
-    const list = document.querySelector(locators.buildOrderList);
-    const loading = document.querySelector(locators.loading);
+    mockBuildOrdersApi.getWarcraftBuildOrders = jest.fn(() => new Promise(() => {}));
+    await act(async () => {
+      renderList();
+    });
 
     await waitFor(() => {
+      const notFound = document.querySelector(locators.notFound);
+      const loading = document.querySelector(locators.loading);
       expect(notFound).toBeNull();
-      //list will be in the background
-      expect(list).toBeDefined();
-      expect(loading).toBeDefined();
+      expect(loading).not.toBeNull();
     });
   });
 
   test("Clicking a build order will redirect to '/warcraft/build-order/:id'", async () => {
+    mockBuildOrdersApi.getWarcraftBuildOrders = jest.fn().mockResolvedValue(wc3BuildOrderMocks);
     const id = "1";
-    renderList(queryDataMock);
+    await act(async () => {
+      renderList();
+    });
 
     const buildOrderItem = screen.getByTestId("warcraft-build-order-item-" + id);
 
@@ -117,7 +117,7 @@ describe("Warcraft Build Orders", () => {
     const routTest = screen.getByText("Test Route " + id);
 
     await waitFor(() => {
-      expect(routTest).toBeDefined();
+      expect(routTest).not.toBeNull();
     });
   });
 });

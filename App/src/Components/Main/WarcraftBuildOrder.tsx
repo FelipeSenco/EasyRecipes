@@ -12,13 +12,13 @@ export const WarcraftBuildOrderPage: FC = () => {
 
   const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id as string, false);
 
-  if (!buildOrder?.id && !isFetching) refetch();
+  if (!buildOrder?.id && !isFetching && !isError) refetch();
 
-  if (isError || !buildOrder) return <NotFound />;
+  if ((isError || !buildOrder) && !isFetching) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="warcraft-build-order-page">
-      <WarcraftBuildOrderDetail buildOrder={buildOrder} isFetching={isFetching} />
+      <WarcraftBuildOrderDetail buildOrder={buildOrder as WarcraftBuildOrder} isFetching={isFetching} />
     </div>
   );
 };

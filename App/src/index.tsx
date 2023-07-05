@@ -11,6 +11,7 @@ import Providers from "./Contexts/Providers";
 import Home from "./Components/Main/Home";
 import { BuildOrdersApi } from "./Api/BuildOrdersApi";
 import { WarcraftBuildOrderPage } from "./Components/Main/WarcraftBuildOrder";
+import { QueryClient } from "react-query";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -44,10 +45,11 @@ const router = createBrowserRouter([
 
 const userApi = new UserApi();
 const buildOrdersApi = new BuildOrdersApi();
+const queryClient = new QueryClient();
 
 reactRoot.render(
   <React.StrictMode>
-    <Providers userApi={userApi} buildOrdersApi={buildOrdersApi}>
+    <Providers userApi={userApi} buildOrdersApi={buildOrdersApi} queryClient={queryClient}>
       <RouterProvider router={router} />
     </Providers>
   </React.StrictMode>

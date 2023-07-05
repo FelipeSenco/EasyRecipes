@@ -5,18 +5,19 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
+import { mockBuildOrdersApi } from "../__mocks__/mockApis";
+import { QueryClient } from "react-query";
 
 jest.mock("../Api/UserApi");
-jest.mock("../Api/BuildOrdersApi");
 
 const mockUserApi = new UserApi();
-const mockBuildOrdersApi = new BuildOrdersApi();
+const queryClient = new QueryClient();
 
 describe("App", () => {
   test("Renders the app component", () => {
     render(
       <MemoryRouter>
-        <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi}>
+        <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
           <Routes>
             <Route path="/" element={<App />} />
           </Routes>
@@ -29,9 +30,9 @@ describe("App", () => {
     const main = screen.getByTestId("main-container");
     const footer = screen.getByTestId("footer");
 
-    expect(app).toBeDefined();
-    expect(header).toBeDefined();
-    expect(main).toBeDefined();
-    expect(footer).toBeDefined();
+    expect(app).not.toBeNull();
+    expect(header).not.toBeNull();
+    expect(main).not.toBeNull();
+    expect(footer).not.toBeNull();
   });
 });

@@ -19,11 +19,15 @@ export const BuildOrderPage: FC<BuildOrderPageProps> = ({ selectedGame }) => {
 };
 
 export const WarcraftBuildOrders: FC = () => {
-  const buildOrdersQuery = useWarcraftBuildOrderQuery(false);
+  const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
+
+  if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
+
+  if ((!buildOrders || isError) && !isFetching) return <NotFound />;
 
   return (
     <div className="flex flex-col" data-testid="warcraft-build-orders">
-      <WarcraftBuildOrderList buildOrdersQuery={buildOrdersQuery} />
+      <WarcraftBuildOrderList buildOrders={buildOrders as WarcraftBuildOrder[]} isFetching={isFetching} />
     </div>
   );
 };
@@ -37,20 +41,15 @@ export const StormgateBuildOrders: FC = () => {
 };
 
 type WarcraftBuildOrderListProps = {
-  buildOrdersQuery: UseQueryResult<WarcraftBuildOrder[], unknown>;
+  buildOrders: WarcraftBuildOrder[];
+  isFetching: boolean;
 };
 
-export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrdersQuery }) => {
-  const { data: buildOrders, isFetching, isError, refetch } = buildOrdersQuery;
+export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching }) => {
   const navigate = useNavigate();
-
-  if (buildOrders?.length === 0) refetch();
-
   const handleBuildOrderClick = (id: string) => {
     navigate(Routes.WarcraftBuildOrders.replace("{id}", id));
   };
-
-  if (!buildOrders || isError) return <NotFound />;
 
   return (
     <div className="flex flex-col space-y-4 text-white p-4" data-testid="warcraft-build-order-list">

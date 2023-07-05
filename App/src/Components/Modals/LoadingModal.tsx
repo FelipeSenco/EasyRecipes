@@ -5,7 +5,6 @@ import Modal from "react-modal";
 const LoadingModal: FC<{ open: boolean }> = ({ open }) => (
   <Modal
     shouldCloseOnOverlayClick={false}
-    data-testid="loading-modal"
     isOpen={open}
     contentLabel="Loading Modal"
     style={{
@@ -24,7 +23,9 @@ const LoadingModal: FC<{ open: boolean }> = ({ open }) => (
       },
     }}
   >
-    <h2>Please wait...</h2>
+    <div data-testid="loading-modal">
+      <h2>Please wait...</h2>
+    </div>
   </Modal>
 );
 
