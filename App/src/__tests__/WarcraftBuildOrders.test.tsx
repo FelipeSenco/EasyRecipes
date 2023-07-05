@@ -8,7 +8,8 @@ import { act } from "react-dom/test-utils";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
 import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
-import { testErrorMessage } from "../utils";
+import { queryKeys } from "../Types&Globals/queryKeys";
+import { AppRoutes } from "../Types&Globals/Routes";
 
 jest.mock("../Api/UserApi");
 
@@ -33,7 +34,7 @@ const renderList = () => {
       <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
         <Routes>
           <Route path="/" element={<WarcraftBuildOrders />} />
-          <Route path="/warcraft/build-order/:id" element={<RouterTester />} />
+          <Route path={AppRoutes.WarcraftBuildOrder} element={<RouterTester />} />
         </Routes>
       </Providers>
     </MemoryRouter>
@@ -42,7 +43,7 @@ const renderList = () => {
 
 describe("Warcraft Build Orders", () => {
   beforeEach(() => {
-    queryClient.setQueryData("warcraft-build-orders", []);
+    queryClient.setQueryData([queryKeys.warcraftBuildOrders], []);
   });
 
   test("Render the component and call the api to fetch data", async () => {
@@ -71,7 +72,7 @@ describe("Warcraft Build Orders", () => {
   });
 
   test("Render not found page if fetching errors", async () => {
-    mockBuildOrdersApi.getWarcraftBuildOrders = jest.fn().mockRejectedValue(new Error(testErrorMessage));
+    mockBuildOrdersApi.getWarcraftBuildOrders = jest.fn().mockRejectedValue({});
 
     await act(async () => {
       renderList();

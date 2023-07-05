@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { WarcraftBuildOrder } from "../Types/BuildOrders";
+import { WarcraftBuildOrder } from "../Types&Globals/BuildOrders";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 interface BuildOrdersContextType {

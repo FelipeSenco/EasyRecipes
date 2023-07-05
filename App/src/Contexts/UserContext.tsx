@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import { UserApi } from "../Api/UserApi";
-import { ApplicationUser } from "../Types/User";
+import { ApplicationUser } from "../Types&Globals/User";
 import RegisterModal from "../Components/Modals/UserRegisterModal";
 
 interface UserContextType {

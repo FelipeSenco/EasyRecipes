@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BuildOrderAction, WarcraftBuildOrder } from "../../Types/BuildOrders";
+import { BuildOrderAction, WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQueries";
 import NotFound from "../Errors/RouterError";
 import LoadingModal from "../Modals/LoadingModal";
 import { UseQueryResult } from "react-query";
-import { warcraftFactionsDisplay } from "../../Types/enums";
+import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ export const WarcraftBuildOrderPage: FC = () => {
 
   if (!buildOrder?.id && !isFetching && !isError) refetch();
 
-  if ((isError || !buildOrder) && !isFetching) return <NotFound />;
+  if (isError && !isFetching) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="warcraft-build-order-page">

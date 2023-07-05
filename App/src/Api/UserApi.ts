@@ -1,4 +1,4 @@
-import { ApplicationUser } from "../Types/User";
+import { ApplicationUser } from "../Types&Globals/User";
 
 export class UserApi {
   private apiUrl?: string;

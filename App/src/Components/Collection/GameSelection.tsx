@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, FC, MouseEventHandler, useContext, useState } from "react";
-import { Games } from "../../Types/enums";
+import { Games } from "../../Types&Globals/enums";
 import AppContext from "../../Contexts/AppContext";
 
 const GameSelection: FC = () => {

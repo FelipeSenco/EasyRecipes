@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { BuildOrderPage } from "../Components/Main/BuildOrders";
-import { Games } from "../Types/enums";
+import { Games } from "../Types&Globals/enums";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
 

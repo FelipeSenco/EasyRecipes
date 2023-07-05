@@ -1,5 +1,5 @@
 import axios from "axios";
-import { WarcraftBuildOrder } from "../Types/BuildOrders";
+import { WarcraftBuildOrder } from "../Types&Globals/BuildOrders";
 import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
 
 export class BuildOrdersApi {

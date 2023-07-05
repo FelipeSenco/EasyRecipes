@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import RegisterModal from "../Components/Modals/UserRegisterModal";
-import { Games } from "../Types/enums";
+import { Games } from "../Types&Globals/enums";
 
 interface AppContextType {
   selectedGame: Games;

@@ -12,6 +12,7 @@ import Home from "./Components/Main/Home";
 import { BuildOrdersApi } from "./Api/BuildOrdersApi";
 import { WarcraftBuildOrderPage } from "./Components/Main/WarcraftBuildOrder";
 import { QueryClient } from "react-query";
+import { AppRoutes } from "./Types&Globals/Routes";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -25,16 +26,16 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        path: AppRoutes.Home,
         element: <Home />,
       },
       {
         path: "/create",
         element: <h1>Create</h1>,
       },
-      { path: "/about", element: <About /> },
+      { path: AppRoutes.About, element: <About /> },
       {
-        path: "/warcraft/build-order/:id",
+        path: AppRoutes.WarcraftBuildOrder,
         element: <WarcraftBuildOrderPage />,
       },
       // { path: "/games", element: <Games /> },

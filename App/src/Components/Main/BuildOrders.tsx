@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { useWarcraftBuildOrderQuery } from "../../Api/Queries/BuildOrderQueries";
 import LoadingModal from "../Modals/LoadingModal";
-import { WarcraftBuildOrder } from "../../Types/BuildOrders";
+import { WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
-import { Routes } from "../../Types/Routes";
-import { Games, warcraftFactionsDisplay } from "../../Types/enums";
+import { AppRoutes } from "../../Types&Globals/Routes";
+import { Games, warcraftFactionsDisplay } from "../../Types&Globals/enums";
 import NotFound from "../Errors/RouterError";
 import { UseQueryResult } from "react-query";
 
@@ -48,7 +48,7 @@ type WarcraftBuildOrderListProps = {
 export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching }) => {
   const navigate = useNavigate();
   const handleBuildOrderClick = (id: string) => {
-    navigate(Routes.WarcraftBuildOrders.replace("{id}", id));
+    navigate(AppRoutes.WarcraftBuildOrder.replace(":id", id));
   };
 
   return (

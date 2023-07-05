@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import UserContext from "../../Contexts/UserContext";
-import { ApplicationUser } from "../../Types/User";
+import { ApplicationUser } from "../../Types&Globals/User";
 import { emailRegex } from "../../utils";
 import { CountryDropdown } from "react-country-region-selector";
 import { useCreateUserQuery } from "../../Api/Queries/UserQueries";

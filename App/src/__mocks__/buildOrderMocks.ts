@@ -1,5 +1,5 @@
-import { WarcraftBuildOrder } from "../Types/BuildOrders";
-import { Games } from "../Types/enums";
+import { WarcraftBuildOrder } from "../Types&Globals/BuildOrders";
+import { Games } from "../Types&Globals/enums";
 
 export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
