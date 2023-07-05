@@ -10,6 +10,7 @@ export class BuildOrdersApi {
     this.apiUrl = process.env.API_URL;
     this.endpoints = {
       getWarcraftBuildOrders: this.apiUrl + "/BuildOrders/warcraft",
+      getWarcraftBuildOrderById: this.apiUrl + "/BuildOrders/warcraft/detail?id={id}",
     };
   }
 
@@ -19,10 +20,7 @@ export class BuildOrdersApi {
   }
 
   async getWarcraftBuildOrderById(id: string): Promise<WarcraftBuildOrder> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(wc3BuildOrderMocks.find((build) => build.id === id) as WarcraftBuildOrder);
-      }, 1000);
-    });
+    const response = await axios.get(this.endpoints.getWarcraftBuildOrderById.replace("{id}", id));
+    return response.data;
   }
 }

@@ -10,5 +10,6 @@ namespace Domain.Services.Interfaces
     public interface IBuildOrdersService
     {
         Task<List<WarcraftBuildOrder>> GetWarcraftBuildOrders();
+        Task<WarcraftBuildOrder> GetWarcraftBuildOrderById(string id);
     }
 }

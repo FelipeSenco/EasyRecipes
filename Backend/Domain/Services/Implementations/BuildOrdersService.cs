@@ -17,10 +17,17 @@ namespace Domain.Services.Implementations
         {
             _buildOrdersRepository = buildOrdersRepository;
         }
+
+
         public async Task<List<WarcraftBuildOrder>> GetWarcraftBuildOrders()
         {
             List<WarcraftBuildOrder> response = await _buildOrdersRepository.GetWarcraftBuildOrders();
            return response;
+        }
+        public async Task<WarcraftBuildOrder> GetWarcraftBuildOrderById(string id)
+        {
+            WarcraftBuildOrder response = await _buildOrdersRepository.GetWarcraftBuildOrderById(id);
+            return response;
         }
     }
 }

@@ -10,25 +10,25 @@ import { warcraftFactionsDisplay } from "../../Types/enums";
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
 
-  const query = useWarcraftBuildOrderByIdQuery(id as string, false);
+  const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id as string, false);
+
+  if (!buildOrder?.id && !isFetching) refetch();
+
+  if (isError || !buildOrder) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="warcraft-build-order-page">
-      <WarcraftBuildOrderDetail warcraftBuildOrderQuery={query} />
+      <WarcraftBuildOrderDetail buildOrder={buildOrder} isFetching={isFetching} />
     </div>
   );
 };
 
 interface WarcraftBuildOrderDetailProps {
-  warcraftBuildOrderQuery: UseQueryResult<WarcraftBuildOrder, unknown>;
+  buildOrder: WarcraftBuildOrder;
+  isFetching: boolean;
 }
-const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ warcraftBuildOrderQuery }) => {
+const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrder, isFetching }) => {
   const navigate = useNavigate();
-  const { data: buildOrder, isFetching, isError, refetch } = warcraftBuildOrderQuery;
-
-  if (!buildOrder?.id) refetch();
-
-  if (isError || !buildOrder) return <NotFound />;
 
   return (
     <>

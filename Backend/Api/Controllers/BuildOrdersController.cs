@@ -20,4 +20,11 @@ public class BuildOrdersController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpGet("warcraft/detail")]
+    public async Task<IActionResult> GetWarcraftBuildOrderById([FromQuery] string id)
+    {
+        var response = await _buildOrdersService.GetWarcraftBuildOrderById(id);
+        return Ok(response);
+    }
 }
