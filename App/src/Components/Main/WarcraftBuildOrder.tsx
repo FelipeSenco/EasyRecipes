@@ -4,7 +4,6 @@ import { BuildOrderAction, WarcraftBuildOrder } from "../../Types&Globals/BuildO
 import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQueries";
 import NotFound from "../Errors/RouterError";
 import LoadingModal from "../Modals/LoadingModal";
-import { UseQueryResult } from "react-query";
 import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 
 export const WarcraftBuildOrderPage: FC = () => {

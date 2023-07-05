@@ -13,6 +13,7 @@ import { BuildOrdersApi } from "./Api/BuildOrdersApi";
 import { WarcraftBuildOrderPage } from "./Components/Main/WarcraftBuildOrder";
 import { QueryClient } from "react-query";
 import { AppRoutes } from "./Types&Globals/Routes";
+import { StarcraftBuildOrders, StormgateBuildOrders, WarcraftBuildOrders } from "./Components/Main/BuildOrders";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -37,6 +38,26 @@ const router = createBrowserRouter([
       {
         path: AppRoutes.WarcraftBuildOrder,
         element: <WarcraftBuildOrderPage />,
+      },
+      {
+        path: AppRoutes.WarcraftBuildOrders,
+        element: <WarcraftBuildOrders />,
+      },
+      {
+        path: AppRoutes.StarcraftBuildOrders,
+        element: <StarcraftBuildOrders />,
+      },
+      {
+        path: AppRoutes.StarcraftBuildOrder,
+        element: <div>not implemented</div>,
+      },
+      {
+        path: AppRoutes.StormgateBuildOrders,
+        element: <StormgateBuildOrders />,
+      },
+      {
+        path: AppRoutes.StormgateBuildOrder,
+        element: <div>not implemented</div>,
       },
       // { path: "/games", element: <Games /> },
       { path: "*", element: <NotFound /> },

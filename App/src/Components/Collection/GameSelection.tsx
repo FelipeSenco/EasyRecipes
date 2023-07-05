@@ -1,12 +1,15 @@
-import React, { ChangeEvent, ChangeEventHandler, FC, MouseEventHandler, useContext, useState } from "react";
+import React, { FC, useContext } from "react";
 import { Games } from "../../Types&Globals/enums";
 import AppContext from "../../Contexts/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const GameSelection: FC = () => {
   const { selectedGame, setSelectedGame } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const onClick = (e: any) => {
     selectedGame !== e.target.value && setSelectedGame(e.target.value);
+    navigate("/" + e.target.value);
   };
 
   return (

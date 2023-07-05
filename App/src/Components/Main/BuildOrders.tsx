@@ -4,19 +4,8 @@ import LoadingModal from "../Modals/LoadingModal";
 import { WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../Types&Globals/Routes";
-import { Games, warcraftFactionsDisplay } from "../../Types&Globals/enums";
+import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 import NotFound from "../Errors/RouterError";
-import { UseQueryResult } from "react-query";
-
-interface BuildOrderPageProps {
-  selectedGame: Games;
-}
-
-export const BuildOrderPage: FC<BuildOrderPageProps> = ({ selectedGame }) => {
-  if (selectedGame === Games.Starcraft_II) return <StarcraftBuildOrders />;
-  if (selectedGame === Games.Stormgate) return <StormgateBuildOrders />;
-  return <WarcraftBuildOrders />;
-};
 
 export const WarcraftBuildOrders: FC = () => {
   const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
@@ -26,18 +15,26 @@ export const WarcraftBuildOrders: FC = () => {
   if ((!buildOrders || isError) && !isFetching) return <NotFound />;
 
   return (
-    <div className="flex flex-col" data-testid="warcraft-build-orders">
+    <div className="flex flex-grow bg-gray-900 text-white p-4" data-testid="warcraft-build-orders">
       <WarcraftBuildOrderList buildOrders={buildOrders as WarcraftBuildOrder[]} isFetching={isFetching} />
     </div>
   );
 };
 
 export const StarcraftBuildOrders: FC = () => {
-  return <div data-testid="starcraft-build-orders">Starcraft build orders</div>;
+  return (
+    <div className="flex flex-grow bg-gray-900 text-white p-4" data-testid="starcraft-build-orders">
+      Starcraft build orders
+    </div>
+  );
 };
 
 export const StormgateBuildOrders: FC = () => {
-  return <div data-testid="stormgate-build-orders">Stormgate build orders</div>;
+  return (
+    <div className="flex flex-grow bg-gray-900 text-white p-4" data-testid="stormgate-build-orders">
+      Stormgate build orders
+    </div>
+  );
 };
 
 type WarcraftBuildOrderListProps = {

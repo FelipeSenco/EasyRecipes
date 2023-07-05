@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter, Route, Routes, createMemoryRouter, useNavigate, useParams } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useParams } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import { WarcraftBuildOrders } from "../Components/Main/BuildOrders";

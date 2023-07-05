@@ -8,6 +8,7 @@ import { act } from "react-dom/test-utils";
 import Home from "../Components/Main/Home";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
+import { StarcraftBuildOrders, StormgateBuildOrders, WarcraftBuildOrders } from "../Components/Main/BuildOrders";
 
 jest.mock("../Api/UserApi");
 
@@ -28,6 +29,9 @@ const renderApp = () => {
               </div>
             }
           />
+          <Route path="/warcraft" element={<WarcraftBuildOrders />} />
+          <Route path="/starcraft" element={<StarcraftBuildOrders />} />
+          <Route path="/stormgate" element={<StormgateBuildOrders />} />
         </Routes>
       </Providers>
     </MemoryRouter>

@@ -1,17 +1,8 @@
-import React, { FC, useContext, useEffect, useState } from "react";
-import AppContext from "../../Contexts/AppContext";
-import { BuildOrderPage } from "./BuildOrders";
+import React, { FC } from "react";
+import { WarcraftBuildOrders } from "./BuildOrders";
 
 const Home: FC = () => {
-  const { selectedGame } = useContext(AppContext);
-
-  return (
-    <>
-      <div className="flex flex-grow bg-gray-900 text-white p-4">
-        <BuildOrderPage selectedGame={selectedGame} />
-      </div>
-    </>
-  );
+  return <WarcraftBuildOrders />;
 };
 
 export default Home;

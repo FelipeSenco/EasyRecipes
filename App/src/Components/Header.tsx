@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import UserContext from "../Contexts/UserContext";
 import GameSelection from "./Collection/GameSelection";
+import AppContext from "../Contexts/AppContext";
 
 interface HeaderProps {
   onRegisterClick: () => void;
@@ -9,6 +9,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
+  const { selectedGame } = useContext(AppContext);
+
   return (
     <header className="bg-gray-800 shadow-md" data-testid="header">
       <nav className="flex items-center justify-between max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -16,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
           Build Order Builder
         </Link>
         <div className="flex items-center space-x-4">
-          <Link to="/" className="text-gray-300 hover:text-white" data-testid="home-link">
+          <Link to={`/${selectedGame}`} className="text-gray-300 hover:text-white" data-testid="home-link">
             Build Orders
           </Link>
         </div>

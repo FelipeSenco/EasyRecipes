@@ -1,6 +1,6 @@
 import React from "react";
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
 import Header from "../Components/Header";
