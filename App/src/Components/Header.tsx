@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import GameSelection from "./Collection/GameSelection";
 import AppContext from "../Contexts/AppContext";
+import { useBackgroundColor } from "../CustomHooks/useBackgroundColor";
 
 interface HeaderProps {
   onRegisterClick: () => void;
@@ -10,9 +11,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
   const { selectedGame } = useContext(AppContext);
+  const backgroundColor = useBackgroundColor();
 
   return (
-    <header className="bg-gray-800 shadow-md" data-testid="header">
+    <header style={{ backgroundColor: backgroundColor }} className="shadow-md" data-testid="header">
       <nav className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
         <Link to="/" className="text-2xl font-medium text-white" data-testid="home-link-logo">
           Build Order Builder
