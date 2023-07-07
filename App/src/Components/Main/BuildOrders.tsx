@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../Types&Globals/Routes";
 import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 import NotFound from "../Errors/RouterError";
+import WarcraftVersusDisplay from "../Collection/Warcraft/WarcraftVersusDisplay";
 
 export const WarcraftBuildOrders: FC = () => {
   const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
@@ -44,26 +45,31 @@ type WarcraftBuildOrderListProps = {
 
 export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching }) => {
   const navigate = useNavigate();
+
   const handleBuildOrderClick = (id: string) => {
     navigate(AppRoutes.WarcraftBuildOrder.replace(":id", id));
   };
 
   return (
     <div className="flex flex-col space-y-4 text-white p-4" data-testid="warcraft-build-order-list">
-      {buildOrders.map((order) => (
+      {buildOrders.map((buildOrder) => (
         <div
-          data-testid={`warcraft-build-order-item-${order.id}`}
-          onClick={() => handleBuildOrderClick(order.id)}
-          key={order.id}
+          data-testid={`warcraft-build-order-item-${buildOrder.id}`}
+          onClick={() => handleBuildOrderClick(buildOrder.id)}
+          key={buildOrder.id}
           className="p-4 border bg-gray-800 border-gray-700 rounded shadow-lg cursor-pointer"
         >
-          <h2 className="text-xl font-bold">
-            {order.name}
-            <p className="text-sm text-gray-300">
-              {warcraftFactionsDisplay[order.faction]} vs {warcraftFactionsDisplay[order.opponentFaction]}
-            </p>
-          </h2>
-          <p className="text-sm text-gray-400">Created by: {order.createdBy}</p>
+          <div className="flex justify-between gap-2">
+            <div>
+              <h2 className="text-xl font-bold">{buildOrder.name} </h2>
+              <p className="text-l  text-gray-300">
+                {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
+              </p>
+            </div>
+            <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} imgSize="14" />
+          </div>
+
+          <p className="text-sm text-gray-400">Created by: {buildOrder.createdBy}</p>
         </div>
       ))}
       <LoadingModal open={isFetching} />

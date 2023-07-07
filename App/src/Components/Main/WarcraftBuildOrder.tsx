@@ -5,6 +5,7 @@ import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQuer
 import NotFound from "../Errors/RouterError";
 import LoadingModal from "../Modals/LoadingModal";
 import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
+import WarcraftVersusDisplay from "../Collection/Warcraft/WarcraftVersusDisplay";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -32,18 +33,25 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
   return (
     <>
       <div
-        className="bg-gray-900 text-white p-4 rounded shadow-md flex-grow flex flex-col justify-between"
+        className="bg-gray-900 text-white p-4 max-h-full overflow-y-auto rounded shadow-md flex-grow flex flex-col justify-between gap-5"
         data-testid={"warcraft-build-order" + buildOrder.id}
       >
-        <div className="">
-          <h2 className="text-xl font-bold">{buildOrder.name}</h2>
-          <p>{buildOrder.description}</p>
-          <div className="mt-2">
-            <p>
-              {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
-            </p>
+        <div className="flex flex-col gap-4">
+          <div className="flex pb-5" data-testid="warcraft-build-order-header">
+            <div className="self-center w-1/2">
+              <h2 className="text-xl font-bold pb-3">{buildOrder.name}</h2>
+              <p>
+                {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
+              </p>{" "}
+              <p className="mt-4 text-sm text-gray-400">Uploaded By: {buildOrder.createdBy}</p>
+            </div>
+            <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} />
           </div>
-          <div className="mt-4">
+          <div data-testid="warcraft-build-order-description">
+            <h2 className="text-xl pb-3 font-semibold">Description</h2>
+            <p>{buildOrder.description}</p>
+          </div>
+          <div data-testid="warcraft-build-order-actions" className="mt-4">
             <h3 className="text-lg font-semibold">Build Order:</h3>
             <ul className="list-disc pl-5">
               {buildOrder.actions.map((action: BuildOrderAction, index: number) => (
@@ -55,14 +63,17 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
               ))}
             </ul>
           </div>
-          <p className="mt-4 text-sm text-gray-400">Created By: {buildOrder.createdBy}</p>
+          <div data-testid="warcraft-build-order-considerations">
+            <h2 className="text-xl pb-3 font-semibold">Considerations</h2>
+            <p>{buildOrder.considerations}</p>
+          </div>
         </div>
         <button
           onClick={() => navigate(-1)}
           data-testid="go-back-button"
           className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
         >
-          Go back
+          Back to build orders
         </button>
       </div>
 

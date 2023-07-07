@@ -22,20 +22,20 @@ const App: FC = () => {
         <Header onRegisterClick={onRegisterClick} onLoginClick={onLoginClick} />
       </div>
 
-      <div className="flex h-full flex-grow" data-testid="main-container">
-        <aside className="w-1/5 bg-red-100" data-testid="add-left-container">
-          Ad Space
-        </aside>
-
-        <main className="flex-grow flex-col flex">
-          <Outlet />
-        </main>
-
-        <aside className="w-1/5 bg-red-100" data-testid="add-right-container">
-          Ad Space
-        </aside>
+      <div className="flex flex-col h-full overflow-y-auto" data-testid="main-container">
+        <div className="flex flex-row flex-grow">
+          <aside className="w-1/5 bg-red-100" data-testid="add-left-container">
+            Ad Space
+          </aside>
+          <main className="flex-grow flex-col flex w-3/5">
+            <Outlet />
+          </main>
+          <aside className="w-1/5 bg-red-100" data-testid="add-right-container">
+            Ad Space
+          </aside>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };

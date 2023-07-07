@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
 
   return (
     <header className="bg-gray-800 shadow-md" data-testid="header">
-      <nav className="flex items-center justify-between max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <nav className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
         <Link to="/" className="text-2xl font-medium text-white" data-testid="home-link-logo">
           Build Order Builder
         </Link>
@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
           </button>
         </div>
       </nav>
-      <nav className="flex items-center justify-center max-w-7xl pb-4 sm:px-6 lg:px-8">
+      <nav className="flex items-center justify-center pb-4 sm:px-6 lg:px-8">
         <div className="flex items-center space-x-4"></div>
         <GameSelection />
       </nav>

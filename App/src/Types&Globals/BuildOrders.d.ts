@@ -9,7 +9,7 @@ export interface WarcraftBuildOrder {
   createdBy: string;
   patch?: string;
   videoUrl?: string;
-  consideartions?: string;
+  considerations?: string;
 }
 
 export interface StarcraftBuildOrder {
