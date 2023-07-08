@@ -5,17 +5,19 @@ using Domain.Services.Interfaces;
 
 namespace Domain.Services.Implementations
 {
-    public class WarcraftBuildOrdersService : IBuildOrdersService
+    public class StarcraftBuildOrdersService : IBuildOrdersService
     {
         readonly IBuildOrdersRepository _buildOrdersRepository;
-        public WarcraftBuildOrdersService(BuildOrdersRepositoryFactory repositoryFactory)
+        public StarcraftBuildOrdersService(BuildOrdersRepositoryFactory repositoryFactory)
         {
-            _buildOrdersRepository = repositoryFactory.Create(Games.Warcraft_III);
+            _buildOrdersRepository = repositoryFactory.Create(Games.Starcraft_II);
         }
+
+
         public async Task<List<IBuildOrder>> GetBuildOrders()
         {
             List<IBuildOrder> response = await _buildOrdersRepository.GetBuildOrders();
-           return response;
+            return response;
         }
         public async Task<IBuildOrder> GetBuildOrderById(string id)
         {

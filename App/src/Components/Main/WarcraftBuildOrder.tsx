@@ -50,7 +50,7 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
               <p>
                 {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
               </p>
-              <p className="mt-4 text-sm text-gray-400">Uploaded By: {buildOrder.createdBy}</p>
+              <p className="text-sm text-gray-400">Uploaded By: {buildOrder.createdBy}</p>
             </div>
             <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} />
           </div>
@@ -58,7 +58,7 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
             <h2 className="text-xl pb-3 text-yellow-200 font-semibold">Description</h2>
             <p>{buildOrder.description}</p>
           </div>
-          <div data-testid="warcraft-build-order-actions" className="mt-4 bg-gray-900 rounded p-4">
+          <div data-testid="warcraft-build-order-actions" className="bg-gray-900 rounded p-4">
             <h3 className="text-lg font-semibold text-yellow-200">Build Order:</h3>
             <ul className="list-disc pl-5">
               {buildOrder.actions.map((action: BuildOrderAction, index: number) => (
@@ -78,7 +78,7 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
         <button
           onClick={() => navigate(-1)}
           data-testid="go-back-button"
-          className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+          className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-900 md:py-4 md:text-lg md:px-10"
         >
           Back to build orders
         </button>

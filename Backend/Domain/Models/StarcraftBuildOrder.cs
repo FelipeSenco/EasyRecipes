@@ -3,8 +3,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain.Models
-{   
-    public class WarcraftBuildOrder : IBuildOrder
+{
+    public class StarcraftBuildOrder : IBuildOrder
     {
         [BsonId]
         public Guid Id { get; set; }

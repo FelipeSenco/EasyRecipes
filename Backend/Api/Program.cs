@@ -13,8 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Access the Configuration object
 IConfiguration configuration = builder.Configuration;
-builder.Services.AddTransient<IBuildOrdersService, WarcraftBuildOrdersService>();
-builder.Services.AddTransient<IBuildOrdersRepository, WarcraftBuildOrdersRepository>();
+builder.Services.AddSingleton<BuildOrdersRepositoryFactory>();
+builder.Services.AddSingleton<BuildOrdersServiceFactory>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",

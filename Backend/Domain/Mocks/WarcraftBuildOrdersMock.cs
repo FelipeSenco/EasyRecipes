@@ -13,8 +13,8 @@ namespace Domain.Mocks
                 Name = "Build Order 1",
                 Description = "This is build order 1",
                 Game = Games.Warcraft_III,
-                Faction = WarcraftFactions.HUMAN,
-                OpponentFaction = WarcraftFactions.ORC,
+                Faction = (int)WarcraftFactions.HUMAN,
+                OpponentFaction = (int)WarcraftFactions.ORC,
                 Actions = new List<BuildOrderAction>
                 {
                     new BuildOrderAction { Clock = "00:00", Supply = 5, Instruction = "Build an altar of kings" },
@@ -34,8 +34,8 @@ namespace Domain.Mocks
                 Name = "Build Order 2",
                 Description = "This is build order 2",
                 Game = Games.Warcraft_III,
-                Faction = WarcraftFactions.ORC,
-                OpponentFaction = WarcraftFactions.HUMAN,
+                Faction = (int)WarcraftFactions.ORC,
+                OpponentFaction = (int)WarcraftFactions.HUMAN,
                 Actions = new List<BuildOrderAction>
                 {
                     new BuildOrderAction { Clock = "00:00", Supply = 5, Instruction = "Build a great hall" },
@@ -57,8 +57,8 @@ namespace Domain.Mocks
                 Name = "Build Order 3",
                 Description = "This is build order 3",
                 Game = Games.Warcraft_III,
-                Faction = WarcraftFactions.HUMAN,
-                OpponentFaction = WarcraftFactions.UNDEAD,
+                Faction = (int)WarcraftFactions.HUMAN,
+                OpponentFaction = (int)WarcraftFactions.UNDEAD,
                 Actions = new List<BuildOrderAction>
                 {
                     new BuildOrderAction { Clock = "00:00", Supply = 5, Instruction = "Build a farm" },
@@ -80,8 +80,8 @@ namespace Domain.Mocks
                 Name = "Build Order 4",
                 Description = "This is build order 4",
                 Game = Games.Warcraft_III,
-                Faction = WarcraftFactions.UNDEAD,
-                OpponentFaction = WarcraftFactions.UNDEAD,
+                Faction = (int)WarcraftFactions.UNDEAD,
+                OpponentFaction = (int)WarcraftFactions.UNDEAD,
                 Actions = new List<BuildOrderAction>
                 {
                     new BuildOrderAction { Clock = "00:00", Supply = 5, Instruction = "Build a farm" },
@@ -103,8 +103,8 @@ namespace Domain.Mocks
                 Name = "Build Order 5",
                 Description = "This is build order 5",
                 Game = Games.Warcraft_III,
-                Faction = WarcraftFactions.NIGHT_ELf,
-                OpponentFaction = WarcraftFactions.ORC,
+                Faction = (int)WarcraftFactions.NIGHT_ELf,
+                OpponentFaction = (int)WarcraftFactions.ORC,
                 Actions = new List<BuildOrderAction>
                 {
                     new BuildOrderAction { Clock = "00:00", Supply = 5, Instruction = "Build a farm" },

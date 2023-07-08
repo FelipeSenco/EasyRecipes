@@ -8,9 +8,9 @@ public class WarcraftBuildOrdersController : ControllerBase
 {
     private readonly IBuildOrdersService _buildOrdersService;
 
-    public WarcraftBuildOrdersController(IBuildOrdersService buildOrdersService)
+    public WarcraftBuildOrdersController(BuildOrdersServiceFactory serviceFactory)
     {
-        _buildOrdersService = buildOrdersService;
+        _buildOrdersService = serviceFactory.Create(Games.Warcraft_III);
     }
 
     [HttpGet]    

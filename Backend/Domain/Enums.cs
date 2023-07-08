@@ -13,3 +13,11 @@ public enum WarcraftFactions
     NIGHT_ELf,
     ALL
 }
+
+public enum StarcraftFactions
+{
+    Terran,
+    Zerg,
+    Protoss,  
+    ALL
+}

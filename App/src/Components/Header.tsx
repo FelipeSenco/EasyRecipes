@@ -20,9 +20,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
           Build Order Builder
         </Link>
         <div className="flex items-center space-x-4">
-          <Link to={`/${selectedGame}`} className="text-gray-300 hover:text-white" data-testid="home-link">
-            Build Orders
-          </Link>
+          <Link to={`/${selectedGame}`} className="text-gray-300 hover:text-white" data-testid="home-link"></Link>
         </div>
         <div className="flex gap-3">
           <button onClick={onLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded" data-testid="login-button">

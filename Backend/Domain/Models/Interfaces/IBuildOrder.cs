@@ -13,8 +13,8 @@ namespace Domain.Models.Interfaces
         public string Name { get; set; }
         public string Description { get; set; }
         public Games Game { get; set; }
-        public WarcraftFactions Faction { get; set; }
-        public WarcraftFactions OpponentFaction { get; set; }
+        public int Faction { get; set; }
+        public int OpponentFaction { get; set; }
         public List<BuildOrderAction> Actions { get; set; }
         public string CreatedBy { get; set; }
 
