@@ -3,13 +3,14 @@ import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
 import { emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 import { queryKeys } from "../../Types&Globals/queryKeys";
+import { WarcraftBuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
 
-export const useWarcraftBuildOrdersQuery = (enabled = false) => {
+export const useWarcraftBuildOrdersQuery = (enabled = false, searchFilters: WarcraftBuildOrderSearchFilters) => {
   const { getWarcraftBuildOrders } = useContext(BuildOrdersContext);
 
   const { data, isError, isFetching, isFetchingNextPage, refetch, fetchNextPage } = useInfiniteQuery(
-    [queryKeys.warcraftBuildOrders],
-    async ({ pageParam }) => getWarcraftBuildOrders(pageParam),
+    [queryKeys.warcraftBuildOrders, JSON.stringify(searchFilters)],
+    async ({ pageParam }) => getWarcraftBuildOrders(searchFilters, pageParam),
     {
       getNextPageParam: (lastPage, pages) => pages.length + 1,
       enabled,
@@ -19,7 +20,6 @@ export const useWarcraftBuildOrdersQuery = (enabled = false) => {
 
   const buildOrders = data?.pages.flat() || [];
   const hasNextPage = data?.pages[data?.pages.length - 1]?.length === 10;
-  console.log(buildOrders);
 
   return { buildOrders, isError, isFetching, isFetchingNextPage, hasNextPage, refetch, fetchNextPage };
 };

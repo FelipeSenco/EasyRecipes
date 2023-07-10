@@ -1,18 +1,25 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import { useWarcraftBuildOrdersQuery } from "../../Api/Queries/BuildOrderQueries";
 import { WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../Types&Globals/Routes";
-import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
+import { warcraftFactionsDisplay, warcraftGameModesDisplay } from "../../Types&Globals/enums";
 import NotFound from "../Errors/RouterError";
 import WarcraftVersusDisplay from "../Collection/Warcraft/WarcraftVersusDisplay";
 import background from "../../assets/warcraftbackground.png";
-import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { BuildOrdersSkeleton } from "../Collection/BuildOrdersSkeleton";
 import IntersectionObserverContainer from "../Collection/IntersectionObserver";
+import BuildOrdersSearchFilters from "../Collection/BuildOrdersSearchFilters";
 
 export const WarcraftBuildOrders: FC = () => {
-  const { buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrdersQuery(false);
+  const [searchFilters, setSearchFilters] = useState({
+    title: "",
+    faction: "",
+    opponentFaction: "",
+    uploadedBy: "",
+    gameMode: "",
+  });
+  const { buildOrders, isFetching, isError, refetch, hasNextPage, fetchNextPage } = useWarcraftBuildOrdersQuery(false, searchFilters);
 
   if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
 
@@ -30,9 +37,20 @@ export const WarcraftBuildOrders: FC = () => {
       }}
     >
       <div
-        className="flex flex-grow bg-gray-900 bg-opacity-0 text-white p-4" // bg-opacity-50 sets the background opacity to 50%
+        className="flex flex-grow flex-col bg-gray-900 bg-opacity-0 text-white p-4" // bg-opacity-50 sets the background opacity to 50%
       >
-        <WarcraftBuildOrderList buildOrders={buildOrders as WarcraftBuildOrder[]} isFetching={isFetching} />
+        <BuildOrdersSearchFilters
+          gameFactions={warcraftFactionsDisplay}
+          gameModes={warcraftGameModesDisplay}
+          searchFilters={searchFilters}
+          setSearchFilters={setSearchFilters}
+        />
+        <WarcraftBuildOrderList
+          buildOrders={buildOrders as WarcraftBuildOrder[]}
+          isFetching={isFetching}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+        />
       </div>
     </div>
   );
@@ -41,11 +59,12 @@ export const WarcraftBuildOrders: FC = () => {
 type WarcraftBuildOrderListProps = {
   buildOrders: WarcraftBuildOrder[];
   isFetching: boolean;
+  hasNextPage: boolean;
+  fetchNextPage: () => void;
 };
 
-export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching }) => {
+export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching, hasNextPage, fetchNextPage }) => {
   const navigate = useNavigate();
-  const { hasNextPage, fetchNextPage } = useWarcraftBuildOrdersQuery(false);
 
   const handleBuildOrderClick = (id: string) => {
     navigate(AppRoutes.WarcraftBuildOrder.replace(":id", id));

@@ -20,7 +20,7 @@ namespace Domain.Repositories.Implementations
             var client = new MongoClient(_configuration.GetConnectionString("DefaultConnection"));
             var database = client.GetDatabase(_configuration.GetSection("MongoDB:DatabaseName").Value);     
             _collection = database.GetCollection<WarcraftBuildOrder>(_configuration.GetSection("MongoDB:WarcraftBuildOrdersCollection").Value);
-        }
+        }        
         public async Task<List<IBuildOrder>> GetBuildOrders(int page)
         {      
             FilterDefinition<WarcraftBuildOrder> filter = Builders<WarcraftBuildOrder>.Filter.Empty;

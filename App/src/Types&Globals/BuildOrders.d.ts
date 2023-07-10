@@ -31,3 +31,11 @@ export interface BuildOrderAction {
   clock: string;
   instruction: string;
 }
+
+export interface WarcraftBuildOrderSearchFilters {
+  title?: string;
+  faction?: string;
+  opponentFaction?: string;
+  uploadedBy?: string;
+  gameMode?: string;
+}

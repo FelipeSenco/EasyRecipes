@@ -4,18 +4,6 @@ export enum Games {
   Stormgate = "stormgate",
 }
 
-export enum HumanUnits {
-  PEASANT = "Peasant",
-  FOOTMAN = "Footman",
-  RIFLEMAN = "Rifleman",
-}
-
-export enum HumanStructures {
-  TOWN_HALL = "Town Hall",
-  FARM = "Farm",
-  BARRACKS = "Barracks",
-}
-
 export enum WarcraftFactions {
   HUMAN = "Human",
   ORC = "Orc",
@@ -36,4 +24,12 @@ export const warcraftFactionsDisplay: { [key: number]: string } = {
   2: "Undead",
   3: "Night Elf",
   4: "All",
+};
+
+export const warcraftGameModesDisplay: { [key: number]: string } = {
+  0: "1v1",
+  1: "2v2",
+  2: "3v3",
+  3: "4v4",
+  4: "FFA",
 };

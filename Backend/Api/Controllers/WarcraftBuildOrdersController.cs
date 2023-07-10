@@ -1,4 +1,5 @@
 
+using Api.ApiModels;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,14 @@ public class WarcraftBuildOrdersController : ControllerBase
     }
 
     [HttpGet]    
-    public async Task<IActionResult> GetWarcraftBuildOrders([FromQuery] int page = 1)
+    public async Task<IActionResult> GetWarcraftBuildOrders(        
+        [FromQuery] string? title,
+        [FromQuery] string? faction,
+        [FromQuery] string? opponentFaction,
+        [FromQuery] string? uploadedBy,
+        [FromQuery] string? gameMode,
+        [FromQuery] int page = 1
+        )
     {
         var response = await _buildOrdersService.GetBuildOrders(page);        
 
