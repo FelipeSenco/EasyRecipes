@@ -1,6 +1,5 @@
-import React, { FC } from "react";
-import { useWarcraftBuildOrderQuery } from "../../Api/Queries/BuildOrderQueries";
-import LoadingModal from "../Modals/LoadingModal";
+import React, { FC, useContext } from "react";
+import { useWarcraftBuildOrdersQuery } from "../../Api/Queries/BuildOrderQueries";
 import { WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../Types&Globals/Routes";
@@ -8,9 +7,12 @@ import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 import NotFound from "../Errors/RouterError";
 import WarcraftVersusDisplay from "../Collection/Warcraft/WarcraftVersusDisplay";
 import background from "../../assets/warcraftbackground.png";
+import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
+import { BuildOrdersSkeleton } from "../Collection/BuildOrdersSkeleton";
+import IntersectionObserverContainer from "../Collection/IntersectionObserver";
 
 export const WarcraftBuildOrders: FC = () => {
-  const { data: buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrderQuery(false);
+  const { buildOrders, isFetching, isError, refetch } = useWarcraftBuildOrdersQuery(false);
 
   if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
 
@@ -43,13 +45,14 @@ type WarcraftBuildOrderListProps = {
 
 export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching }) => {
   const navigate = useNavigate();
+  const { hasNextPage, fetchNextPage } = useWarcraftBuildOrdersQuery(false);
 
   const handleBuildOrderClick = (id: string) => {
     navigate(AppRoutes.WarcraftBuildOrder.replace(":id", id));
   };
 
   return (
-    <div className="flex flex-col space-y-4 text-yellow-200 p-4 font-fantasy" data-testid="warcraft-build-order-list">
+    <div className="flex flex-col space-y-4 text-yellow-200 p-4 font-fantasy w-full" data-testid="warcraft-build-order-list">
       {buildOrders.map((buildOrder) => (
         <div
           data-testid={`warcraft-build-order-item-${buildOrder.id}`}
@@ -57,9 +60,9 @@ export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildO
           key={buildOrder.id}
           className="p-4 border bg-gray-800 hover:bg-green-800 border-gray-700 rounded shadow-lg cursor-pointer transition ease-in duration-200 transform hover:scale-105"
         >
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-2 flex-wrap">
             <div>
-              <h2 className="text-xl font-bold">{buildOrder.name} </h2>
+              <h2 className="text-xl font-bold max-w-3xl">{buildOrder.name} </h2>
               <p className="text-l  text-gray-300">
                 {warcraftFactionsDisplay[buildOrder.faction]} vs {warcraftFactionsDisplay[buildOrder.opponentFaction]}
               </p>
@@ -70,7 +73,8 @@ export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildO
           <p className="text-sm text-gray-400">Created by: {buildOrder.createdBy}</p>
         </div>
       ))}
-      <LoadingModal open={isFetching} />
+      {isFetching && <BuildOrdersSkeleton />}
+      {hasNextPage && <IntersectionObserverContainer handleIntersection={fetchNextPage} />}
     </div>
   );
 };

@@ -12,9 +12,9 @@ namespace Domain.Services.Implementations
         {
             _buildOrdersRepository = repositoryFactory.Create(Games.Warcraft_III);
         }
-        public async Task<List<IBuildOrder>> GetBuildOrders()
+        public async Task<List<IBuildOrder>> GetBuildOrders(int page)
         {
-            List<IBuildOrder> response = await _buildOrdersRepository.GetBuildOrders();
+            List<IBuildOrder> response = await _buildOrdersRepository.GetBuildOrders(page);
            return response;
         }
         public async Task<IBuildOrder> GetBuildOrderById(string id)

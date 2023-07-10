@@ -1,18 +1,27 @@
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
 import { emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 import { queryKeys } from "../../Types&Globals/queryKeys";
 
-export const useWarcraftBuildOrderQuery = (enabled: boolean) => {
+export const useWarcraftBuildOrdersQuery = (enabled = false) => {
   const { getWarcraftBuildOrders } = useContext(BuildOrdersContext);
 
-  return useQuery([queryKeys.warcraftBuildOrders], {
-    queryFn: getWarcraftBuildOrders,
-    enabled,
-    initialData: [],
-    onError: (error: Error) => console.log(error),
-  });
+  const { data, isError, isFetching, isFetchingNextPage, refetch, fetchNextPage } = useInfiniteQuery(
+    [queryKeys.warcraftBuildOrders],
+    async ({ pageParam }) => getWarcraftBuildOrders(pageParam),
+    {
+      getNextPageParam: (lastPage, pages) => pages.length + 1,
+      enabled,
+      onError: (error: Error) => console.log(error),
+    }
+  );
+
+  const buildOrders = data?.pages.flat() || [];
+  const hasNextPage = data?.pages[data?.pages.length - 1]?.length === 10;
+  console.log(buildOrders);
+
+  return { buildOrders, isError, isFetching, isFetchingNextPage, hasNextPage, refetch, fetchNextPage };
 };
 
 export const useWarcraftBuildOrderByIdQuery = (id: string, enabled: boolean) => {

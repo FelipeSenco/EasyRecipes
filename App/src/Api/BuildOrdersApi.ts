@@ -14,8 +14,8 @@ export class BuildOrdersApi {
     };
   }
 
-  async getWarcraftBuildOrders(): Promise<WarcraftBuildOrder[]> {
-    const response = await axios.get(this.endpoints.getWarcraftBuildOrders);
+  async getWarcraftBuildOrders(page = 0): Promise<WarcraftBuildOrder[]> {
+    const response = await axios.get(this.endpoints.getWarcraftBuildOrders + `?page=${page}`);
     return response.data;
   }
 

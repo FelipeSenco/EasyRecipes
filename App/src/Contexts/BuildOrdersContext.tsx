@@ -1,9 +1,9 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import { WarcraftBuildOrder } from "../Types&Globals/BuildOrders";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 interface BuildOrdersContextType {
-  getWarcraftBuildOrders: () => Promise<WarcraftBuildOrder[]>;
+  getWarcraftBuildOrders: (page?: number) => Promise<WarcraftBuildOrder[]>;
   getWarcraftBuildOrderById: (id: string) => Promise<WarcraftBuildOrder>;
 }
 
@@ -18,8 +18,8 @@ interface BuildOrdersProviderProps {
 }
 
 export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ children, api }) => {
-  const getWarcraftBuildOrders = async (): Promise<WarcraftBuildOrder[]> => {
-    const res = await api.getWarcraftBuildOrders();
+  const getWarcraftBuildOrders = async (page = 1): Promise<WarcraftBuildOrder[]> => {
+    const res = await api.getWarcraftBuildOrders(page);
     return res;
   };
 

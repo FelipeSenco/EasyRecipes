@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BuildOrderAction, WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { useWarcraftBuildOrderByIdQuery } from "../../Api/Queries/BuildOrderQueries";
 import NotFound from "../Errors/RouterError";
-import LoadingModal from "../Modals/LoadingModal";
 import { warcraftFactionsDisplay } from "../../Types&Globals/enums";
 import WarcraftVersusDisplay from "../Collection/Warcraft/WarcraftVersusDisplay";
 import background from "../../assets/warcraftbackground.png";
+import { BuildOrderDetailSkeleton } from "../Collection/BuildOrdersSkeleton";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -30,6 +30,8 @@ interface WarcraftBuildOrderDetailProps {
 }
 const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrder, isFetching }) => {
   const navigate = useNavigate();
+
+  if (isFetching) return <BuildOrderDetailSkeleton />;
 
   return (
     <>
@@ -83,8 +85,6 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
           Back to build orders
         </button>
       </div>
-
-      <LoadingModal open={isFetching} />
     </>
   );
 };

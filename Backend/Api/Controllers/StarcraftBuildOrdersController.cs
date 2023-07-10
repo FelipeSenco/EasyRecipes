@@ -14,9 +14,9 @@ public class StarcraftBuildOrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetStarcraftBuildOrders()
+    public async Task<IActionResult> GetStarcraftBuildOrders([FromQuery] int page = 1)
     {
-        var response = await _buildOrdersService.GetBuildOrders();
+        var response = await _buildOrdersService.GetBuildOrders(page);
 
         return Ok(response);
     }
