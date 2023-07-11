@@ -1,7 +1,7 @@
 import React from "react";
 
 export const BuildOrdersSkeleton = () => (
-  <div className="flex flex-col space-y-4 bg-gray-800 p-4 w-full">
+  <div className="flex flex-col space-y-4 bg-gray-800 p-4 w-full" data-testid="build-orders-skeleton">
     {Array.from({ length: 5 }).map((_, index) => (
       <div key={index} className="p-4 border bg-gray-600 border-gray-700 rounded shadow-lg animate-pulse">
         <div className="flex justify-between gap-2 flex-wrap">
@@ -22,6 +22,7 @@ export const BuildOrderDetailSkeleton = () => (
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
     }}
+    data-testid="build-order-detail-skeleton"
   >
     <div className="flex flex-col gap-4">
       <div className="flex pb-5 bg-gray-600 rounded p-4 animate-pulse">

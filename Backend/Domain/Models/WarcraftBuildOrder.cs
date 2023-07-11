@@ -24,6 +24,9 @@ namespace Domain.Models
         [BsonElement("opponentFaction")]
         public int OpponentFaction { get; set; }
 
+        [BsonElement("gameMode")]
+        public int GameMode { get; set; }
+
         [BsonElement("actions")]
         public List<BuildOrderAction> Actions { get; set; } = new();
 

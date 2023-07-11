@@ -23,8 +23,6 @@ export const WarcraftBuildOrders: FC = () => {
 
   if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
 
-  if ((!buildOrders || isError) && !isFetching) return <NotFound />;
-
   return (
     <div
       className="flex flex-grow"
@@ -50,6 +48,7 @@ export const WarcraftBuildOrders: FC = () => {
           isFetching={isFetching}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
+          isError={isError}
         />
       </div>
     </div>
@@ -61,14 +60,17 @@ type WarcraftBuildOrderListProps = {
   isFetching: boolean;
   hasNextPage: boolean;
   fetchNextPage: () => void;
+  isError: boolean;
 };
 
-export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching, hasNextPage, fetchNextPage }) => {
+export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({ buildOrders, isFetching, hasNextPage, fetchNextPage, isError }) => {
   const navigate = useNavigate();
 
   const handleBuildOrderClick = (id: string) => {
     navigate(AppRoutes.WarcraftBuildOrder.replace(":id", id));
   };
+
+  if ((!buildOrders || isError) && !isFetching) return <NotFound />;
 
   return (
     <div className="flex flex-col space-y-4 text-yellow-200 p-4 font-fantasy w-full" data-testid="warcraft-build-order-list">

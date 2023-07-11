@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Factories.Interfaces;
+using Domain.Models;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using MongoDB.Driver;
@@ -8,7 +9,7 @@ namespace Domain.Services.Implementations
     public class WarcraftBuildOrdersService : IBuildOrdersService<WarcraftBuildOrder>
     {
         readonly IBuildOrdersRepository<WarcraftBuildOrder> _buildOrdersRepository;
-        public WarcraftBuildOrdersService(BuildOrdersRepositoryFactory repositoryFactory)
+        public WarcraftBuildOrdersService(IBuildOrdersRepositoryFactory repositoryFactory)
         {
             _buildOrdersRepository = repositoryFactory.Create<WarcraftBuildOrder>("MongoDB:WarcraftBuildOrdersCollection");
         }
@@ -24,7 +25,5 @@ namespace Domain.Services.Implementations
             WarcraftBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
             return response;
         }
-
-
     }
 }

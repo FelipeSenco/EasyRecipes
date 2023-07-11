@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Factories.Interfaces;
+using Domain.Models;
 using Domain.Models.Interfaces;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
@@ -9,7 +10,7 @@ namespace Domain.Services.Implementations
     public class StarcraftBuildOrdersService : IBuildOrdersService<StarcraftBuildOrder>
     {
         readonly IBuildOrdersRepository<StarcraftBuildOrder> _buildOrdersRepository;
-        public StarcraftBuildOrdersService(BuildOrdersRepositoryFactory repositoryFactory)
+        public StarcraftBuildOrdersService(IBuildOrdersRepositoryFactory repositoryFactory)
         {
             _buildOrdersRepository = repositoryFactory.Create<StarcraftBuildOrder>("MongoDB:StarcraftBuildOrdersCollection");
         }

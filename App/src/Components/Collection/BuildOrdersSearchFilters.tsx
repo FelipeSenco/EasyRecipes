@@ -15,7 +15,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
   const [title, setTitle] = useState(searchFilters.title);
   const debouncedTitle = useDebounce(title, 500);
   const [uploadedBy, setUploadedBy] = useState(searchFilters.uploadedBy);
-  const debouncedUploadedBy = useDebounce(uploadedBy, 500);
+  const debouncedUploadedBy = useDebounce(uploadedBy, debounceDelay);
 
   useEffect(() => {
     debouncedTitle !== searchFilters.title && OnChangeTitle(debouncedTitle);
@@ -64,6 +64,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
     <div className="flex flex-col space-y-2 justify-around">
       <div className="flex gap-5 items-center">
         <input
+          data-testid="build-orders-title-filter"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -71,6 +72,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
           placeholder="Title"
         />
         <select
+          data-testid="build-orders-faction-filter"
           value={searchFilters.faction}
           onChange={(e) => onChangeFaction(e.target.value)}
           placeholder="Player Faction"
@@ -89,6 +91,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
         </select>
         VS
         <select
+          data-testid="build-orders-opponent-faction-filter"
           placeholder="Opponent Faction"
           value={searchFilters.opponentFaction}
           onChange={(e) => onChangeOpponentaction(e.target.value)}
@@ -106,13 +109,19 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
       </div>
       <div className="flex justify-left gap-5">
         <input
+          data-testid="build-orders-uploaded-by-filter"
           type="text"
           value={uploadedBy}
           onChange={(e) => setUploadedBy(e.target.value)}
           className="bg-gray-700 p-2 rounded-md w-1/3"
           placeholder="Uploaded by"
         />
-        <select value={searchFilters.gameMode} onChange={(e) => onChangeGameMode(e.target.value)} className="bg-gray-700 p-2 rounded-md w-1/4">
+        <select
+          data-testid="build-orders-game-mode-filter"
+          value={searchFilters.gameMode}
+          onChange={(e) => onChangeGameMode(e.target.value)}
+          className="bg-gray-700 p-2 rounded-md w-1/4"
+        >
           <option key={"a"} value={""}>
             Any mode
           </option>

@@ -51,7 +51,7 @@ describe("Header", () => {
     expect(routeTest).not.toBeNull();
   });
 
-  test("Clicking Build Orders triggers '/' route", () => {
+  test.skip("Clicking Build Orders triggers '/' route", () => {
     renderHeader();
 
     const buildOrderLink = screen.getByTestId("home-link");

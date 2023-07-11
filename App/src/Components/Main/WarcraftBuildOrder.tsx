@@ -18,7 +18,7 @@ export const WarcraftBuildOrderPage: FC = () => {
   if (isError && !isFetching) return <NotFound />;
 
   return (
-    <div className="flex flex-grow" data-testid="warcraft-build-orders">
+    <div className="flex flex-grow" data-testid="warcraft-build-order-page">
       <WarcraftBuildOrderDetail buildOrder={buildOrder as WarcraftBuildOrder} isFetching={isFetching} />
     </div>
   );

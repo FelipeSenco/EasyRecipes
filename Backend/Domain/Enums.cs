@@ -14,6 +14,15 @@ public enum WarcraftFactions
     ALL
 }
 
+public enum WarcraftGameModes
+{
+    ONEvONE,
+    TWOvTWO,
+    THREEvTHREE,
+    FOURvFOUR,
+    FFA
+}
+
 public enum StarcraftFactions
 {
     Terran,

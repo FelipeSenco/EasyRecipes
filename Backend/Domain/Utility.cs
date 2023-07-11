@@ -1,7 +1,6 @@
 ﻿
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Domain.Models;
 using Domain.Models.Interfaces;
 
 namespace Domain
@@ -10,12 +9,11 @@ namespace Domain
     {
 
         public static FilterDefinition<T> GenerateFiltersForBuildOrders<T>(string title, string faction,
-        string opponentFaction, string uploadedBy, string gameMode) where T : IBuildOrder
+                    string opponentFaction, string uploadedBy, string gameMode) where T : IBuildOrder
         {
             var builder = Builders<T>.Filter;
             var filter = builder.Empty;
-
-            // If parameters are not null or empty, add them to filter.
+          
             if (!string.IsNullOrEmpty(title))
             {
                 filter &= builder.Regex(x => x.Name, new BsonRegularExpression("/" + title + "/i"));

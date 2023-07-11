@@ -68,10 +68,10 @@ describe("Warcraft Build Order", () => {
     await waitFor(() => {
       const notFound = document.querySelector(locators.notFound);
       const buildOrder = document.querySelector(locators.buildOrderList);
-      const loading = document.querySelector(locators.loading);
+      const skeleton = document.querySelector(locators.skeleton);
       expect(notFound).toBeNull();
       expect(buildOrder).toBeDefined();
-      expect(loading).toBeNull();
+      expect(skeleton).toBeNull();
     });
   });
 
@@ -83,11 +83,11 @@ describe("Warcraft Build Order", () => {
     });
     await waitFor(() => {
       const buildOrder = document.querySelector(locators.buildOrderList);
-      const loading = document.querySelector(locators.loading);
+      const skeleton = document.querySelector(locators.skeleton);
       const notFound = document.querySelector(locators.notFound);
       expect(notFound).not.toBeNull();
       expect(buildOrder).toBeNull();
-      expect(loading).toBeNull();
+      expect(skeleton).toBeNull();
     });
   });
 
@@ -102,9 +102,9 @@ describe("Warcraft Build Order", () => {
 
     await waitFor(() => {
       const notFound = document.querySelector(locators.notFound);
-      const loading = document.querySelector(locators.loading);
+      const skeleton = document.querySelector(locators.skeleton);
       expect(notFound).toBeNull();
-      expect(loading).not.toBeNull();
+      expect(skeleton).not.toBeNull();
     });
   });
 
@@ -128,5 +128,5 @@ describe("Warcraft Build Order", () => {
 const locators = {
   buildOrderList: `[data-testid="warcraft-build-order-${id}"]`,
   notFound: `[data-testid="not-found-page"]`,
-  loading: `[data-testid="loading-modal"]`,
+  skeleton: `[data-testid="build-order-detail-skeleton"]`,
 };

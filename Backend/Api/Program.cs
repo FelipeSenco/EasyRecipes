@@ -1,7 +1,6 @@
-using Domain.Repositories.Implementations;
-using Domain.Repositories.Interfaces;
-using Domain.Services.Implementations;
-using Domain.Services.Interfaces;
+
+
+using Domain.Factories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Access the Configuration object
 IConfiguration configuration = builder.Configuration;
-builder.Services.AddSingleton<BuildOrdersRepositoryFactory>();
+builder.Services.AddSingleton<IBuildOrdersRepositoryFactory, BuildOrdersRepositoryFactory>();
 builder.Services.AddSingleton<BuildOrdersServiceFactory>();
 builder.Services.AddCors(options =>
 {
@@ -34,7 +33,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();      
+    app.UseSwaggerUI();
 }
 app.UseCors("AllowSpecificOrigin");
 

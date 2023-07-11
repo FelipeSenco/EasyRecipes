@@ -1,5 +1,4 @@
 
-using Api.ApiModels;
 using Domain.Models;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ public class WarcraftBuildOrdersController : ControllerBase
         [FromQuery] string? gameMode,
         [FromQuery] int page = 1
         )
-    {
+    {      
         var response = await _buildOrdersService.GetBuildOrders(page, title, faction, 
             opponentFaction, uploadedBy, gameMode);        
 

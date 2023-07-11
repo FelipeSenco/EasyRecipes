@@ -1,12 +1,10 @@
 ﻿
-using Domain.Models;
-using Domain.Models.Interfaces;
+using Domain.Factories.Interfaces;
 using Domain.Repositories.Implementations;
 using Domain.Repositories.Interfaces;
-using Domain.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-public class BuildOrdersRepositoryFactory
+public class BuildOrdersRepositoryFactory : IBuildOrdersRepositoryFactory
 {
     private readonly IConfiguration _configuration;
 
@@ -15,7 +13,7 @@ public class BuildOrdersRepositoryFactory
         _configuration = configuration;
     }
 
-    public IBuildOrdersRepository<T> Create<T>(string collectionPath) where T : IBuildOrder, new()
+    IBuildOrdersRepository<T> IBuildOrdersRepositoryFactory.Create<T>(string collectionPath)
     {
         return new BuildOrdersRepository<T>(_configuration, collectionPath);       
     }

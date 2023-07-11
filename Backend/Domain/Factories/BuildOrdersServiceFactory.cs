@@ -1,4 +1,5 @@
 ﻿
+using Domain.Factories.Interfaces;
 using Domain.Models;
 using Domain.Models.Interfaces;
 using Domain.Services.Implementations;
@@ -6,9 +7,9 @@ using Domain.Services.Interfaces;
 
 public class BuildOrdersServiceFactory
 {
-    readonly BuildOrdersRepositoryFactory _repositoryFactory;
+    private readonly IBuildOrdersRepositoryFactory _repositoryFactory;
 
-    public BuildOrdersServiceFactory(BuildOrdersRepositoryFactory repositoryFactory)
+    public BuildOrdersServiceFactory(IBuildOrdersRepositoryFactory repositoryFactory)
     {
         _repositoryFactory = repositoryFactory;
     }

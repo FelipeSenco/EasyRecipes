@@ -17,8 +17,7 @@ namespace Domain.Models.Interfaces
         public int OpponentFaction { get; set; }
         public List<BuildOrderAction> Actions { get; set; }
         public string CreatedBy { get; set; }
-
-        // Optional properties
+        public int GameMode { get; set; }       
         public string Patch { get; set; }
         public string VideoUrl { get; set; }
         public string Considerations { get; set; }
