@@ -1,4 +1,5 @@
 ﻿
+using Domain.Models;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,17 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/[controller]")]
 public class StarcraftBuildOrdersController : ControllerBase
 {
-    private readonly IBuildOrdersService _buildOrdersService;
+    private readonly IBuildOrdersService<StarcraftBuildOrder> _buildOrdersService;
 
     public StarcraftBuildOrdersController(BuildOrdersServiceFactory serviceFactory)
     {
-        _buildOrdersService = serviceFactory.Create(Games.Starcraft_II);
+        _buildOrdersService = serviceFactory.CreateStarcraftBuildOrdersService();
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetStarcraftBuildOrders([FromQuery] int page = 1)
+    public async Task<IActionResult> GetStarcraftBuildOrders(
+        [FromQuery] string? title,
+        [FromQuery] string? faction,
+        [FromQuery] string? opponentFaction,
+        [FromQuery] string? uploadedBy,
+        [FromQuery] string? gameMode,
+        [FromQuery] int page = 1
+        )
     {
-        var response = await _buildOrdersService.GetBuildOrders(page);
+        var response = await _buildOrdersService.GetBuildOrders(page, title, faction, opponentFaction, uploadedBy, gameMode);
 
         return Ok(response);
     }

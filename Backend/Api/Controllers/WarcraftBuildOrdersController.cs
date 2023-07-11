@@ -1,5 +1,6 @@
 
 using Api.ApiModels;
+using Domain.Models;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/[controller]")]
 public class WarcraftBuildOrdersController : ControllerBase
 {
-    private readonly IBuildOrdersService _buildOrdersService;
+    private readonly IBuildOrdersService<WarcraftBuildOrder> _buildOrdersService;
 
     public WarcraftBuildOrdersController(BuildOrdersServiceFactory serviceFactory)
     {
-        _buildOrdersService = serviceFactory.Create(Games.Warcraft_III);
+        _buildOrdersService = serviceFactory.CreateWarcraftBuildOrdersService();
     }
 
     [HttpGet]    
@@ -24,7 +25,8 @@ public class WarcraftBuildOrdersController : ControllerBase
         [FromQuery] int page = 1
         )
     {
-        var response = await _buildOrdersService.GetBuildOrders(page);        
+        var response = await _buildOrdersService.GetBuildOrders(page, title, faction, 
+            opponentFaction, uploadedBy, gameMode);        
 
         return Ok(response);
     }

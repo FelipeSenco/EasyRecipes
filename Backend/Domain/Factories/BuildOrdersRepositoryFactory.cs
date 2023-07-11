@@ -1,6 +1,9 @@
 ﻿
+using Domain.Models;
+using Domain.Models.Interfaces;
 using Domain.Repositories.Implementations;
 using Domain.Repositories.Interfaces;
+using Domain.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 public class BuildOrdersRepositoryFactory
@@ -12,14 +15,8 @@ public class BuildOrdersRepositoryFactory
         _configuration = configuration;
     }
 
-    public IBuildOrdersRepository Create(Games game)
+    public IBuildOrdersRepository<T> Create<T>(string collectionPath) where T : IBuildOrder, new()
     {
-        return game switch
-        {
-            Games.Warcraft_III => new WarcraftBuildOrdersRepository(_configuration),
-            Games.Starcraft_II => new StarcraftBuildOrdersRepository(_configuration),
-            Games.Stormgate => throw new NotImplementedException($"not implemented"),
-            _ => throw new ArgumentException($"Invalid game: {game}"),
-        };
+        return new BuildOrdersRepository<T>(_configuration, collectionPath);       
     }
 }

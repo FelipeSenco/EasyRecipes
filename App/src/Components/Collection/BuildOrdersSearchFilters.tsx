@@ -77,7 +77,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
           className="bg-gray-700 p-2 rounded-md w-1/4"
         >
           <option key={"a"} value={""}>
-            Player
+            Any faction
           </option>
           {Object.entries(gameFactions)
             .filter(([key, value]) => value !== "All")
@@ -95,7 +95,7 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
           className="bg-gray-700 p-2 rounded-md w-1/4"
         >
           <option key={"a"} value={""}>
-            Opponent
+            Any faction
           </option>
           {Object.entries(gameFactions).map(([key, value]) => (
             <option key={key} value={key}>

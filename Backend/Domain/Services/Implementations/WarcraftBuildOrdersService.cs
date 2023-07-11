@@ -1,26 +1,30 @@
 ﻿using Domain.Models;
-using Domain.Models.Interfaces;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
+using MongoDB.Driver;
 
 namespace Domain.Services.Implementations
 {
-    public class WarcraftBuildOrdersService : IBuildOrdersService
+    public class WarcraftBuildOrdersService : IBuildOrdersService<WarcraftBuildOrder>
     {
-        readonly IBuildOrdersRepository _buildOrdersRepository;
+        readonly IBuildOrdersRepository<WarcraftBuildOrder> _buildOrdersRepository;
         public WarcraftBuildOrdersService(BuildOrdersRepositoryFactory repositoryFactory)
         {
-            _buildOrdersRepository = repositoryFactory.Create(Games.Warcraft_III);
+            _buildOrdersRepository = repositoryFactory.Create<WarcraftBuildOrder>("MongoDB:WarcraftBuildOrdersCollection");
         }
-        public async Task<List<IBuildOrder>> GetBuildOrders(int page)
+        public async Task<List<WarcraftBuildOrder>> GetBuildOrders(int page, string title, string faction,
+            string opponentFaction, string uploadedBy, string gameMode)
         {
-            List<IBuildOrder> response = await _buildOrdersRepository.GetBuildOrders(page);
-           return response;
-        }
-        public async Task<IBuildOrder> GetBuildOrderById(string id)
+            FilterDefinition<WarcraftBuildOrder> filter = Utility.GenerateFiltersForBuildOrders<WarcraftBuildOrder>(title, faction, opponentFaction, uploadedBy, gameMode);
+            List<WarcraftBuildOrder> response = await _buildOrdersRepository.GetBuildOrders(page, filter);
+            return response;
+        }       
+        public async Task<WarcraftBuildOrder> GetBuildOrderById(string id)
         {
-            IBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
+            WarcraftBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
             return response;
         }
+
+
     }
 }

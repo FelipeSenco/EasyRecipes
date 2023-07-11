@@ -1,11 +1,12 @@
 ﻿using Domain.Models;
 using Domain.Models.Interfaces;
+using MongoDB.Driver;
 
 namespace Domain.Repositories.Interfaces
 {
-    public interface IBuildOrdersRepository
+    public interface IBuildOrdersRepository<T> where T: IBuildOrder
     {
-       Task<List<IBuildOrder>> GetBuildOrders(int page);
-       Task<IBuildOrder> GetBuildOrderById(string id);
+       Task<List<T>> GetBuildOrders(int page, FilterDefinition<T> filter);
+       Task<T> GetBuildOrderById(string id);
     }
 }
