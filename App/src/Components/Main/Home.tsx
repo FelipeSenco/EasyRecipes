@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { WarcraftBuildOrders } from "./BuildOrders";
+import { WarcraftBuildOrders } from "./Warcraft/WarcraftBuildOrders";
 
 const Home: FC = () => {
   return <WarcraftBuildOrders />;

@@ -3,12 +3,11 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useParams } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
-import { WarcraftBuildOrderList, WarcraftBuildOrders } from "../Components/Main/BuildOrders";
+import { WarcraftBuildOrderList, WarcraftBuildOrders } from "../Components/Main/Warcraft/WarcraftBuildOrders";
 import { act } from "react-dom/test-utils";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
 import { wc3BuildOrderMocks } from "../__mocks__/buildOrderMocks";
-import { queryKeys } from "../Types&Globals/queryKeys";
 import { AppRoutes } from "../Types&Globals/Routes";
 
 jest.mock("../Api/UserApi");

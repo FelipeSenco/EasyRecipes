@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Providers from "../Contexts/Providers";
 import { UserApi } from "../Api/UserApi";
-import { WarcraftBuildOrderPage } from "../Components/Main/WarcraftBuildOrder";
+import { WarcraftBuildOrderPage } from "../Components/Main/Warcraft/WarcraftBuildOrder";
 import { act } from "react-dom/test-utils";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";

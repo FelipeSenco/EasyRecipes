@@ -1,13 +1,21 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import React from "react";
 import Header from "./Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import UserContext from "../Contexts/UserContext";
 import background from "../assets/humanbackground.png";
+import AppContext from "../Contexts/AppContext";
+import { Games } from "../Types&Globals/enums";
 
 const App: FC = () => {
   const { setRegisterModalOpen } = useContext(UserContext);
+  const { updateSelectedGame } = useContext(AppContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    updateSelectedGame(location.pathname);
+  }, [location]);
 
   const onRegisterClick = () => {
     setRegisterModalOpen(true);

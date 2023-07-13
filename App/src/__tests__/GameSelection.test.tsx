@@ -8,7 +8,9 @@ import { act } from "react-dom/test-utils";
 import Home from "../Components/Main/Home";
 import { mockBuildOrdersApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
-import { StarcraftBuildOrders, StormgateBuildOrders, WarcraftBuildOrders } from "../Components/Main/BuildOrders";
+import { WarcraftBuildOrders } from "../Components/Main/Warcraft/WarcraftBuildOrders";
+import { StarcraftBuildOrders } from "../Components/Main/Starcraft/StarcraftBuildOrders";
+import { StormgateBuildOrders } from "../Components/Main/Stormgate/StormgateBuildOrders";
 
 jest.mock("../Api/UserApi");
 

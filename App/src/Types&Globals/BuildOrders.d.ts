@@ -5,6 +5,7 @@ export interface WarcraftBuildOrder {
   game: number;
   faction: number;
   opponentFaction: number;
+  gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
   patch?: string;
@@ -13,17 +14,33 @@ export interface WarcraftBuildOrder {
 }
 
 export interface StarcraftBuildOrder {
-  id: number;
+  id: string;
   name: string;
   description: string;
   game: number;
   faction: number;
   opponentFaction: number;
+  gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
   patch?: string;
   videoUrl?: string;
-  consideartions?: string;
+  considerations?: string;
+}
+
+export interface StormgateBuildOrder {
+  id: string;
+  name: string;
+  description: string;
+  game: number;
+  faction: number;
+  opponentFaction: number;
+  gameMode: number;
+  actions: BuildOrderAction[];
+  createdBy: string;
+  patch?: string;
+  videoUrl?: string;
+  considerations?: string;
 }
 
 export interface BuildOrderAction {
@@ -32,7 +49,7 @@ export interface BuildOrderAction {
   instruction: string;
 }
 
-export interface WarcraftBuildOrderSearchFilters {
+export interface BuildOrderSearchFilters {
   title?: string;
   faction?: string;
   opponentFaction?: string;

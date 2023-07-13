@@ -8,7 +8,6 @@ const GameSelection: FC = () => {
   const navigate = useNavigate();
 
   const onClick = (e: any) => {
-    selectedGame !== e.target.value && setSelectedGame(e.target.value);
     navigate("/" + e.target.value);
   };
 

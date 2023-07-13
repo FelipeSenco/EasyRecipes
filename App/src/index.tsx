@@ -10,10 +10,14 @@ import { UserApi } from "./Api/UserApi";
 import Providers from "./Contexts/Providers";
 import Home from "./Components/Main/Home";
 import { BuildOrdersApi } from "./Api/BuildOrdersApi";
-import { WarcraftBuildOrderPage } from "./Components/Main/WarcraftBuildOrder";
+import { WarcraftBuildOrderPage } from "./Components/Main/Warcraft/WarcraftBuildOrder";
 import { QueryClient } from "react-query";
 import { AppRoutes } from "./Types&Globals/Routes";
-import { StarcraftBuildOrders, StormgateBuildOrders, WarcraftBuildOrders } from "./Components/Main/BuildOrders";
+import { WarcraftBuildOrders } from "./Components/Main/Warcraft/WarcraftBuildOrders";
+import { StarcraftBuildOrders } from "./Components/Main/Starcraft/StarcraftBuildOrders";
+import { StarcraftBuildOrderPage } from "./Components/Main/Starcraft/StarcraftBuildOrder";
+import { StormgateBuildOrders } from "./Components/Main/Stormgate/StormgateBuildOrders";
+import { StormgateBuildOrderPage } from "./Components/Main/Stormgate/StormgateBuildOrder";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -49,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: AppRoutes.StarcraftBuildOrder,
-        element: <div>not implemented</div>,
+        element: <StarcraftBuildOrderPage />,
       },
       {
         path: AppRoutes.StormgateBuildOrders,
@@ -57,9 +61,8 @@ const router = createBrowserRouter([
       },
       {
         path: AppRoutes.StormgateBuildOrder,
-        element: <div>not implemented</div>,
+        element: <StormgateBuildOrderPage />,
       },
-      // { path: "/games", element: <Games /> },
       { path: "*", element: <NotFound /> },
     ],
   },

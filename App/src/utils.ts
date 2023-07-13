@@ -1,8 +1,8 @@
-import { WarcraftBuildOrderSearchFilters } from "./Types&Globals/BuildOrders";
+import { BuildOrderSearchFilters } from "./Types&Globals/BuildOrders";
 
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function createWarcraftBuildOrdersFiltersString(searchFilters: WarcraftBuildOrderSearchFilters, page: number): string {
+export function createBuildOrdersFiltersString(searchFilters: BuildOrderSearchFilters, page: number): string {
   const params = [];
 
   if (searchFilters.title) {

@@ -1,7 +1,6 @@
 ﻿
 using Domain.Factories.Interfaces;
 using Domain.Models;
-using Domain.Models.Interfaces;
 using Domain.Services.Implementations;
 using Domain.Services.Interfaces;
 
@@ -22,5 +21,10 @@ public class BuildOrdersServiceFactory
     public IBuildOrdersService<StarcraftBuildOrder> CreateStarcraftBuildOrdersService()
     {
         return new StarcraftBuildOrdersService(_repositoryFactory);
+    }
+
+    public IBuildOrdersService<StormgateBuildOrder> CreateStormgateBuildOrdersService()
+    {
+        return new StormgateBuildOrdersService(_repositoryFactory);
     }
 }

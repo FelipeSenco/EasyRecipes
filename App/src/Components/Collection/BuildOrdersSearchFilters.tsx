@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { WarcraftBuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
+import { BuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
 import { useDebounce } from "../../CustomHooks/useDebouncer";
 
 type BuildOrdersSearchFiltersProps = {
   gameFactions: { [key: number]: string };
   gameModes: { [key: number]: string };
-  searchFilters: WarcraftBuildOrderSearchFilters;
+  searchFilters: BuildOrderSearchFilters;
   setSearchFilters: React.Dispatch<<T>(prevState: T) => T>;
 };
 

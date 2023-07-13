@@ -30,3 +30,27 @@ public enum StarcraftFactions
     Protoss,  
     ALL
 }
+
+public enum StarcraftGameModes
+{
+    ONEvONE,
+    TWOvTWO,
+    THREEvTHREE,
+    FOURvFOUR,
+    FFA,
+    COOP
+}
+
+public enum StormgateFactions
+{
+    HUMAN_RESISTANCE,
+    INFERNAL_HOST,
+    ALL
+}
+
+public enum StormgateGameModes
+{
+    ONEvONE,
+    THREEvTHREE,
+    COOP
+}
