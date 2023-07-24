@@ -1,6 +1,4 @@
 export type ApplicationUser = {
+  id: string;
   userName: string;
-  email: string;
-  dateOfBirth: Date;
-  password: string;
 };

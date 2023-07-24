@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GameSelection from "./Collection/GameSelection";
 import AppContext from "../Contexts/AppContext";
 import { useBackgroundColor } from "../CustomHooks/useBackgroundColor";
+import { useLoginUserMutation, useUserQuery } from "../Api/Queries/UserQueries";
 
 interface HeaderProps {
   onRegisterClick: () => void;
@@ -12,6 +13,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
   const { selectedGame } = useContext(AppContext);
   const backgroundColor = useBackgroundColor();
+  const { mutate: login } = useLoginUserMutation();
+  const { data: user } = useUserQuery();
+  console.log(user);
 
   return (
     <header style={{ backgroundColor: backgroundColor }} className="shadow-md" data-testid="header">
@@ -23,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
           <Link to={`/${selectedGame}`} className="text-gray-300 hover:text-white" data-testid="home-link"></Link>
         </div>
         <div className="flex gap-3">
-          <button onClick={onLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded" data-testid="login-button">
+          <button onClick={() => login()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded" data-testid="login-button">
             Login
           </button>
           <button

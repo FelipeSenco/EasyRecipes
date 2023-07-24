@@ -3,8 +3,10 @@ using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
-{
-    public class UsersController : Controller
+{ 
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
 

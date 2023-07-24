@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { UserApi } from "../Api/UserApi";
 import { ApplicationUser } from "../Types&Globals/User";
 import RegisterModal from "../Components/Modals/UserRegisterModal";
@@ -9,6 +9,7 @@ interface UserContextType {
   registerModalOpen: boolean;
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   createUser: (user: ApplicationUser) => Promise<unknown>;
+  login: () => Promise<ApplicationUser>;
 }
 
 const UserContext = createContext<UserContextType>({
@@ -17,6 +18,7 @@ const UserContext = createContext<UserContextType>({
   registerModalOpen: false,
   setRegisterModalOpen: () => {},
   createUser: () => Promise.resolve(),
+  login: () => Promise.resolve({} as ApplicationUser),
 });
 
 interface UserProviderProps {
@@ -33,6 +35,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, api }) => 
     return res;
   };
 
+  const login = async () => {
+    const res = await api.login();
+    return res;
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -41,6 +48,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, api }) => 
         registerModalOpen,
         setRegisterModalOpen,
         createUser,
+        login,
       }}
     >
       {children}

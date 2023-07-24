@@ -5,4 +5,5 @@ export const queryKeys = {
   starcraftBuildOrders: "starcraft-build-orders",
   stormgateBuildOrder: "stormgate-build-order",
   stormgateBuildOrders: "stormgate-build-orders",
+  userLogin: "user-login",
 };
