@@ -1,6 +1,10 @@
 
 
 using Domain.Factories.Interfaces;
+using Domain.Repositories.Implementations;
+using Domain.Repositories.Interfaces;
+using Domain.Services.Implementations;
+using Domain.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,8 @@ builder.Services.AddSwaggerGen();
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddSingleton<IBuildOrdersRepositoryFactory, BuildOrdersRepositoryFactory>();
 builder.Services.AddSingleton<BuildOrdersServiceFactory>();
+builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
