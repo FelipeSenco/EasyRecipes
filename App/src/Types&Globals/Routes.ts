@@ -8,4 +8,5 @@ export const AppRoutes = {
   StormgateBuildOrder: "/stormgate/build-order/:id",
   StormgateBuildOrders: "/stormgate",
   BuildOrders: "/build-orders",
+  UserProfile: "/user-profile",
 };

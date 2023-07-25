@@ -18,6 +18,7 @@ import { StarcraftBuildOrders } from "./Components/Main/Starcraft/StarcraftBuild
 import { StarcraftBuildOrderPage } from "./Components/Main/Starcraft/StarcraftBuildOrder";
 import { StormgateBuildOrders } from "./Components/Main/Stormgate/StormgateBuildOrders";
 import { StormgateBuildOrderPage } from "./Components/Main/Stormgate/StormgateBuildOrder";
+import UserProfile from "./Components/Main/User/UserProfile";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: AppRoutes.StormgateBuildOrder,
         element: <StormgateBuildOrderPage />,
+      },
+      {
+        path: AppRoutes.UserProfile,
+        element: <UserProfile />,
       },
       { path: "*", element: <NotFound /> },
     ],

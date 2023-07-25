@@ -22,5 +22,11 @@ namespace Api.Controllers
             var response = await _usersService.GetUserById(mockLoginId);
             return Ok(response);
         }
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {            
+            return Ok("logged out");
+        }
     }
 }

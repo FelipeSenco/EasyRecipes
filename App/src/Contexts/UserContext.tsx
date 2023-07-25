@@ -10,6 +10,7 @@ interface UserContextType {
   setRegisterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   createUser: (user: ApplicationUser) => Promise<unknown>;
   login: () => Promise<ApplicationUser>;
+  logout: () => Promise<null>;
 }
 
 const UserContext = createContext<UserContextType>({
@@ -19,6 +20,7 @@ const UserContext = createContext<UserContextType>({
   setRegisterModalOpen: () => {},
   createUser: () => Promise.resolve(),
   login: () => Promise.resolve({} as ApplicationUser),
+  logout: () => Promise.resolve(null),
 });
 
 interface UserProviderProps {
@@ -40,6 +42,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, api }) => 
     return res;
   };
 
+  const logout = async () => {
+    const res = await api.logout();
+    return res;
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -49,6 +56,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, api }) => 
         setRegisterModalOpen,
         createUser,
         login,
+        logout,
       }}
     >
       {children}

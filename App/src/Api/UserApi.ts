@@ -10,12 +10,18 @@ export class UserApi {
     this.endpoints = {
       createUser: this.apiUrl + "/api/users/createUser",
       login: this.apiUrl + "/users/login",
+      logout: this.apiUrl + "/users/logout",
     };
   }
 
   async login(): Promise<ApplicationUser> {
     const response = await axios.get(this.endpoints.login);
     return response.data;
+  }
+
+  async logout(): Promise<null> {
+    const response = await axios.get(this.endpoints.logout);
+    return null;
   }
 
   async createUser(user: ApplicationUser, mockBoolean = true): Promise<boolean> {

@@ -4,14 +4,14 @@ import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import UserContext from "../Contexts/UserContext";
-import background from "../assets/humanbackground.png";
 import AppContext from "../Contexts/AppContext";
-import { Games } from "../Types&Globals/enums";
+import { useLoginUserMutation } from "../Api/Queries/UserQueries";
 
 const App: FC = () => {
   const { setRegisterModalOpen } = useContext(UserContext);
   const { updateSelectedGame } = useContext(AppContext);
   const location = useLocation();
+  const { mutate: login } = useLoginUserMutation();
 
   useEffect(() => {
     updateSelectedGame(location.pathname);
@@ -21,14 +21,10 @@ const App: FC = () => {
     setRegisterModalOpen(true);
   };
 
-  const onLoginClick = () => {
-    null;
-  };
-
   return (
     <div className="flex flex-col h-screen w-screen" data-testid="app-container">
       <div className="w-auto" data-testid="header-container">
-        <Header onRegisterClick={onRegisterClick} onLoginClick={onLoginClick} />
+        <Header onRegisterClick={onRegisterClick} onLoginClick={login} />
       </div>
 
       <div className="flex flex-col h-full overflow-y-auto" data-testid="main-container">
