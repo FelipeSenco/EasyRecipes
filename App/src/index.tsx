@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/create",
+        path: AppRoutes.Create,
         element: <h1>Create</h1>,
       },
       { path: AppRoutes.About, element: <About /> },

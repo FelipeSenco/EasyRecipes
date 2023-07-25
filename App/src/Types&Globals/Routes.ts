@@ -9,4 +9,5 @@ export const AppRoutes = {
   StormgateBuildOrders: "/stormgate",
   BuildOrders: "/build-orders",
   UserProfile: "/user-profile",
+  Create: "/create",
 };

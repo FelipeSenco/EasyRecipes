@@ -1,7 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import UserContext from "../../Contexts/UserContext";
-import { ApplicationUser } from "../../Types&Globals/User";
 import { emailRegex } from "../../utils";
 import { CountryDropdown } from "react-country-region-selector";
 import { useCreateUserQuery } from "../../Api/Queries/UserQueries";
@@ -41,7 +40,7 @@ const RegisterModal: FC = () => {
   }, [userName, password, confirmPassword, email, dateOfBirth, firstName, lastName, country]);
 
   const handleRegister = async () => {
-    const userData: ApplicationUser = {
+    const userData: any = {
       userName,
       password,
       email,

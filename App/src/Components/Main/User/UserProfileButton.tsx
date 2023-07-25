@@ -24,16 +24,16 @@ const UserProfileButton: React.FC = () => {
   useClickOutside(dropdownRef, () => dropdownRef?.current && setIsOpen(false));
   return (
     <div ref={dropdownRef} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded relative">
-      <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+      <button onClick={() => setIsOpen(!isOpen)} className="text-white" data-testid="user-profile-button">
         {user?.userName}
       </button>
 
       {isOpen && (
         <ul className="absolute top-full mt-1 bg-white text-black p-2 rounded shadow">
-          <li className="py-1 px-2 hover:bg-blue-200 cursor-pointer" onClick={onProfileClick}>
+          <li className="py-1 px-2 hover:bg-blue-200 cursor-pointer" onClick={onProfileClick} data-testid="user-profile-dropdown-button">
             Profile
           </li>
-          <li className="py-1 px-2 hover:bg-blue-200 cursor-pointer" onClick={onLogoutClick}>
+          <li className="py-1 px-2 hover:bg-blue-200 cursor-pointer" onClick={onLogoutClick} data-testid="user-profile-logout-button">
             Logout
           </li>
         </ul>

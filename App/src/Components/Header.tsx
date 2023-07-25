@@ -5,6 +5,7 @@ import AppContext from "../Contexts/AppContext";
 import { useBackgroundColor } from "../CustomHooks/useBackgroundColor";
 import { useLoginUserMutation, useLogoutUserMutation, useUserQuery } from "../Api/Queries/UserQueries";
 import UserProfileButton from "./Main/User/UserProfileButton";
+import { AppRoutes } from "../Types&Globals/Routes";
 
 interface HeaderProps {
   onRegisterClick: () => void;
@@ -16,6 +17,8 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
   const backgroundColor = useBackgroundColor();
   const { data: user } = useUserQuery();
 
+  console.log(user);
+
   return (
     <header style={{ backgroundColor: backgroundColor }} className="shadow-md" data-testid="header">
       <nav className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
@@ -26,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ onRegisterClick, onLoginClick }) => {
           <Link to={`/${selectedGame}`} className="text-gray-300 hover:text-white" data-testid="home-link">
             Build Orders
           </Link>
-          <Link to={`/create`} className="text-gray-300 hover:text-white" data-testid="home-link">
+          <Link to={AppRoutes.Create} className="text-gray-300 hover:text-white" data-testid="create-link">
             Create
           </Link>
         </div>
