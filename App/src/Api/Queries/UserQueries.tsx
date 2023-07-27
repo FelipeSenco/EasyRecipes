@@ -19,7 +19,7 @@ export const useCreateUserQuery = () => {
 export const useUserQuery = (): UseQueryResult<ApplicationUser, unknown> => {
   return useQuery([queryKeys.userLogin], {
     enabled: false,
-    initialData: null,
+    initialData: { id: "4395085b-8dd3-42c7-b1a4-2e9a3b0a95f3", userName: "Mystic Oracle" },
   });
 };
 
