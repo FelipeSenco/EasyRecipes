@@ -21,7 +21,7 @@ const renderHeader = () => {
         <Routes>
           <Route path="/mock-route" element={<Header onRegisterClick={onRegisterMock} onLoginClick={onLoginMock} />} />
           <Route path="/" element={<div>Test Route</div>} />
-          <Route path={AppRoutes.Create} element={<div>Test Create Route</div>} />
+          <Route path={AppRoutes.WarcraftCreate} element={<div>Test Create Route</div>} />
           <Route path={AppRoutes.WarcraftBuildOrders} element={<div>Selected Game Route</div>} />
           <Route path={AppRoutes.UserProfile} element={<div>Test User Route</div>} />
         </Routes>

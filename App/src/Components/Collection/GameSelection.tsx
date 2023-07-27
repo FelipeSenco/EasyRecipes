@@ -1,14 +1,15 @@
 import React, { FC, useContext } from "react";
 import { Games } from "../../Types&Globals/enums";
 import AppContext from "../../Contexts/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const GameSelection: FC = () => {
-  const { selectedGame, setSelectedGame } = useContext(AppContext);
+  const { selectedGame } = useContext(AppContext);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const onClick = (e: any) => {
-    navigate("/" + e.target.value);
+    location.pathname.includes("create") ? navigate("/" + e.target.value + "/create") : navigate("/" + e.target.value);
   };
 
   return (

@@ -3,18 +3,17 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "../Components/App";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import Providers from "../Contexts/Providers";
-import { UserApi } from "../Api/UserApi";
 import { act } from "react-dom/test-utils";
 import Home from "../Components/Main/Home";
-import { mockBuildOrdersApi } from "../__mocks__/mockApis";
+import { mockBuildOrdersApi, mockUserApi } from "../__mocks__/mockApis";
 import { QueryClient } from "react-query";
 import { WarcraftBuildOrders } from "../Components/Main/Warcraft/WarcraftBuildOrders";
 import { StarcraftBuildOrders } from "../Components/Main/Starcraft/StarcraftBuildOrders";
 import { StormgateBuildOrders } from "../Components/Main/Stormgate/StormgateBuildOrders";
+import Header from "../Components/Header";
+import { queryKeys } from "../Types&Globals/queryKeys";
+import { mockUserOne } from "../__mocks__/userMocks";
 
-jest.mock("../Api/UserApi");
-
-const mockUserApi = new UserApi();
 const queryClient = new QueryClient();
 
 const renderApp = () => {
@@ -40,6 +39,29 @@ const renderApp = () => {
   );
 };
 
+const renderCreate = () => {
+  render(
+    <MemoryRouter initialEntries={["/test/create"]}>
+      <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
+        <Routes>
+          <Route
+            path="/test/create"
+            element={
+              <div>
+                <App />
+                <Home />
+              </div>
+            }
+          />
+          <Route path="/warcraft/create" element={<div>Test warcraft create route</div>} />
+          <Route path="/starcraft/create" element={<div>Test starcraft create route</div>} />
+          <Route path="/stormgate/create" element={<div>Test stormgate create route</div>} />
+        </Routes>
+      </Providers>
+    </MemoryRouter>
+  );
+};
+
 describe("GameSelection", () => {
   test("Renders the game selection", async () => {
     renderApp();
@@ -48,7 +70,7 @@ describe("GameSelection", () => {
     await waitFor(() => expect(gameSelection).not.toBeNull());
   });
 
-  test("Clicking Starcraft change the game selection", async () => {
+  test("Clicking Starcraft triggers stracraft route", async () => {
     renderApp();
 
     const button = screen.getByTestId("starcraft-button");
@@ -62,7 +84,7 @@ describe("GameSelection", () => {
     await waitFor(() => expect(starcraft).not.toBeNull());
   });
 
-  test("Clicking Stormgate change the game selection", async () => {
+  test("Clicking Stormgate  triggers stormgate route", async () => {
     renderApp();
 
     const button = screen.getByTestId("stormgate-button");
@@ -76,7 +98,7 @@ describe("GameSelection", () => {
     await waitFor(() => expect(stormgate).not.toBeNull());
   });
 
-  test("Clicking Warcraft change the game selection", async () => {
+  test("Clicking Warcraft triggers warcraft route", async () => {
     renderApp();
 
     const button = screen.getByTestId("warcraft-button");
@@ -87,5 +109,47 @@ describe("GameSelection", () => {
 
     const warcraft = screen.getByTestId("warcraft-build-orders");
     await waitFor(() => expect(warcraft).not.toBeNull());
+  });
+
+  test("Clicking Warcraft triggers `/warcraft/create` route, if the initial route was `{game}/create`", async () => {
+    queryClient.setQueryData([queryKeys.userLogin], mockUserOne);
+    renderCreate();
+
+    const button = screen.getByTestId("warcraft-button");
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    const warcraft = screen.getByText("Test warcraft create route");
+    await waitFor(() => expect(warcraft).not.toBeNull());
+  });
+
+  test("Clicking Starcraft triggers `/starcraft/create` route, if the initial route was `{game}/create`", async () => {
+    queryClient.setQueryData([queryKeys.userLogin], mockUserOne);
+    renderCreate();
+
+    const button = screen.getByTestId("starcraft-button");
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    const starcraft = screen.getByText("Test starcraft create route");
+    await waitFor(() => expect(starcraft).not.toBeNull());
+  });
+
+  test("Clicking Stormgate triggers `/stormgate/create` route, if the initial route was `{game}/create`", async () => {
+    queryClient.setQueryData([queryKeys.userLogin], mockUserOne);
+    renderCreate();
+
+    const button = screen.getByTestId("stormgate-button");
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    const stormgate = screen.getByText("Test stormgate create route");
+    await waitFor(() => expect(stormgate).not.toBeNull());
   });
 });

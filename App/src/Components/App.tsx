@@ -1,21 +1,27 @@
 import { FC, useContext, useEffect } from "react";
 import React from "react";
 import Header from "./Header";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import UserContext from "../Contexts/UserContext";
+import { useLoginUserMutation, useUserQuery } from "../Api/Queries/UserQueries";
 import AppContext from "../Contexts/AppContext";
-import { useLoginUserMutation } from "../Api/Queries/UserQueries";
+import { AppRoutes } from "../Types&Globals/Routes";
 
 const App: FC = () => {
   const { setRegisterModalOpen } = useContext(UserContext);
-  const { updateSelectedGame } = useContext(AppContext);
-  const location = useLocation();
   const { mutate: login } = useLoginUserMutation();
+  const { data: user } = useUserQuery();
+  const { updateSelectedGame, forbiddenGuestPaths } = useContext(AppContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user && forbiddenGuestPaths.includes(location.pathname)) {
+      navigate(AppRoutes.Home);
+    }
     updateSelectedGame(location.pathname);
-  }, [location]);
+  }, [location, user]);
 
   const onRegisterClick = () => {
     setRegisterModalOpen(true);

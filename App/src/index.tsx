@@ -19,6 +19,9 @@ import { StarcraftBuildOrderPage } from "./Components/Main/Starcraft/StarcraftBu
 import { StormgateBuildOrders } from "./Components/Main/Stormgate/StormgateBuildOrders";
 import { StormgateBuildOrderPage } from "./Components/Main/Stormgate/StormgateBuildOrder";
 import UserProfile from "./Components/Main/User/UserProfile";
+import { CreateWarcraftBuildOrder } from "./Components/Main/Warcraft/CreateWarcraftBuildOrder";
+import { CreateStarcraftBuildOrder } from "./Components/Main/Starcraft/CreateStarcraftBuildOrder";
+import { CreateStormgateBuildOrder } from "./Components/Main/Stormgate/CreateStormgateBuildOrder";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");
@@ -36,8 +39,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: AppRoutes.Create,
-        element: <h1>Create</h1>,
+        path: AppRoutes.WarcraftCreate,
+        element: <CreateWarcraftBuildOrder />,
+      },
+      {
+        path: AppRoutes.StarcraftCreate,
+        element: <CreateStarcraftBuildOrder />,
+      },
+      {
+        path: AppRoutes.StormgateCreate,
+        element: <CreateStormgateBuildOrder />,
       },
       { path: AppRoutes.About, element: <About /> },
       {
