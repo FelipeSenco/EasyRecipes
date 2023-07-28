@@ -19,9 +19,9 @@ import { StarcraftBuildOrderPage } from "./Components/Main/Starcraft/StarcraftBu
 import { StormgateBuildOrders } from "./Components/Main/Stormgate/StormgateBuildOrders";
 import { StormgateBuildOrderPage } from "./Components/Main/Stormgate/StormgateBuildOrder";
 import UserProfile from "./Components/Main/User/UserProfile";
-import { CreateWarcraftBuildOrder } from "./Components/Main/Warcraft/CreateWarcraftBuildOrder";
 import { CreateStarcraftBuildOrder } from "./Components/Main/Starcraft/CreateStarcraftBuildOrder";
 import { CreateStormgateBuildOrder } from "./Components/Main/Stormgate/CreateStormgateBuildOrder";
+import { CreateWarcraftBuildOrder } from "./Components/Main/Warcraft/CreateWarcraftBuildOrder";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("No root element found");

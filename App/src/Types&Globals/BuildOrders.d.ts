@@ -2,7 +2,6 @@ export interface WarcraftBuildOrder {
   id: string;
   name: string;
   description: string;
-  game: number;
   faction: number;
   opponentFaction: number;
   gameMode: number;
@@ -17,7 +16,6 @@ export interface StarcraftBuildOrder {
   id: string;
   name: string;
   description: string;
-  game: number;
   faction: number;
   opponentFaction: number;
   gameMode: number;
@@ -32,7 +30,20 @@ export interface StormgateBuildOrder {
   id: string;
   name: string;
   description: string;
-  game: number;
+  faction: number;
+  opponentFaction: number;
+  gameMode: number;
+  actions: BuildOrderAction[];
+  createdBy: string;
+  patch?: string;
+  videoUrl?: string;
+  considerations?: string;
+}
+
+export interface CreateBuildOrderData {
+  id?: string;
+  name: string;
+  description: string;
   faction: number;
   opponentFaction: number;
   gameMode: number;

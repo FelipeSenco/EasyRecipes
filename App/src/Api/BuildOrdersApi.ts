@@ -16,6 +16,7 @@ export class BuildOrdersApi {
       getStarcraftBuildOrderById: this.apiUrl + "/StarcraftBuildOrders/detail?id={id}",
       getStormgateBuildOrders: this.apiUrl + "/StormgateBuildOrders?",
       getStormgateBuildOrderById: this.apiUrl + "/StormgateBuildOrders/detail?id={id}",
+      createWarcraftBuildOrder: this.apiUrl + "/WarcraftBuildOrders/create",
     };
   }
 
@@ -27,6 +28,11 @@ export class BuildOrdersApi {
 
   async getWarcraftBuildOrderById(id: string): Promise<WarcraftBuildOrder> {
     const response = await axios.get(this.endpoints.getWarcraftBuildOrderById.replace("{id}", id));
+    return response.data;
+  }
+
+  async createWarcraftBuildOrder(buildOrder: WarcraftBuildOrder): Promise<WarcraftBuildOrder> {
+    const response = await axios.post(this.endpoints.createWarcraftBuildOrder, buildOrder);
     return response.data;
   }
 

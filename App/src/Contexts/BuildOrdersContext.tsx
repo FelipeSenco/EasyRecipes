@@ -1,5 +1,11 @@
 import React, { createContext } from "react";
-import { StarcraftBuildOrder, WarcraftBuildOrder, BuildOrderSearchFilters, StormgateBuildOrder } from "../Types&Globals/BuildOrders";
+import {
+  StarcraftBuildOrder,
+  WarcraftBuildOrder,
+  BuildOrderSearchFilters,
+  StormgateBuildOrder,
+  CreateBuildOrderData,
+} from "../Types&Globals/BuildOrders";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
 interface BuildOrdersContextType {
@@ -9,6 +15,7 @@ interface BuildOrdersContextType {
   getStarcraftBuildOrderById: (id: string) => Promise<StarcraftBuildOrder>;
   getStormgateBuildOrders: (searchFilters: BuildOrderSearchFilters, page?: number) => Promise<StormgateBuildOrder[]>;
   getStormgateBuildOrderById: (id: string) => Promise<StormgateBuildOrder>;
+  createWarcraftBuildOrder: (buildOrder: CreateBuildOrderData) => Promise<WarcraftBuildOrder>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
@@ -18,6 +25,7 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
   getStarcraftBuildOrderById: () => Promise.resolve({} as StarcraftBuildOrder),
   getStormgateBuildOrders: () => Promise.resolve([]),
   getStormgateBuildOrderById: () => Promise.resolve({} as StormgateBuildOrder),
+  createWarcraftBuildOrder: () => Promise.resolve({} as WarcraftBuildOrder),
 });
 
 interface BuildOrdersProviderProps {
@@ -33,6 +41,11 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
 
   const getWarcraftBuildOrderById = async (id: string): Promise<WarcraftBuildOrder> => {
     const res = await api.getWarcraftBuildOrderById(id);
+    return res;
+  };
+
+  const createWarcraftBuildOrder = async (buildOrder: WarcraftBuildOrder): Promise<WarcraftBuildOrder> => {
+    const res = await api.createWarcraftBuildOrder(buildOrder);
     return res;
   };
 
@@ -65,6 +78,7 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
         getStarcraftBuildOrderById,
         getStormgateBuildOrders,
         getStormgateBuildOrderById,
+        createWarcraftBuildOrder,
       }}
     >
       {children}

@@ -1,6 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { BuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
 import { useDebounce } from "../../CustomHooks/useDebouncer";
+import { FactionSelection } from "./FactionSelection";
+import { GameModeSelection } from "./GameModeSelection";
 
 type BuildOrdersSearchFiltersProps = {
   gameFactions: { [key: number]: string };
@@ -71,41 +73,25 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
           className="p-2 bg-gray-700 rounded-md w-1/2"
           placeholder="Title"
         />
-        <select
-          data-testid="build-orders-faction-filter"
-          value={searchFilters.faction}
-          onChange={(e) => onChangeFaction(e.target.value)}
-          placeholder="Player Faction"
+        <FactionSelection
+          placeholder="Player faction"
+          onChange={onChangeFaction}
+          gameFactions={gameFactions}
+          selectedValue={searchFilters.faction}
           className="bg-gray-700 p-2 rounded-md w-1/4"
-        >
-          <option key={"a"} value={""}>
-            Any faction
-          </option>
-          {Object.entries(gameFactions)
-            .filter(([key, value]) => value !== "All")
-            .map(([key, value]) => (
-              <option key={key} value={key}>
-                {value}
-              </option>
-            ))}
-        </select>
-        VS
-        <select
-          data-testid="build-orders-opponent-faction-filter"
-          placeholder="Opponent Faction"
-          value={searchFilters.opponentFaction}
-          onChange={(e) => onChangeOpponentaction(e.target.value)}
+          testId="build-orders-faction-filter"
+          includeAll={false}
+        />
+        <span className="font-bold">VS</span>
+        <FactionSelection
+          placeholder="Opponent faction"
+          onChange={onChangeOpponentaction}
+          gameFactions={gameFactions}
+          selectedValue={searchFilters.opponentFaction}
           className="bg-gray-700 p-2 rounded-md w-1/4"
-        >
-          <option key={"a"} value={""}>
-            Any faction
-          </option>
-          {Object.entries(gameFactions).map(([key, value]) => (
-            <option key={key} value={key}>
-              {value}
-            </option>
-          ))}
-        </select>
+          testId="build-orders-opponent-faction-filter"
+          includeAll={true}
+        />
       </div>
       <div className="flex justify-left gap-5">
         <input
@@ -116,21 +102,14 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
           className="bg-gray-700 p-2 rounded-md w-1/3"
           placeholder="Uploaded by"
         />
-        <select
-          data-testid="build-orders-game-mode-filter"
-          value={searchFilters.gameMode}
-          onChange={(e) => onChangeGameMode(e.target.value)}
+        <GameModeSelection
+          placeholder="Game mode"
+          onChange={onChangeGameMode}
+          testId="build-orders-game-mode-filter"
+          selectedValue={searchFilters.gameMode}
           className="bg-gray-700 p-2 rounded-md w-1/4"
-        >
-          <option key={"a"} value={""}>
-            Any mode
-          </option>
-          {Object.entries(gameModes).map(([key, value]) => (
-            <option key={key} value={key}>
-              {value}
-            </option>
-          ))}
-        </select>
+          gameModes={gameModes}
+        />
       </div>
     </div>
   );

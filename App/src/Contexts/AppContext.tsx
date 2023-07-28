@@ -10,6 +10,7 @@ interface AppContextType {
   setSelectedGame: React.Dispatch<React.SetStateAction<Games>>;
   updateSelectedGame: (currentPath: string) => void;
   forbiddenGuestPaths: string[];
+  minBuildOrderActions: number;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -17,6 +18,7 @@ const AppContext = createContext<AppContextType>({
   setSelectedGame: () => {},
   updateSelectedGame: () => {},
   forbiddenGuestPaths: [],
+  minBuildOrderActions: 3,
 });
 
 interface AppProviderProps {
@@ -26,6 +28,7 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [selectedGame, setSelectedGame] = useState<Games>(Games.Warcraft_III);
   const forbiddenGuestPaths = [AppRoutes.WarcraftCreate, AppRoutes.StarcraftCreate, AppRoutes.StormgateCreate, AppRoutes.UserProfile];
+  const minBuildOrderActions = 3;
 
   const updateSelectedGame = (currentPath: string) => {
     if (currentPath.includes("starcraft")) setSelectedGame(Games.Starcraft_II);
@@ -40,6 +43,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setSelectedGame,
         updateSelectedGame,
         forbiddenGuestPaths,
+        minBuildOrderActions,
       }}
     >
       {children}
