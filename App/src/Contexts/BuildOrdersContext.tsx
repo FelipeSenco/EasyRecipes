@@ -44,7 +44,7 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
-  const createWarcraftBuildOrder = async (buildOrder: WarcraftBuildOrder): Promise<WarcraftBuildOrder> => {
+  const createWarcraftBuildOrder = async (buildOrder: CreateBuildOrderData): Promise<WarcraftBuildOrder> => {
     const res = await api.createWarcraftBuildOrder(buildOrder);
     return res;
   };

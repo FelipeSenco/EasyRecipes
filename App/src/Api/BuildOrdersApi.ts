@@ -1,7 +1,12 @@
 import axios from "axios";
-import { WarcraftBuildOrder, BuildOrderSearchFilters, StarcraftBuildOrder, StormgateBuildOrder } from "../Types&Globals/BuildOrders";
+import {
+  WarcraftBuildOrder,
+  BuildOrderSearchFilters,
+  StarcraftBuildOrder,
+  StormgateBuildOrder,
+  CreateBuildOrderData,
+} from "../Types&Globals/BuildOrders";
 import { createBuildOrdersFiltersString } from "../utils";
-import BuildOrdersSearchFilters from "../Components/Collection/BuildOrdersSearchFilters";
 
 export class BuildOrdersApi {
   private apiUrl?: string;
@@ -31,7 +36,7 @@ export class BuildOrdersApi {
     return response.data;
   }
 
-  async createWarcraftBuildOrder(buildOrder: WarcraftBuildOrder): Promise<WarcraftBuildOrder> {
+  async createWarcraftBuildOrder(buildOrder: CreateBuildOrderData): Promise<WarcraftBuildOrder> {
     const response = await axios.post(this.endpoints.createWarcraftBuildOrder, buildOrder);
     return response.data;
   }

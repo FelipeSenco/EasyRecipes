@@ -2,8 +2,9 @@ import React, { FC, useState } from "react";
 import { useUserQuery } from "../../Api/Queries/UserQueries";
 import { BuildOrderAction, CreateBuildOrderData } from "../../Types&Globals/BuildOrders";
 import { FactionSelection } from "../Collection/FactionSelection";
-import { BuildOrderActionsInput } from "../Collection/BuildOrderActionsInput";
+import { BuildOrderActionsInput, clockRegex } from "../Collection/BuildOrderActionsInput";
 import { GameModeSelection } from "../Collection/GameModeSelection";
+import { Games } from "../../Types&Globals/enums";
 
 type CreateBuildOrderProps = {
   onSubmit: (buildOrderData: CreateBuildOrderData) => void;
@@ -23,6 +24,12 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
   const [actions, setActions] = useState<BuildOrderAction[]>([]);
   const [considerations, setConsiderations] = useState("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const maxSupply = gameName === Games.Warcraft_III ? 100 : 200;
+  const anyInvalidAction = actions.some(
+    (action) => !action?.instruction || action?.supply < 0 || action?.supply > maxSupply || (action.clock && !clockRegex.test(action?.clock))
+  );
+  //data is not valid if there is no name, faction, opponentFaction,, or description, or if there are action with invalid data
+  const isValidData = name && faction && !anyInvalidAction && description;
 
   const onChangeFaction = (faction: string) => {
     setFaction(faction);
@@ -38,8 +45,8 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
 
   const onClickSubmit = () => {
     setShowValidationErrors(true);
-    //submit is disabled if there is no name, faction, opponentFaction,, or description, or if there are less than 3 actions with instructions
-    if (name && faction && opponentFaction && actions.filter((a) => a.instruction).length >= 3 && description) {
+
+    if (isValidData) {
       const buildOrderData = {
         name,
         faction: Number(faction),
@@ -121,10 +128,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
           {showValidationErrors && !description && <p className="text-red-400 text-sm italic">Please add a description.</p>}
         </div>
         <div>
-          <BuildOrderActionsInput actions={actions} setActions={setActions} />
-          {actions.filter((a) => a.instruction).length < 3 && showValidationErrors && (
-            <p className="text-red-400 text-sm italic">Please add at least 3 actions with instructions.</p>
-          )}
+          <BuildOrderActionsInput actions={actions} setActions={setActions} maxSupply={maxSupply} showValidationErrors={showValidationErrors} />
         </div>
         <div>
           <label className="text-lg font-semibold text-yellow-200">Considerations: </label>
@@ -140,6 +144,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
       <button
         className="hover:bg-indigo-800 bg-indigo-600 w-1/6 flex items-center self-center justify-center px-2 py-2 text-lg rounded mt-3 cursor-pointer"
         onClick={onClickSubmit}
+        disabled={showValidationErrors && !isValidData}
       >
         Submit
       </button>
