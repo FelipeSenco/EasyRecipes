@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
+import { useEditor, EditorContent, Editor, JSONContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import CharacterCount from "@tiptap/extension-character-count";
@@ -7,12 +7,24 @@ import { FaBold, FaItalic, FaListOl, FaListUl, FaRedo, FaStrikethrough, FaUnderl
 import "./richEditor.css";
 import useClickOutside from "../../../CustomHooks/useClickOutside";
 
-export const useRichEditor = (maxCharacters = 2000): Editor | null => {
+type RichEditorData = {
+  text: string;
+  serializedContent: JSONContent | undefined;
+};
+
+type RichEditorHook = {
+  editor: Editor | null;
+  editorData: RichEditorData;
+};
+
+export const useRichEditor = (maxCharacters = 2000): RichEditorHook => {
   const editor = useEditor({
     extensions: [StarterKit, Underline, CharacterCount.configure({ limit: maxCharacters })],
   });
 
-  return editor;
+  const editorData: RichEditorData = useMemo(() => ({ text: editor?.getText() as string, serializedContent: editor?.getJSON() }), [editor?.state]);
+
+  return { editor, editorData };
 };
 
 type RichEditorProps = {

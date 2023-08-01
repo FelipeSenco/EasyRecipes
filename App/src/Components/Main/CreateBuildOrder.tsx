@@ -25,16 +25,14 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   const descriptionEditor = useRichEditor();
-  const descriptionText = useMemo(() => descriptionEditor?.getText() as string, [descriptionEditor?.state]);
   const conclusionEditor = useRichEditor();
-  const conclusionText = useMemo(() => conclusionEditor?.getText(), [conclusionEditor?.state]);
 
   const maxSupply = gameName === Games.Warcraft_III ? 100 : 200;
   const anyInvalidAction = actions.some(
     (action) => !action?.instruction || action?.supply < 0 || action?.supply > maxSupply || (action.clock && !clockRegex.test(action?.clock))
   );
   //data is not valid if there is no name, faction, opponentFaction,, or description, or if there are action with invalid data
-  const isValidData = name && faction && !anyInvalidAction && descriptionText?.length > 0;
+  const isValidData = name && faction && !anyInvalidAction && descriptionEditor?.editorData?.text.length > 0;
 
   const onChangeFaction = (faction: string) => {
     setFaction(faction);
@@ -57,9 +55,9 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         faction: Number(faction),
         opponentFaction: Number(opponentFaction),
         gameMode: Number(gameMode),
-        description: JSON.stringify(descriptionEditor?.getJSON()),
+        description: JSON.stringify(descriptionEditor?.editorData),
         actions,
-        conclusion: JSON.stringify(conclusionEditor?.getJSON()),
+        conclusion: JSON.stringify(conclusionEditor?.editorData),
         userId: user?.id || "",
         createdBy: user?.userName || "",
       };
@@ -123,15 +121,15 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         </div>
         <div>
           <label className="text-lg font-semibold text-yellow-200">Description: </label>
-          <RichTextEditor editor={descriptionEditor} />
-          {showValidationErrors && descriptionText?.length === 0 && <p className="text-red-400 text-sm italic">Please add a description.</p>}
+          <RichTextEditor editor={descriptionEditor?.editor} />
+          {showValidationErrors && descriptionEditor?.editorData.text.length === 0 && <p className="text-red-400 text-sm italic">Please add a description.</p>}
         </div>
         <div>
           <BuildOrderActionsInput actions={actions} setActions={setActions} maxSupply={maxSupply} showValidationErrors={showValidationErrors} />
         </div>
         <div>
           <label className="text-lg font-semibold text-yellow-200">Conclusion: </label>
-          <RichTextEditor editor={conclusionEditor} />
+          <RichTextEditor editor={conclusionEditor?.editor} />
         </div>
       </div>
 
