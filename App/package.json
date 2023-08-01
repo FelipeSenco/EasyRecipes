@@ -36,6 +36,11 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@tiptap/extension-character-count": "^2.0.4",
+    "@tiptap/extension-underline": "^2.0.4",
+    "@tiptap/pm": "^2.0.4",
+    "@tiptap/react": "^2.0.4",
+    "@tiptap/starter-kit": "^2.0.4",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",

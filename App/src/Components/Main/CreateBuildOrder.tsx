@@ -1,10 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { useUserQuery } from "../../Api/Queries/UserQueries";
 import { BuildOrderAction, CreateBuildOrderData } from "../../Types&Globals/BuildOrders";
 import { FactionSelection } from "../Collection/FactionSelection";
 import { BuildOrderActionsInput, clockRegex } from "../Collection/BuildOrderActionsInput";
 import { GameModeSelection } from "../Collection/GameModeSelection";
 import { Games } from "../../Types&Globals/enums";
+import { RichTextEditor, useRichEditor } from "../Collection/RichEditor/RichEditor";
 
 type CreateBuildOrderProps = {
   onSubmit: (buildOrderData: CreateBuildOrderData) => void;
@@ -20,16 +21,20 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
   const [faction, setFaction] = useState("");
   const [opponentFaction, setOpponentFaction] = useState("");
   const [gameMode, setGameMode] = useState("");
-  const [description, setDescription] = useState("");
   const [actions, setActions] = useState<BuildOrderAction[]>([]);
-  const [considerations, setConsiderations] = useState("");
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+
+  const descriptionEditor = useRichEditor();
+  const descriptionText = useMemo(() => descriptionEditor?.getText() as string, [descriptionEditor?.state]);
+  const conclusionEditor = useRichEditor();
+  const conclusionText = useMemo(() => conclusionEditor?.getText(), [conclusionEditor?.state]);
+
   const maxSupply = gameName === Games.Warcraft_III ? 100 : 200;
   const anyInvalidAction = actions.some(
     (action) => !action?.instruction || action?.supply < 0 || action?.supply > maxSupply || (action.clock && !clockRegex.test(action?.clock))
   );
   //data is not valid if there is no name, faction, opponentFaction,, or description, or if there are action with invalid data
-  const isValidData = name && faction && !anyInvalidAction && description;
+  const isValidData = name && faction && !anyInvalidAction && descriptionText?.length > 0;
 
   const onChangeFaction = (faction: string) => {
     setFaction(faction);
@@ -52,9 +57,9 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         faction: Number(faction),
         opponentFaction: Number(opponentFaction),
         gameMode: Number(gameMode),
-        description,
+        description: JSON.stringify(descriptionEditor?.getJSON()),
         actions,
-        considerations,
+        conclusion: JSON.stringify(conclusionEditor?.getJSON()),
         userId: user?.id || "",
         createdBy: user?.userName || "",
       };
@@ -118,26 +123,15 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         </div>
         <div>
           <label className="text-lg font-semibold text-yellow-200">Description: </label>
-          <textarea
-            maxLength={2000}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="block mt-1 w-full h-36 rounded-md bg-gray-800 text-white pl-1 overflow-auto"
-            placeholder="Describe the build order here..."
-          />
-          {showValidationErrors && !description && <p className="text-red-400 text-sm italic">Please add a description.</p>}
+          <RichTextEditor editor={descriptionEditor} />
+          {showValidationErrors && descriptionText?.length === 0 && <p className="text-red-400 text-sm italic">Please add a description.</p>}
         </div>
         <div>
           <BuildOrderActionsInput actions={actions} setActions={setActions} maxSupply={maxSupply} showValidationErrors={showValidationErrors} />
         </div>
         <div>
-          <label className="text-lg font-semibold text-yellow-200">Considerations: </label>
-          <textarea
-            maxLength={2000}
-            value={considerations}
-            onChange={(e) => setConsiderations(e.target.value)}
-            className="block mt-1 w-full h-36 rounded-md bg-gray-800 text-white pl-1 overflow-auto"
-          />
+          <label className="text-lg font-semibold text-yellow-200">Conclusion: </label>
+          <RichTextEditor editor={conclusionEditor} />
         </div>
       </div>
 

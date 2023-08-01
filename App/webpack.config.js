@@ -45,6 +45,20 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: /\.module\.css$/, // Excluding CSS modules
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+            },
+          },
+          "postcss-loader",
+        ],
+      },
+      {
+        test: /\.module\.css$/, // For CSS modules
         use: [
           "style-loader",
           {

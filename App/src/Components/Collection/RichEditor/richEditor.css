@@ -1,0 +1,14 @@
+.ProseMirror {
+  flex-grow: 1 !important;
+  padding: 0.4rem !important;
+}
+
+.ProseMirror ul {
+  list-style: disc !important;
+  padding-left: 1.2rem !important;
+}
+
+.ProseMirror ol {
+  list-style: decimal !important;
+  padding-left: 1.2rem !important;
+}
