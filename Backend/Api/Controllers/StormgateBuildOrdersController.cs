@@ -30,7 +30,7 @@ public class StormgateBuildOrdersController : ControllerBase
     }
 
     [HttpGet("detail")]
-    public async Task<IActionResult> GetStarcraftBuildOrderById([FromQuery] string id)
+    public async Task<IActionResult> GetStarcraftBuildOrderById([FromQuery] Guid id)
     {
         var response = await _buildOrdersService.GetBuildOrderById(id);
         return Ok(response);

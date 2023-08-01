@@ -31,12 +31,18 @@ namespace Domain.Repositories.Implementations
             }
             return buildOrders;
         }
-        public async Task<T> GetBuildOrderById(string id)
+        public async Task<T> GetBuildOrderById(Guid id)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Eq("_id", id);
             T buildOrder = await _collection.Find(filter).FirstOrDefaultAsync();
             return buildOrder;
         }
-      
+
+        public async Task<Guid> CreateBuildOrder(T buildOrder)
+        {
+            await _collection.InsertOneAsync(buildOrder); 
+            return buildOrder.Id;
+        }
+
     }
 }

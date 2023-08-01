@@ -22,12 +22,15 @@ namespace Domain.Services.Implementations
             List<StarcraftBuildOrder> response = await _buildOrdersRepository.GetBuildOrders(page, filter);
             return response;
         }
-        public async Task<StarcraftBuildOrder> GetBuildOrderById(string id)
+        public async Task<StarcraftBuildOrder> GetBuildOrderById(Guid id)
         {
             StarcraftBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
             return response;
         }
 
-     
+        public Task<Guid> CreateBuildOrder(CreateBuildOrderData buildOrder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

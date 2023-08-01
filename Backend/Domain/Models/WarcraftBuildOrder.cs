@@ -15,9 +15,6 @@ namespace Domain.Models
         [BsonElement("description")]
         public string Description { get; set; }
 
-        [BsonElement("game")]
-        public Games Game { get; set; }
-
         [BsonElement("faction")]
         public int Faction { get; set; }
 
@@ -28,19 +25,15 @@ namespace Domain.Models
         public int GameMode { get; set; }
 
         [BsonElement("actions")]
-        public List<BuildOrderAction> Actions { get; set; } = new();
+        public List<BuildOrderAction> Actions { get; set; } 
 
         [BsonElement("createdBy")]
         public string CreatedBy { get; set; }
 
-        // Optional properties
-        [BsonElement("patch")]
-        public string Patch { get; set; }
-
-        [BsonElement("videoUrl")]
-        public string VideoUrl { get; set; }
+        [BsonElement("userId")]
+        public Guid UserId { get; set; }
 
         [BsonElement("considerations")]
-        public string Considerations { get; set; }
+        public string? Conclusion { get; set; }
     }
 }

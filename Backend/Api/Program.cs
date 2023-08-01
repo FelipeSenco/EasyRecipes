@@ -5,6 +5,9 @@ using Domain.Repositories.Implementations;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Implementations;
 using Domain.Services.Interfaces;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,8 @@ IConfiguration configuration = builder.Configuration;
 builder.Services.AddSingleton<IBuildOrdersRepositoryFactory, BuildOrdersRepositoryFactory>();
 builder.Services.AddSingleton<BuildOrdersServiceFactory>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
-builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddTransient<IUsersService, UsersService>(); 
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",

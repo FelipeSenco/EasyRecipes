@@ -7,8 +7,7 @@ import { CreateBuildOrderData } from "../../../Types&Globals/BuildOrders";
 export const CreateWarcraftBuildOrder: React.FC = () => {
   const { createWarcraftBuildOrder } = useContext(BuildOrdersContext);
   const onSubmit = async (buildOrderData: CreateBuildOrderData) => {
-    // await createWarcraftBuildOrder(buildOrderData);
-    console.log(buildOrderData);
+    return await createWarcraftBuildOrder(buildOrderData);
   };
   return (
     <CreateBuildOrder gameName={Games.Warcraft_III} gameFactions={warcraftFactionsDisplay} gameModes={warcraftGameModesDisplay} onSubmit={onSubmit} />

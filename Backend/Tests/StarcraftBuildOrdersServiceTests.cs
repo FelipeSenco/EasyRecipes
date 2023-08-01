@@ -19,7 +19,7 @@ namespace Tests
             _mockRepository = new Mock<IBuildOrdersRepository<StarcraftBuildOrder>>();
             var filters = Utility.GenerateFiltersForBuildOrders<StarcraftBuildOrder>(null, null, null, null, null);
             _mockRepository.Setup(repo => repo.GetBuildOrders(1, filters)).ReturnsAsync(StarcraftBuildOrdersMock.StarcraftOrdersMock);
-            _mockRepository.Setup(repo => repo.GetBuildOrderById("111")).ReturnsAsync(StarcraftBuildOrdersMock.StarcraftOrdersMock.First());
+            _mockRepository.Setup(repo => repo.GetBuildOrderById(Guid.Empty)).ReturnsAsync(StarcraftBuildOrdersMock.StarcraftOrdersMock.First());
             _mockFactory = new Mock<IBuildOrdersRepositoryFactory>();
             _mockFactory.Setup(factory => factory.Create<StarcraftBuildOrder>(It.IsAny<string>()))
                    .Returns(_mockRepository.Object);
@@ -38,7 +38,7 @@ namespace Tests
         public async void GetBuildOrderById_InvokeRepo()
         {
             var service = new StarcraftBuildOrdersService(_mockFactory.Object);
-            var result = await service.GetBuildOrderById("111");
+            var result = await service.GetBuildOrderById(Guid.Empty);
 
             Assert.Equal("Build Order 1", result.Name);
         }

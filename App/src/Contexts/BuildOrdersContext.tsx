@@ -15,7 +15,7 @@ interface BuildOrdersContextType {
   getStarcraftBuildOrderById: (id: string) => Promise<StarcraftBuildOrder>;
   getStormgateBuildOrders: (searchFilters: BuildOrderSearchFilters, page?: number) => Promise<StormgateBuildOrder[]>;
   getStormgateBuildOrderById: (id: string) => Promise<StormgateBuildOrder>;
-  createWarcraftBuildOrder: (buildOrder: CreateBuildOrderData) => Promise<WarcraftBuildOrder>;
+  createWarcraftBuildOrder: (buildOrder: CreateBuildOrderData) => Promise<string>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
@@ -25,7 +25,7 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
   getStarcraftBuildOrderById: () => Promise.resolve({} as StarcraftBuildOrder),
   getStormgateBuildOrders: () => Promise.resolve([]),
   getStormgateBuildOrderById: () => Promise.resolve({} as StormgateBuildOrder),
-  createWarcraftBuildOrder: () => Promise.resolve({} as WarcraftBuildOrder),
+  createWarcraftBuildOrder: () => Promise.resolve(""),
 });
 
 interface BuildOrdersProviderProps {
@@ -44,7 +44,7 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
-  const createWarcraftBuildOrder = async (buildOrder: CreateBuildOrderData): Promise<WarcraftBuildOrder> => {
+  const createWarcraftBuildOrder = async (buildOrder: CreateBuildOrderData): Promise<string> => {
     const res = await api.createWarcraftBuildOrder(buildOrder);
     return res;
   };

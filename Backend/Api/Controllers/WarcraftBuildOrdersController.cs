@@ -31,9 +31,31 @@ public class WarcraftBuildOrdersController : ControllerBase
     }
 
     [HttpGet("detail")]
-    public async Task<IActionResult> GetWarcraftBuildOrderById([FromQuery] string id)
-    {
+    public async Task<IActionResult> GetWarcraftBuildOrderById([FromQuery] Guid id)
+    {     
         var response = await _buildOrdersService.GetBuildOrderById(id);
+        if (response == null)
+        {
+            return BadRequest("No build order found");
+        }
         return Ok(response);
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateWarcraftBuildOrder([FromBody] CreateBuildOrderData buildOrder)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        try
+        {
+            Guid response = await _buildOrdersService.CreateBuildOrder(buildOrder);
+            return Ok(response);
+        }  
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

@@ -1,23 +1,33 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Api.Filters;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Models.Interfaces
+namespace Domain.Models
 {
-    public interface IBuildOrder
+    public class CreateBuildOrderData 
     {
-        public Guid Id { get; set; }
+        public Guid? _id { get; set; }
+
+        [MaxLength(100)]
         public string Name { get; set; }
+
+        [EditorContentTextLengthAttribute(2000)]
         public string Description { get; set; }
+  
         public int Faction { get; set; }
+ 
         public int OpponentFaction { get; set; }
+  
+        public int GameMode { get; set; }
+
         public List<BuildOrderAction> Actions { get; set; }
+
+        [MaxLength(50)]
         public string CreatedBy { get; set; }
+
         public Guid UserId { get; set; }
-        public int GameMode { get; set; }       
+
+        [EditorContentTextLengthAttribute(2000)]
         public string? Conclusion { get; set; }
     }
 }

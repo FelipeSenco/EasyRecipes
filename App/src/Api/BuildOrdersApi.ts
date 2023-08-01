@@ -36,7 +36,7 @@ export class BuildOrdersApi {
     return response.data;
   }
 
-  async createWarcraftBuildOrder(buildOrder: CreateBuildOrderData): Promise<WarcraftBuildOrder> {
+  async createWarcraftBuildOrder(buildOrder: CreateBuildOrderData): Promise<string> {
     const response = await axios.post(this.endpoints.createWarcraftBuildOrder, buildOrder);
     return response.data;
   }

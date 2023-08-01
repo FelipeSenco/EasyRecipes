@@ -7,7 +7,7 @@ namespace Domain.Models
     public class BuildOrderAction
     {      
         [BsonElement("clock")]
-        public string Clock { get; set; }
+        public string? Clock { get; set; }
 
         [BsonElement("supply")]
         public int Supply { get; set; }

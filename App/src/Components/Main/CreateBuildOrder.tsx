@@ -6,9 +6,10 @@ import { BuildOrderActionsInput, clockRegex } from "../Collection/BuildOrderActi
 import { GameModeSelection } from "../Collection/GameModeSelection";
 import { Games } from "../../Types&Globals/enums";
 import { RichTextEditor, useRichEditor } from "../Collection/RichEditor/RichEditor";
+import { useNavigate } from "react-router-dom";
 
 type CreateBuildOrderProps = {
-  onSubmit: (buildOrderData: CreateBuildOrderData) => void;
+  onSubmit: (buildOrderData: CreateBuildOrderData) => Promise<string>;
   gameFactions: { [key: number]: string };
   gameModes: { [key: number]: string };
   gameName: string;
@@ -16,6 +17,7 @@ type CreateBuildOrderProps = {
 
 export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName, gameFactions, gameModes }) => {
   const { data: user } = useUserQuery();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [faction, setFaction] = useState("");
@@ -23,6 +25,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
   const [gameMode, setGameMode] = useState("");
   const [actions, setActions] = useState<BuildOrderAction[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
   const descriptionEditor = useRichEditor();
   const conclusionEditor = useRichEditor();
@@ -46,22 +49,27 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
     setGameMode(faction);
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = async () => {
     setShowValidationErrors(true);
 
     if (isValidData) {
-      const buildOrderData = {
+      const buildOrderData: CreateBuildOrderData = {
         name,
         faction: Number(faction),
         opponentFaction: Number(opponentFaction),
         gameMode: Number(gameMode),
         description: JSON.stringify(descriptionEditor?.editorData),
         actions,
-        conclusion: JSON.stringify(conclusionEditor?.editorData),
+        conclusion: conclusionEditor?.editorData.text ? JSON.stringify(conclusionEditor?.editorData) : "",
         userId: user?.id || "",
         createdBy: user?.userName || "",
       };
-      onSubmit(buildOrderData);
+      try {
+        const responseId = await onSubmit(buildOrderData);
+        navigate(`/${gameName}/build-order/${responseId}`);
+      } catch (error) {
+        setApiError(true);
+      }
     }
   };
 
@@ -122,7 +130,9 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         <div>
           <label className="text-lg font-semibold text-yellow-200">Description: </label>
           <RichTextEditor editor={descriptionEditor?.editor} />
-          {showValidationErrors && descriptionEditor?.editorData.text.length === 0 && <p className="text-red-400 text-sm italic">Please add a description.</p>}
+          {showValidationErrors && descriptionEditor?.editorData.text.length === 0 && (
+            <p className="text-red-400 text-sm italic">Please add a description.</p>
+          )}
         </div>
         <div>
           <BuildOrderActionsInput actions={actions} setActions={setActions} maxSupply={maxSupply} showValidationErrors={showValidationErrors} />
@@ -140,6 +150,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
       >
         Submit
       </button>
+      {apiError && <p className="text-red-400 text-sm italic">There was an error submitting the build order. Please try again later.</p>}
     </div>
   );
 };

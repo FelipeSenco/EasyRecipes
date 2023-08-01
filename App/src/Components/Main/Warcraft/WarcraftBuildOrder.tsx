@@ -7,13 +7,12 @@ import { warcraftFactionsDisplay } from "../../../Types&Globals/enums";
 import background from "../../../assets/warcraftbackground.png";
 import { BuildOrderDetailSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import { WarcraftVersusDisplay } from "../../Collection/VersusDisplays";
+import { AppRoutes } from "../../../Types&Globals/Routes";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
 
-  const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id as string, false);
-
-  if (!buildOrder?.id && !isFetching && !isError) refetch();
+  const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id as string, true);
 
   if (isError && !isFetching) return <NotFound />;
 
@@ -78,7 +77,7 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
           </div>
         </div>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(AppRoutes.WarcraftBuildOrders)}
           data-testid="go-back-button"
           className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-900 md:py-4 md:text-lg md:px-10"
         >

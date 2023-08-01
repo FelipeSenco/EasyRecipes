@@ -49,9 +49,10 @@ export interface CreateBuildOrderData {
   gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
+  userId: string;
   patch?: string;
   videoUrl?: string;
-  considerations?: string;
+  conclusion?: string;
 }
 
 export interface BuildOrderAction {

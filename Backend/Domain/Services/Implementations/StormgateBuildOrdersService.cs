@@ -20,10 +20,15 @@ namespace Domain.Services.Implementations
             List<StormgateBuildOrder> response = await _buildOrdersRepository.GetBuildOrders(page, filter);
             return response;
         }
-        public async Task<StormgateBuildOrder> GetBuildOrderById(string id)
+        public async Task<StormgateBuildOrder> GetBuildOrderById(Guid id)
         {
             StormgateBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
             return response;
+        }
+
+        public Task<Guid> CreateBuildOrder(CreateBuildOrderData buildOrder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
