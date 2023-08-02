@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{ECE500C0-2AD5-4757-A36D-42044D6AE509}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{6E9B25BD-5F3C-42F1-8F60-624E8EEA87C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{6E9B25BD-5F3C-42F1-8F60-624E8EEA87C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConsole", "DatabaseConsole\DatabaseConsole.csproj", "{88813491-4BAC-488E-BEE6-C450AA596A43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,12 +29,16 @@ Global
 		{6E9B25BD-5F3C-42F1-8F60-624E8EEA87C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E9B25BD-5F3C-42F1-8F60-624E8EEA87C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E9B25BD-5F3C-42F1-8F60-624E8EEA87C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88813491-4BAC-488E-BEE6-C450AA596A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88813491-4BAC-488E-BEE6-C450AA596A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88813491-4BAC-488E-BEE6-C450AA596A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88813491-4BAC-488E-BEE6-C450AA596A43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3961F586-35A5-4A3E-89CA-AA78A7290A62}
 		        SolutionGuid = {30EF157F-6D12-4F0B-B77A-AACABEBC52B9}
+		SolutionGuid = {3961F586-35A5-4A3E-89CA-AA78A7290A62}
 	EndGlobalSection
 EndGlobal

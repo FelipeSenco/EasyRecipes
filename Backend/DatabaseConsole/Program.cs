@@ -7,9 +7,6 @@ public class Program
     {
         var client = new MongoClient("mongodb://localhost:27017");
         var database = client.GetDatabase("xxx");
-        var collection = database.GetCollection<BsonDocument>("xxx");
-   
-
-       
+        var collection = database.GetCollection<BsonDocument>("xxx");          
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using Domain.Models;
+﻿using Domain.Models.BuildOrderModels;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

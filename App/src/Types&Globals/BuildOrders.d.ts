@@ -9,7 +9,7 @@ export interface WarcraftBuildOrder {
   createdBy: string;
   patch?: string;
   videoUrl?: string;
-  considerations?: string;
+  conclusion?: string;
 }
 
 export interface StarcraftBuildOrder {
@@ -23,7 +23,7 @@ export interface StarcraftBuildOrder {
   createdBy: string;
   patch?: string;
   videoUrl?: string;
-  considerations?: string;
+  conclusion?: string;
 }
 
 export interface StormgateBuildOrder {
@@ -37,7 +37,7 @@ export interface StormgateBuildOrder {
   createdBy: string;
   patch?: string;
   videoUrl?: string;
-  considerations?: string;
+  conclusion?: string;
 }
 
 export interface CreateBuildOrderData {

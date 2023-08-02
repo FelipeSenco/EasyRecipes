@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
-import { useEditor, EditorContent, Editor, JSONContent } from "@tiptap/react";
+import { useEditor, EditorContent, Editor, JSONContent, Content } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import CharacterCount from "@tiptap/extension-character-count";
@@ -17,36 +17,45 @@ type RichEditorHook = {
   editorData: RichEditorData;
 };
 
-export const useRichEditor = (maxCharacters = 2000): RichEditorHook => {
+export const useRichEditor = (maxCharacters = 2000, initialContent = ""): RichEditorHook => {
   const editor = useEditor({
     extensions: [StarterKit, Underline, CharacterCount.configure({ limit: maxCharacters })],
   });
 
   const editorData: RichEditorData = useMemo(() => ({ text: editor?.getText() as string, serializedContent: editor?.getJSON() }), [editor?.state]);
 
+  if (initialContent) {
+    try {
+      const content = JSON.parse(initialContent) as RichEditorData;
+      editor?.commands.setContent(content.serializedContent as JSONContent);
+    } catch (e) {
+      editor?.commands.setContent(initialContent);
+    }
+  }
   return { editor, editorData };
 };
 
 type RichEditorProps = {
   editor: Editor | null;
-  editorStyles?: React.CSSProperties;
+  editorContentClassName?: string;
   maxCharacters?: number;
+  editable?: boolean;
 };
 
-export const RichTextEditor: React.FC<RichEditorProps> = ({ editor, editorStyles, maxCharacters = 2000 }) => {
+export const RichTextEditor: React.FC<RichEditorProps> = ({ editor, editorContentClassName, maxCharacters = 2000, editable = true }) => {
   const [focused, setFocused] = useState(false);
   const ref = useRef(null);
   useClickOutside(ref, () => setFocused(false), "mousedown");
   const text = useMemo(() => editor?.getText() as string, [editor?.state]);
+  editor?.setEditable(editable);
   return (
     <div className="flex flex-col gap-1 mt-1 test" ref={ref}>
       <EditorContent
         onFocus={() => setFocused(true)}
         editor={editor}
-        style={editorStyles}
-        className="flex flex-col w-full h-36 rounded-md bg-gray-800 text-white overflow-auto"
+        className={editorContentClassName || "flex flex-col w-full h-36 rounded-md bg-gray-800 text-white overflow-auto"}
       />
-      {focused && (
+      {focused && editable && (
         <div className="flex justify-between">
           <EditorButtons editor={editor} />{" "}
           <p className={`text-sm italic self-end ${text?.length >= maxCharacters ? "text-yellow-400" : "text-teal-500"}`}>

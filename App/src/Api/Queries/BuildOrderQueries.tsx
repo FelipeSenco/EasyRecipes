@@ -1,9 +1,11 @@
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
 import { emptyStarcraftBuildOrder, emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 import { queryKeys } from "../../Types&Globals/queryKeys";
 import { BuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
+import { AppRoutes } from "../../Types&Globals/Routes";
+import { useNavigate } from "react-router-dom";
 
 export const useWarcraftBuildOrdersQuery = (enabled = false, searchFilters: BuildOrderSearchFilters) => {
   const { getWarcraftBuildOrders } = useContext(BuildOrdersContext);
@@ -32,6 +34,20 @@ export const useWarcraftBuildOrderByIdQuery = (id: string, enabled: boolean) => 
     enabled,
     initialData: emptyWarcrafBuildOrder,
     onError: (error: Error) => console.log(error),
+  });
+};
+
+export const useCreateWarcraftBuildOrderMutation = () => {
+  const { createWarcraftBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+
+  return useMutation(createWarcraftBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      navigate(AppRoutes.WarcraftBuildOrder.replace(":id", data));
+    },
   });
 };
 

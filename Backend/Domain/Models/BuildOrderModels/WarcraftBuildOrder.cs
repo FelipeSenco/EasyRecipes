@@ -1,16 +1,18 @@
-﻿using Domain.Models.Interfaces;
-using MongoDB.Bson.Serialization.Attributes; 
+﻿using Api.Filters;
+using Domain.Models.Interfaces;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace Domain.Models
+namespace Domain.Models.BuildOrderModels
 {
-    public class StormgateBuildOrder : IBuildOrder
+    public class WarcraftBuildOrder : IBuildOrder
     {
         [BsonId]
         public Guid Id { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }
-
+       
         [BsonElement("description")]
         public string Description { get; set; }
 
@@ -24,7 +26,7 @@ namespace Domain.Models
         public int GameMode { get; set; }
 
         [BsonElement("actions")]
-        public List<BuildOrderAction> Actions { get; set; } = new();
+        public List<BuildOrderAction> Actions { get; set; }
 
         [BsonElement("createdBy")]
         public string CreatedBy { get; set; }

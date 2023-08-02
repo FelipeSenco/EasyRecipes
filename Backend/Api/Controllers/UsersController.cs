@@ -1,4 +1,5 @@
 ﻿
+using Domain.MockIdentity;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Api.Controllers
         {
             var mockLoginId = _usersService.MockLogin();
             var response = await _usersService.GetUserById(mockLoginId);
+            MockIdentity.User = response;
             return Ok(response);
         }
 

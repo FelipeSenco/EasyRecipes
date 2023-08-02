@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Domain.Factories.Interfaces;
 using Domain.Mocks;
-using Domain.Models;
+using Domain.Models.BuildOrderModels;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Implementations;
 using Moq;

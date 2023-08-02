@@ -1,5 +1,4 @@
-﻿
-using Domain.Models;
+﻿using Domain.Models.BuildOrderModels;
 using Domain.Models.Interfaces;
 
 namespace Domain.Services.Interfaces
@@ -10,8 +9,8 @@ namespace Domain.Services.Interfaces
     }
     public interface IBuildOrdersService<T>: IBuildOrdersService where T : IBuildOrder
     {
-        Task<List<T>> GetBuildOrders(int page, string title, string faction,
+        Task<List<BuildOrderProjection>> GetBuildOrders(int page, string title, string faction,
             string opponentFaction, string uploadedBy, string gameMode);
-        Task<T> GetBuildOrderById(Guid id);    
+        Task<BuildOrderProjection> GetBuildOrderById(Guid id);    
     }   
 }

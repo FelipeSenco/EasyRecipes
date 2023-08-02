@@ -1,6 +1,6 @@
 ﻿
 using Domain.Factories.Interfaces;
-using Domain.Models;
+using Domain.Models.BuildOrderModels;
 using Domain.Services.Implementations;
 using Domain.Services.Interfaces;
 

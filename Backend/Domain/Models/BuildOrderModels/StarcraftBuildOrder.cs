@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Domain.Models
+namespace Domain.Models.BuildOrderModels
 {
     public class StarcraftBuildOrder : IBuildOrder
     {

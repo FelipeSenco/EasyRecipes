@@ -1,10 +1,9 @@
 ﻿using Domain.Models.Interfaces;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Domain.Models
-{   
-    public class WarcraftBuildOrder : IBuildOrder
+namespace Domain.Models.BuildOrderModels
+{
+    public class StormgateBuildOrder : IBuildOrder
     {
         [BsonId]
         public Guid Id { get; set; }
@@ -25,7 +24,7 @@ namespace Domain.Models
         public int GameMode { get; set; }
 
         [BsonElement("actions")]
-        public List<BuildOrderAction> Actions { get; set; } 
+        public List<BuildOrderAction> Actions { get; set; } = new();
 
         [BsonElement("createdBy")]
         public string CreatedBy { get; set; }

@@ -1,5 +1,5 @@
-
-using Domain.Models;
+using Domain.MockIdentity;
+using Domain.Models.BuildOrderModels;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,10 +44,10 @@ public class WarcraftBuildOrdersController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateWarcraftBuildOrder([FromBody] CreateBuildOrderData buildOrder)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+        if (MockIdentity.User == null || buildOrder.UserId != MockIdentity.User.Id) { return Unauthorized(); }       
+
+        if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
         try
         {
             Guid response = await _buildOrdersService.CreateBuildOrder(buildOrder);

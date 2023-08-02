@@ -7,15 +7,18 @@ import { GameModeSelection } from "../Collection/GameModeSelection";
 import { Games } from "../../Types&Globals/enums";
 import { RichTextEditor, useRichEditor } from "../Collection/RichEditor/RichEditor";
 import { useNavigate } from "react-router-dom";
+import { BuildOrderDetailSkeleton } from "../Collection/BuildOrdersSkeleton";
 
 type CreateBuildOrderProps = {
   onSubmit: (buildOrderData: CreateBuildOrderData) => Promise<string>;
+  isSubmitting: boolean;
+  apiError: boolean;
   gameFactions: { [key: number]: string };
   gameModes: { [key: number]: string };
   gameName: string;
 };
 
-export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName, gameFactions, gameModes }) => {
+export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName, gameFactions, gameModes, isSubmitting, apiError }) => {
   const { data: user } = useUserQuery();
   const navigate = useNavigate();
 
@@ -25,7 +28,6 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
   const [gameMode, setGameMode] = useState("");
   const [actions, setActions] = useState<BuildOrderAction[]>([]);
   const [showValidationErrors, setShowValidationErrors] = useState(false);
-  const [apiError, setApiError] = useState(false);
 
   const descriptionEditor = useRichEditor();
   const conclusionEditor = useRichEditor();
@@ -64,20 +66,17 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
         userId: user?.id || "",
         createdBy: user?.userName || "",
       };
-      try {
-        const responseId = await onSubmit(buildOrderData);
-        navigate(`/${gameName}/build-order/${responseId}`);
-      } catch (error) {
-        setApiError(true);
-      }
+      await onSubmit(buildOrderData);
     }
   };
 
   if (!user) return null;
+
+  if (isSubmitting) return <BuildOrderDetailSkeleton />;
   return (
     <div className="bg-gray-900 text-white p-6 max-h-full overflow-y-auto rounded shadow-md flex flex-col flex-grow gap-3">
       <h1 className="text-xl font-bold">Create Warcraft Build Order</h1>
-
+      {apiError && <p className="text-red-400 font-bold text-l italic">There was an error submitting the build order. Please try again later.</p>}
       <div className="flex flex-col gap-2">
         <div>
           <label className="text-lg font-semibold text-yellow-200">Build Order Name: </label>
@@ -150,7 +149,6 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
       >
         Submit
       </button>
-      {apiError && <p className="text-red-400 text-sm italic">There was an error submitting the build order. Please try again later.</p>}
     </div>
   );
 };
