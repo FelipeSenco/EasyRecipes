@@ -1,3 +1,8 @@
+export enum Roles {
+  USER = 0,
+  ADMIN = 1,
+}
+
 export enum Games {
   Warcraft_III = "warcraft",
   Starcraft_II = "starcraft",

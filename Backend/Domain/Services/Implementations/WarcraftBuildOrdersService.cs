@@ -1,5 +1,6 @@
 ﻿using Domain.Factories.Interfaces;
 using Domain.MockIdentity;
+using Domain.Models;
 using Domain.Models.BuildOrderModels;
 using Domain.Models.Interfaces;
 using Domain.Repositories.Interfaces;
@@ -45,6 +46,10 @@ namespace Domain.Services.Implementations
         public async Task<BuildOrderProjection> GetBuildOrderById(Guid id)
         {
             WarcraftBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
+            if (response == null)
+            {
+                throw new Exception("No build order found for id");
+            }
             BuildOrderProjection projection = new()
             {
                 Id = response.Id,
@@ -62,7 +67,7 @@ namespace Domain.Services.Implementations
             return projection;
         }
 
-        public async Task<Guid> CreateBuildOrder(CreateBuildOrderData buildOrder)
+        public async Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder)
         {
             if (!ValidateBuildOrder(buildOrder)) { return Guid.Empty; }
             WarcraftBuildOrder databaseBuildOrder = new WarcraftBuildOrder();
@@ -82,7 +87,18 @@ namespace Domain.Services.Implementations
             return response;
         }
 
-        public Boolean ValidateBuildOrder(CreateBuildOrderData buildOrder)
+        public async Task DeleteBuildOrder(Guid id)
+        {
+            ApplicationUser user = MockIdentity.MockIdentity.User;
+            WarcraftBuildOrder buildOrder = await _buildOrdersRepository.GetBuildOrderById(id);
+            if (buildOrder == null || (user.Id != buildOrder.UserId && user.Role != UserRole.ADMIN))
+            {
+                throw new Exception("No build order, or sufficient credentials found");
+            }
+            await _buildOrdersRepository.DeleteBuildOrder(id);
+        }
+
+        public Boolean ValidateBuildOrder(ApiBuildOrderData buildOrder)
         {         
             if (!Enum.IsDefined(typeof(WarcraftFactions), buildOrder.Faction) || buildOrder.Faction == 5)
             {
@@ -101,5 +117,6 @@ namespace Domain.Services.Implementations
 
             return true;
         }
+    
     }
 }

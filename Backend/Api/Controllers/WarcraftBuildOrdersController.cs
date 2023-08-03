@@ -1,3 +1,4 @@
+using Domain.Filters;
 using Domain.MockIdentity;
 using Domain.Models.BuildOrderModels;
 using Domain.Services.Interfaces;
@@ -33,26 +34,40 @@ public class WarcraftBuildOrdersController : ControllerBase
     [HttpGet("detail")]
     public async Task<IActionResult> GetWarcraftBuildOrderById([FromQuery] Guid id)
     {     
-        var response = await _buildOrdersService.GetBuildOrderById(id);
-        if (response == null)
+        try
         {
-            return BadRequest("No build order found");
+            var response = await _buildOrdersService.GetBuildOrderById(id);
+            return Ok(response);
         }
-        return Ok(response);
+      catch (Exception ex) { return BadRequest(ex.Message); }
+            
     }
 
+    [ServiceFilter(typeof(ValidateUserAndModelFilter))]
     [HttpPost("create")]
-    public async Task<IActionResult> CreateWarcraftBuildOrder([FromBody] CreateBuildOrderData buildOrder)
-    {
-        if (MockIdentity.User == null || buildOrder.UserId != MockIdentity.User.Id) { return Unauthorized(); }       
-
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-
+    public async Task<IActionResult> CreateWarcraftBuildOrder([FromBody] ApiBuildOrderData buildOrder)
+    {     
         try
         {
             Guid response = await _buildOrdersService.CreateBuildOrder(buildOrder);
             return Ok(response);
         }  
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+ 
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteWarcraftBuildOrder([FromQuery] Guid id)
+    {        
+        if (MockIdentity.User == null) { return BadRequest("No credentials"); }
+        if (id == Guid.Empty) { return BadRequest("No build order id provided"); }        
+        try
+        {           
+            await _buildOrdersService.DeleteBuildOrder(id);
+            return Ok();
+        }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);

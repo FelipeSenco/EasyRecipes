@@ -1,14 +1,17 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BuildOrderAction, WarcraftBuildOrder } from "../../../Types&Globals/BuildOrders";
-import { useWarcraftBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
+import { useDeleteWarcraftBuildOrderMutation, useWarcraftBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
 import NotFound from "../../Errors/RouterError";
-import { warcraftFactionsDisplay } from "../../../Types&Globals/enums";
+import { Roles, warcraftFactionsDisplay } from "../../../Types&Globals/enums";
 import background from "../../../assets/warcraftbackground.png";
 import { BuildOrderDetailSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import { WarcraftVersusDisplay } from "../../Collection/VersusDisplays";
 import { AppRoutes } from "../../../Types&Globals/Routes";
 import { RichTextEditor, useRichEditor } from "../../Collection/RichEditor/RichEditor";
+import EditDeleteMenu from "../../Collection/EditDeleteMenu";
+import DeleteModal from "../../Modals/DeleteModal";
+import { useUserQuery } from "../../../Api/Queries/UserQueries";
 
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -30,8 +33,19 @@ interface WarcraftBuildOrderDetailProps {
 }
 const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrder, isFetching }) => {
   const navigate = useNavigate();
+  const { data: user } = useUserQuery();
+  const [deleteModalopen, setDeleteModalOpen] = useState(false);
+  const { mutateAsync: onConfirmDelete, isError, isLoading } = useDeleteWarcraftBuildOrderMutation();
   const { editor: descriptionEditor } = useRichEditor(2000, buildOrder.description);
   const { editor: conclusionEditor } = useRichEditor(2000, buildOrder?.conclusion);
+
+  const onDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const onEditClick = () => {
+    navigate(AppRoutes.WarcraftEdit.replace(":id", buildOrder.id));
+  };
 
   if (isFetching) return <BuildOrderDetailSkeleton />;
 
@@ -48,7 +62,7 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
         }}
       >
         <div className="flex flex-col gap-4">
-          <div className="flex pb-5 bg-gray-900 rounded p-4" data-testid="warcraft-build-order-header">
+          <div className="flex justify-between pb-5 bg-gray-900 rounded p-4" data-testid="warcraft-build-order-header">
             <div className="self-center w-1/2">
               <h2 className="text-xl text-yellow-300 font-bold pb-3">{buildOrder.name}</h2>
               <p>
@@ -56,7 +70,14 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
               </p>
               <p className="text-sm text-gray-400">Uploaded By: {buildOrder.createdBy}</p>
             </div>
-            <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} />
+            <div className="flex flex-col gap-2">
+              <EditDeleteMenu
+                onEditClick={onEditClick}
+                onDeleteClick={onDeleteClick}
+                show={user?.role === Roles.ADMIN || user?.id === buildOrder.userId}
+              />
+              <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} imgSize="14" />
+            </div>
           </div>
           <div className="bg-gray-900 rounded p-4" data-testid="warcraft-build-order-description">
             <h2 className="text-xl pb-3 text-yellow-200 font-semibold">Description</h2>
@@ -89,6 +110,15 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
           Back to build orders
         </button>
       </div>
+      {deleteModalopen && (
+        <DeleteModal
+          open={deleteModalopen}
+          onCancel={() => setDeleteModalOpen(false)}
+          onConfirm={() => onConfirmDelete(buildOrder.id)}
+          isError={isError}
+          isLoading={isLoading}
+        />
+      )}
     </>
   );
 };

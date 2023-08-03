@@ -43,6 +43,10 @@ const router = createBrowserRouter([
         element: <CreateWarcraftBuildOrder />,
       },
       {
+        path: AppRoutes.WarcraftEdit,
+        element: <CreateWarcraftBuildOrder />,
+      },
+      {
         path: AppRoutes.StarcraftCreate,
         element: <CreateStarcraftBuildOrder />,
       },

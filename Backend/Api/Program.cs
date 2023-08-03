@@ -8,6 +8,7 @@ using Domain.Services.Interfaces;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
+using Domain.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<IBuildOrdersRepositoryFactory, BuildOrdersReposito
 builder.Services.AddSingleton<BuildOrdersServiceFactory>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
 builder.Services.AddTransient<IUsersService, UsersService>(); 
+builder.Services.AddScoped<ValidateUserAndModelFilter>();
 
 builder.Services.AddCors(options =>
 {

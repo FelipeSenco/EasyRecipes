@@ -7,8 +7,7 @@ export interface WarcraftBuildOrder {
   gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
-  patch?: string;
-  videoUrl?: string;
+  userId: string;
   conclusion?: string;
 }
 
@@ -21,8 +20,6 @@ export interface StarcraftBuildOrder {
   gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
-  patch?: string;
-  videoUrl?: string;
   conclusion?: string;
 }
 
@@ -35,12 +32,10 @@ export interface StormgateBuildOrder {
   gameMode: number;
   actions: BuildOrderAction[];
   createdBy: string;
-  patch?: string;
-  videoUrl?: string;
   conclusion?: string;
 }
 
-export interface CreateBuildOrderData {
+export interface ApiBuildOrderData {
   id?: string;
   name: string;
   description: string;
@@ -50,8 +45,6 @@ export interface CreateBuildOrderData {
   actions: BuildOrderAction[];
   createdBy: string;
   userId: string;
-  patch?: string;
-  videoUrl?: string;
   conclusion?: string;
 }
 

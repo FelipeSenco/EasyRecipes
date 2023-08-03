@@ -4,7 +4,7 @@ import {
   WarcraftBuildOrder,
   BuildOrderSearchFilters,
   StormgateBuildOrder,
-  CreateBuildOrderData,
+  ApiBuildOrderData,
 } from "../Types&Globals/BuildOrders";
 import { BuildOrdersApi } from "../Api/BuildOrdersApi";
 
@@ -15,7 +15,8 @@ interface BuildOrdersContextType {
   getStarcraftBuildOrderById: (id: string) => Promise<StarcraftBuildOrder>;
   getStormgateBuildOrders: (searchFilters: BuildOrderSearchFilters, page?: number) => Promise<StormgateBuildOrder[]>;
   getStormgateBuildOrderById: (id: string) => Promise<StormgateBuildOrder>;
-  createWarcraftBuildOrder: (buildOrder: CreateBuildOrderData) => Promise<string>;
+  createWarcraftBuildOrder: (buildOrder: ApiBuildOrderData) => Promise<string>;
+  deleteWarcraftBuildOrder: (id: string) => Promise<string>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
@@ -26,6 +27,7 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
   getStormgateBuildOrders: () => Promise.resolve([]),
   getStormgateBuildOrderById: () => Promise.resolve({} as StormgateBuildOrder),
   createWarcraftBuildOrder: () => Promise.resolve(""),
+  deleteWarcraftBuildOrder: () => Promise.resolve(""),
 });
 
 interface BuildOrdersProviderProps {
@@ -39,16 +41,23 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
+  //Warcraft
   const getWarcraftBuildOrderById = async (id: string): Promise<WarcraftBuildOrder> => {
     const res = await api.getWarcraftBuildOrderById(id);
     return res;
   };
 
-  const createWarcraftBuildOrder = async (buildOrder: CreateBuildOrderData): Promise<string> => {
+  const createWarcraftBuildOrder = async (buildOrder: ApiBuildOrderData): Promise<string> => {
     const res = await api.createWarcraftBuildOrder(buildOrder);
     return res;
   };
 
+  const deleteWarcraftBuildOrder = async (id: string): Promise<string> => {
+    const res = await api.deleteWarcraftBuildOrder(id);
+    return res;
+  };
+
+  //Starcraft
   const getStarcraftBuildOrders = async (searchFilters: BuildOrderSearchFilters, page = 1): Promise<StarcraftBuildOrder[]> => {
     const res = await api.getStarcraftBuildOrders(searchFilters, page);
     return res;
@@ -64,6 +73,7 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
+  //Stormgate
   const getStormgateBuildOrderById = async (id: string): Promise<StormgateBuildOrder> => {
     const res = await api.getStormgateBuildOrderById(id);
     return res;
@@ -79,6 +89,7 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
         getStormgateBuildOrders,
         getStormgateBuildOrderById,
         createWarcraftBuildOrder,
+        deleteWarcraftBuildOrder,
       }}
     >
       {children}

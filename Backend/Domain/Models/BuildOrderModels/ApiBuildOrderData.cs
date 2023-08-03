@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.BuildOrderModels
 {
-    public class CreateBuildOrderData
+    public class ApiBuildOrderData
     {
-        public Guid? _id { get; set; }
+        public Guid? Id { get; set; }
 
         [MaxLength(100)]
         public string Name { get; set; }

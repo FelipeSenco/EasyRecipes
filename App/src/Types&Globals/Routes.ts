@@ -10,6 +10,7 @@ export const AppRoutes = {
   BuildOrders: "/build-orders",
   UserProfile: "/user-profile",
   WarcraftCreate: "/warcraft/create",
+  WarcraftEdit: "/warcraft/edit/:id",
   StarcraftCreate: "/starcraft/create",
   StormgateCreate: "/stormgate/create",
 };

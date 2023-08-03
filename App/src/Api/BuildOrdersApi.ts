@@ -4,7 +4,7 @@ import {
   BuildOrderSearchFilters,
   StarcraftBuildOrder,
   StormgateBuildOrder,
-  CreateBuildOrderData,
+  ApiBuildOrderData,
 } from "../Types&Globals/BuildOrders";
 import { createBuildOrdersFiltersString } from "../utils";
 
@@ -22,6 +22,7 @@ export class BuildOrdersApi {
       getStormgateBuildOrders: this.apiUrl + "/StormgateBuildOrders?",
       getStormgateBuildOrderById: this.apiUrl + "/StormgateBuildOrders/detail?id={id}",
       createWarcraftBuildOrder: this.apiUrl + "/WarcraftBuildOrders/create",
+      deleteWarcraftBuildOrder: this.apiUrl + "/WarcraftBuildOrders/delete?id={id}",
     };
   }
 
@@ -36,9 +37,14 @@ export class BuildOrdersApi {
     return response.data;
   }
 
-  async createWarcraftBuildOrder(buildOrder: CreateBuildOrderData): Promise<string> {
+  async createWarcraftBuildOrder(buildOrder: ApiBuildOrderData): Promise<string> {
     const response = await axios.post(this.endpoints.createWarcraftBuildOrder, buildOrder);
     return response.data;
+  }
+
+  async deleteWarcraftBuildOrder(id: string): Promise<string> {
+    await axios.delete(this.endpoints.deleteWarcraftBuildOrder.replace("{id}", id));
+    return id;
   }
 
   async getStarcraftBuildOrders(searchFilters: BuildOrderSearchFilters, page = 1): Promise<StarcraftBuildOrder[]> {

@@ -44,5 +44,10 @@ namespace Domain.Repositories.Implementations
             return buildOrder.Id;
         }
 
+        public async Task DeleteBuildOrder(Guid id)
+        {
+            FilterDefinition<T> filter = Builders<T>.Filter.Eq("_id", id);
+            await _collection.DeleteOneAsync(filter);
+        }
     }
 }

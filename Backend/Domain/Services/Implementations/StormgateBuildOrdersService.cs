@@ -61,9 +61,14 @@ namespace Domain.Services.Implementations
             return projection;
         }
 
-        public Task<Guid> CreateBuildOrder(CreateBuildOrderData buildOrder)
+        public Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task DeleteBuildOrder(Guid id)
+        {
+            await _buildOrdersRepository.DeleteBuildOrder(id);
         }
     }
 }

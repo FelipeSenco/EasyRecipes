@@ -5,12 +5,14 @@ namespace Domain.Services.Interfaces
 {
     public interface IBuildOrdersService
     {
-        Task<Guid> CreateBuildOrder(CreateBuildOrderData buildOrder);
+        Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder);
     }
     public interface IBuildOrdersService<T>: IBuildOrdersService where T : IBuildOrder
     {
         Task<List<BuildOrderProjection>> GetBuildOrders(int page, string title, string faction,
             string opponentFaction, string uploadedBy, string gameMode);
-        Task<BuildOrderProjection> GetBuildOrderById(Guid id);    
+        Task<BuildOrderProjection> GetBuildOrderById(Guid id);
+
+        Task DeleteBuildOrder(Guid id);
     }   
 }

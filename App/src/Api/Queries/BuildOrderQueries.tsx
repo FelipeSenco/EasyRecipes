@@ -1,12 +1,14 @@
-import { useInfiniteQuery, useMutation, useQuery } from "react-query";
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query";
 import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
 import { emptyStarcraftBuildOrder, emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 import { queryKeys } from "../../Types&Globals/queryKeys";
-import { BuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
+import { BuildOrderSearchFilters, WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
 import { AppRoutes } from "../../Types&Globals/Routes";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
+import { emptySearchFilters } from "../../Components/Collection/BuildOrdersSearchFilters";
 
+//Warcraft
 export const useWarcraftBuildOrdersQuery = (enabled = false, searchFilters: BuildOrderSearchFilters) => {
   const { getWarcraftBuildOrders } = useContext(BuildOrdersContext);
 
@@ -23,7 +25,7 @@ export const useWarcraftBuildOrdersQuery = (enabled = false, searchFilters: Buil
   const buildOrders = data?.pages.flat() || [];
   const hasNextPage = data?.pages[data?.pages.length - 1]?.length === 10;
 
-  return { buildOrders, isError, isFetching, isFetchingNextPage, hasNextPage, refetch, fetchNextPage };
+  return { buildOrders, data, isError, isFetching, isFetchingNextPage, hasNextPage, refetch, fetchNextPage };
 };
 
 export const useWarcraftBuildOrderByIdQuery = (id: string, enabled: boolean) => {
@@ -51,6 +53,23 @@ export const useCreateWarcraftBuildOrderMutation = () => {
   });
 };
 
+export const useDeleteWarcraftBuildOrderMutation = (routeBack = true) => {
+  const { deleteWarcraftBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteWarcraftBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.setQueryData([queryKeys.warcraftBuildOrder, data], null);
+      routeBack && navigate(AppRoutes.WarcraftBuildOrders);
+    },
+  });
+};
+
+//Starcraft
 export const useStarcraftBuildOrdersQuery = (enabled = false, searchFilters: BuildOrderSearchFilters) => {
   const { getStarcraftBuildOrders } = useContext(BuildOrdersContext);
 
@@ -80,6 +99,7 @@ export const useStarcraftBuildOrderByIdQuery = (id: string, enabled: boolean) =>
   });
 };
 
+//Stormgate
 export const useStormgateBuildOrdersQuery = (enabled = false, searchFilters: BuildOrderSearchFilters) => {
   const { getStormgateBuildOrders } = useContext(BuildOrdersContext);
 

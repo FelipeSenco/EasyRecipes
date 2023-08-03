@@ -116,3 +116,11 @@ const BuildOrdersSearchFilters: FC<BuildOrdersSearchFiltersProps> = ({ gameFacti
 };
 
 export default BuildOrdersSearchFilters;
+
+export const emptySearchFilters = {
+  title: "",
+  faction: "",
+  opponentFaction: "",
+  uploadedBy: "",
+  gameMode: "",
+};

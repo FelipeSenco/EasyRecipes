@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useState } from "react";
 import { useUserQuery } from "../../Api/Queries/UserQueries";
-import { BuildOrderAction, CreateBuildOrderData } from "../../Types&Globals/BuildOrders";
+import { BuildOrderAction, ApiBuildOrderData } from "../../Types&Globals/BuildOrders";
 import { FactionSelection } from "../Collection/FactionSelection";
 import { BuildOrderActionsInput, clockRegex } from "../Collection/BuildOrderActionsInput";
 import { GameModeSelection } from "../Collection/GameModeSelection";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { BuildOrderDetailSkeleton } from "../Collection/BuildOrdersSkeleton";
 
 type CreateBuildOrderProps = {
-  onSubmit: (buildOrderData: CreateBuildOrderData) => Promise<string>;
+  onSubmit: (buildOrderData: ApiBuildOrderData) => Promise<string>;
   isSubmitting: boolean;
   apiError: boolean;
   gameFactions: { [key: number]: string };
@@ -55,7 +55,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({ onSubmit, gameName
     setShowValidationErrors(true);
 
     if (isValidData) {
-      const buildOrderData: CreateBuildOrderData = {
+      const buildOrderData: ApiBuildOrderData = {
         name,
         faction: Number(faction),
         opponentFaction: Number(opponentFaction),
