@@ -1,8 +1,5 @@
 ﻿using Domain.Factories.Interfaces;
-using Domain.MockIdentity;
-using Domain.Models;
 using Domain.Models.BuildOrderModels;
-using Domain.Models.Interfaces;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using MongoDB.Driver;
@@ -69,7 +66,16 @@ namespace Domain.Services.Implementations
 
         public async Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder)
         {
-            if (!ValidateBuildOrder(buildOrder)) { return Guid.Empty; }
+            if (!Utility.ValidateBuildOrderEnums<WarcraftFactions, WarcraftGameModes>(buildOrder)) 
+            { 
+                throw new Exception("Invalid faction or game mode");
+            }
+
+            if (buildOrder.Id != null) 
+            { 
+                return await EditBuildOrder(buildOrder);
+            }
+
             WarcraftBuildOrder databaseBuildOrder = new WarcraftBuildOrder();
 
             databaseBuildOrder.Id = Guid.NewGuid();
@@ -88,35 +94,38 @@ namespace Domain.Services.Implementations
         }
 
         public async Task DeleteBuildOrder(Guid id)
-        {
-            ApplicationUser user = MockIdentity.MockIdentity.User;
+        {          
             WarcraftBuildOrder buildOrder = await _buildOrdersRepository.GetBuildOrderById(id);
-            if (buildOrder == null || (user.Id != buildOrder.UserId && user.Role != UserRole.ADMIN))
+            if (!Utility.ValidateBuildOrderOwner(buildOrder))
             {
                 throw new Exception("No build order, or sufficient credentials found");
             }
             await _buildOrdersRepository.DeleteBuildOrder(id);
         }
 
-        public Boolean ValidateBuildOrder(ApiBuildOrderData buildOrder)
-        {         
-            if (!Enum.IsDefined(typeof(WarcraftFactions), buildOrder.Faction) || buildOrder.Faction == 5)
+        public async Task<Guid> EditBuildOrder(ApiBuildOrderData buildOrder)
+        {            
+            WarcraftBuildOrder currentBuildOrder = await _buildOrdersRepository.GetBuildOrderById(buildOrder.Id ?? Guid.Empty);
+            if (!Utility.ValidateBuildOrderOwner(currentBuildOrder))
             {
-                return false;
+                throw new Exception("No build order, or sufficient credentials found");
             }
+            WarcraftBuildOrder editedBuildOrder = new WarcraftBuildOrder();
 
-            if (!Enum.IsDefined(typeof(WarcraftFactions), buildOrder.OpponentFaction))
-            {
-                return false;
-            }
+            editedBuildOrder.Id = buildOrder.Id ?? Guid.Empty;
+            editedBuildOrder.Name = buildOrder.Name;
+            editedBuildOrder.Faction = buildOrder.Faction;
+            editedBuildOrder.OpponentFaction = buildOrder.OpponentFaction;
+            editedBuildOrder.GameMode = buildOrder.GameMode;
+            editedBuildOrder.Description = buildOrder.Description;
+            editedBuildOrder.Actions = buildOrder.Actions;
+            editedBuildOrder.Conclusion = buildOrder.Conclusion;
+            editedBuildOrder.UserId = MockIdentity.MockIdentity.User.Id;
+            editedBuildOrder.CreatedBy = buildOrder.CreatedBy;
 
-            if (!Enum.IsDefined(typeof(WarcraftGameModes), buildOrder.GameMode))
-            {
-                return false;
-            }
-
-            return true;
-        }
-    
+            Guid response = await _buildOrdersRepository.EditBuildOrder(editedBuildOrder);
+            return response;
+        }        
+                
     }
 }

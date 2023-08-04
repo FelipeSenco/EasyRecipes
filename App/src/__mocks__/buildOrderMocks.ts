@@ -4,11 +4,11 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "1",
     name: "Early base building game",
-    game: 0,
     faction: 0,
     opponentFaction: 3,
     gameMode: 0,
     createdBy: "John Doe",
+    userId: "1",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
     actions: [
@@ -33,10 +33,10 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "2",
     name: "Give them a blast",
-    game: 0,
     faction: 0,
     opponentFaction: 1,
     gameMode: 0,
+    userId: "1",
     createdBy: "Alice is Pains",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -62,10 +62,10 @@ export const wc3BuildOrderMocks: WarcraftBuildOrder[] = [
   {
     id: "3",
     name: "Crash them all with human",
-    game: 0,
     faction: 0,
     opponentFaction: 4,
     gameMode: 0,
+    userId: "1",
     createdBy: "HookShot HotShot",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -93,7 +93,6 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
   {
     id: "1",
     name: "Early base building game",
-    game: 1,
     faction: 0,
     opponentFaction: 3,
     createdBy: "John Doe",
@@ -122,7 +121,6 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
   {
     id: "2",
     name: "Give them a blast",
-    game: 1,
     faction: 0,
     opponentFaction: 1,
     gameMode: 0,
@@ -151,7 +149,6 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
   {
     id: "3",
     name: "Crash them all with human",
-    game: 1,
     faction: 0,
     opponentFaction: 2,
     gameMode: 0,
@@ -183,7 +180,6 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
   {
     id: "1",
     name: "Early base building game",
-    game: 2,
     faction: 0,
     opponentFaction: 2,
     gameMode: 0,
@@ -212,7 +208,6 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
   {
     id: "2",
     name: "Give them a blast",
-    game: 2,
     faction: 0,
     opponentFaction: 1,
     gameMode: 0,
@@ -241,7 +236,6 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
   {
     id: "3",
     name: "Crash them all with human",
-    game: 2,
     faction: 1,
     opponentFaction: 0,
     gameMode: 0,
@@ -272,19 +266,18 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
 export const emptyWarcrafBuildOrder: WarcraftBuildOrder = {
   id: "",
   name: "",
-  game: 0,
   faction: 0,
   opponentFaction: 0,
   createdBy: "",
   description: "",
   actions: [],
   gameMode: 0,
+  userId: "",
 };
 
 export const emptyStarcraftBuildOrder: StarcraftBuildOrder = {
   id: "",
   name: "",
-  game: 1,
   faction: 0,
   opponentFaction: 0,
   createdBy: "",
@@ -296,7 +289,6 @@ export const emptyStarcraftBuildOrder: StarcraftBuildOrder = {
 export const emptyStormgateBuildOrder: StormgateBuildOrder = {
   id: "",
   name: "",
-  game: 2,
   faction: 0,
   opponentFaction: 0,
   createdBy: "",

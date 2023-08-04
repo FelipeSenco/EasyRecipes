@@ -27,7 +27,13 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [selectedGame, setSelectedGame] = useState<Games>(Games.Warcraft_III);
-  const forbiddenGuestPaths = [AppRoutes.WarcraftCreate, AppRoutes.StarcraftCreate, AppRoutes.StormgateCreate, AppRoutes.UserProfile];
+  const forbiddenGuestPaths = [
+    AppRoutes.WarcraftCreate,
+    AppRoutes.StarcraftCreate,
+    AppRoutes.StormgateCreate,
+    AppRoutes.UserProfile,
+    AppRoutes.WarcraftEdit,
+  ];
   const minBuildOrderActions = 3;
 
   const updateSelectedGame = (currentPath: string) => {

@@ -9,6 +9,7 @@ namespace Domain.Repositories.Interfaces
        Task<List<T>> GetBuildOrders(int page, FilterDefinition<T> filter);
        Task<T> GetBuildOrderById(Guid id);
        Task<Guid> CreateBuildOrder(T buildOrder);
+       Task<Guid> EditBuildOrder(T buildOrder);
        Task DeleteBuildOrder(Guid id);
     }
 }

@@ -2,6 +2,8 @@
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Domain.Models.Interfaces;
+using Domain.Models;
+using Domain.Models.BuildOrderModels;
 
 namespace Domain
 {
@@ -49,6 +51,36 @@ namespace Domain
             }
 
             return filter;
+        }
+
+        public static Boolean ValidateBuildOrderOwner(IBuildOrder buildOrder)
+        {
+            ApplicationUser user = MockIdentity.MockIdentity.User;
+            if (buildOrder == null || (user.Id != buildOrder.UserId && user.Role != UserRole.ADMIN))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static Boolean ValidateBuildOrderEnums<T1, T2>(ApiBuildOrderData buildOrder)
+        {
+            if (!Enum.IsDefined(typeof(T1), buildOrder.Faction) || buildOrder.Faction == 5)
+            {
+                return false;
+            }
+
+            if (!Enum.IsDefined(typeof(T1), buildOrder.OpponentFaction))
+            {
+                return false;
+            }
+
+            if (!Enum.IsDefined(typeof(T2), buildOrder.GameMode))
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

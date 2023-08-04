@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BuildOrderAction, WarcraftBuildOrder } from "../../../Types&Globals/BuildOrders";
 import { useDeleteWarcraftBuildOrderMutation, useWarcraftBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
@@ -8,7 +8,7 @@ import background from "../../../assets/warcraftbackground.png";
 import { BuildOrderDetailSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import { WarcraftVersusDisplay } from "../../Collection/VersusDisplays";
 import { AppRoutes } from "../../../Types&Globals/Routes";
-import { RichTextEditor, useRichEditor } from "../../Collection/RichEditor/RichEditor";
+import { RichTextEditor, setEditorContentFromRaw, useRichEditor } from "../../Collection/RichEditor/RichEditor";
 import EditDeleteMenu from "../../Collection/EditDeleteMenu";
 import DeleteModal from "../../Modals/DeleteModal";
 import { useUserQuery } from "../../../Api/Queries/UserQueries";
@@ -16,9 +16,9 @@ import { useUserQuery } from "../../../Api/Queries/UserQueries";
 export const WarcraftBuildOrderPage: FC = () => {
   const { id } = useParams();
 
-  const { data: buildOrder, isFetching, isError, refetch } = useWarcraftBuildOrderByIdQuery(id as string, true);
+  const { data: buildOrder, isFetching, isError } = useWarcraftBuildOrderByIdQuery(id as string, true);
 
-  if (isError && !isFetching) return <NotFound />;
+  if (isError && !isFetching && !buildOrder) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="warcraft-build-order-page">
@@ -36,8 +36,8 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
   const { data: user } = useUserQuery();
   const [deleteModalopen, setDeleteModalOpen] = useState(false);
   const { mutateAsync: onConfirmDelete, isError, isLoading } = useDeleteWarcraftBuildOrderMutation();
-  const { editor: descriptionEditor } = useRichEditor(2000, buildOrder.description);
-  const { editor: conclusionEditor } = useRichEditor(2000, buildOrder?.conclusion);
+  const { editor: descriptionEditor } = useRichEditor(2000);
+  const { editor: conclusionEditor } = useRichEditor(2000);
 
   const onDeleteClick = () => {
     setDeleteModalOpen(true);
@@ -81,7 +81,12 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
           </div>
           <div className="bg-gray-900 rounded p-4" data-testid="warcraft-build-order-description">
             <h2 className="text-xl pb-3 text-yellow-200 font-semibold">Description</h2>
-            <RichTextEditor editor={descriptionEditor} editable={false} editorContentClassName="flex flex-col w-full rounded-md" />
+            <RichTextEditor
+              editor={descriptionEditor}
+              editable={false}
+              editorContentClassName="flex flex-col w-full rounded-md"
+              initialContent={buildOrder?.description}
+            />
           </div>
           <div data-testid="warcraft-build-order-actions" className="bg-gray-900 rounded p-4">
             <h3 className="text-lg font-semibold text-yellow-200">Build Order:</h3>
@@ -98,7 +103,12 @@ const WarcraftBuildOrderDetail: FC<WarcraftBuildOrderDetailProps> = ({ buildOrde
           {buildOrder?.conclusion && (
             <div className="bg-gray-900 rounded p-4" data-testid="warcraft-build-order-considerations">
               <h2 className="text-xl pb-3 font-semibold text-yellow-200">Conclusion</h2>
-              <RichTextEditor editor={conclusionEditor} editable={false} editorContentClassName="flex flex-col w-full rounded-md" />
+              <RichTextEditor
+                editor={conclusionEditor}
+                editable={false}
+                editorContentClassName="flex flex-col w-full rounded-md"
+                initialContent={buildOrder?.conclusion}
+              />
             </div>
           )}
         </div>

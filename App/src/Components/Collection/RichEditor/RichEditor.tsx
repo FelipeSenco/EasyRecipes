@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useEditor, EditorContent, Editor, JSONContent, Content } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -17,21 +17,13 @@ type RichEditorHook = {
   editorData: RichEditorData;
 };
 
-export const useRichEditor = (maxCharacters = 2000, initialContent = ""): RichEditorHook => {
+export const useRichEditor = (maxCharacters = 2000): RichEditorHook => {
   const editor = useEditor({
     extensions: [StarterKit, Underline, CharacterCount.configure({ limit: maxCharacters })],
   });
 
-  const editorData: RichEditorData = useMemo(() => ({ text: editor?.getText() as string, serializedContent: editor?.getJSON() }), [editor?.state]);
+  const editorData = useMemo((): RichEditorData => ({ text: editor?.getText() as string, serializedContent: editor?.getJSON() }), [editor?.state]);
 
-  if (initialContent) {
-    try {
-      const content = JSON.parse(initialContent) as RichEditorData;
-      editor?.commands.setContent(content.serializedContent as JSONContent);
-    } catch (e) {
-      editor?.commands.setContent(initialContent);
-    }
-  }
   return { editor, editorData };
 };
 
@@ -40,14 +32,25 @@ type RichEditorProps = {
   editorContentClassName?: string;
   maxCharacters?: number;
   editable?: boolean;
+  initialContent?: string;
 };
 
-export const RichTextEditor: React.FC<RichEditorProps> = ({ editor, editorContentClassName, maxCharacters = 2000, editable = true }) => {
+export const RichTextEditor: React.FC<RichEditorProps> = ({
+  editor,
+  editorContentClassName,
+  maxCharacters = 2000,
+  editable = true,
+  initialContent,
+}) => {
   const [focused, setFocused] = useState(false);
   const ref = useRef(null);
   useClickOutside(ref, () => setFocused(false), "mousedown");
   const text = useMemo(() => editor?.getText() as string, [editor?.state]);
+
   editor?.setEditable(editable);
+  useEffect(() => {
+    initialContent && editor && setEditorContentFromRaw(initialContent, editor);
+  }, [initialContent, editor === null]);
   return (
     <div className="flex flex-col gap-1 mt-1 test" ref={ref}>
       <EditorContent
@@ -130,4 +133,14 @@ export const EditorButtons: React.FC<EditorButtonsProps> = ({ editor }) => {
       </div>
     </div>
   );
+};
+
+export const setEditorContentFromRaw = (editorContent: string, editor: Editor) => {
+  try {
+    const content = JSON.parse(editorContent);
+    editor?.commands.setContent(content.serializedContent);
+  } catch (error) {
+    console.error("Content not in correct format");
+    editor?.commands.setContent(editorContent);
+  }
 };

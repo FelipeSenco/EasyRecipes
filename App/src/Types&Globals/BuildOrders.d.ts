@@ -21,6 +21,7 @@ export interface StarcraftBuildOrder {
   actions: BuildOrderAction[];
   createdBy: string;
   conclusion?: string;
+  userId: string;
 }
 
 export interface StormgateBuildOrder {
@@ -33,6 +34,7 @@ export interface StormgateBuildOrder {
   actions: BuildOrderAction[];
   createdBy: string;
   conclusion?: string;
+  userId: string;
 }
 
 export interface ApiBuildOrderData {

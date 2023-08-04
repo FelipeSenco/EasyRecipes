@@ -70,5 +70,10 @@ namespace Domain.Services.Implementations
         {
             await _buildOrdersRepository.DeleteBuildOrder(id);
         }
+
+        public Task<Guid> EditBuildOrder(ApiBuildOrderData buildOrder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

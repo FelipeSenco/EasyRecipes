@@ -44,10 +44,22 @@ namespace Domain.Repositories.Implementations
             return buildOrder.Id;
         }
 
+        public async Task<Guid> EditBuildOrder(T buildOrder)
+        {
+            if (buildOrder == null || buildOrder.Id == Guid.Empty)
+                throw new ArgumentException("Build order or build order ID cannot be null");
+
+            FilterDefinition<T> filter = Builders<T>.Filter.Eq("_id", buildOrder.Id);
+
+            var result = await _collection.ReplaceOneAsync(filter, buildOrder);
+
+            return buildOrder.Id;
+        }
+
         public async Task DeleteBuildOrder(Guid id)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Eq("_id", id);
             await _collection.DeleteOneAsync(filter);
-        }
+        }        
     }
 }

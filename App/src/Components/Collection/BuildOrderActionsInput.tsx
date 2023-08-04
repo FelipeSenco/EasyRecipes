@@ -12,11 +12,6 @@ type BuildOrderActionsInputProps = {
 
 export const BuildOrderActionsInput: FC<BuildOrderActionsInputProps> = ({ actions, setActions, showValidationErrors, maxSupply = 200 }) => {
   const { minBuildOrderActions } = useContext(AppContext);
-  useEffect(() => {
-    if (!actions.length) {
-      setActions(initialState);
-    }
-  }, []);
 
   const handleUpdateAction = (index: number, field: string, value: any) => {
     if (field === "supply") {
@@ -119,6 +114,6 @@ const placeHolderAction: BuildOrderAction = {
   instruction: "",
 };
 
-const initialState: BuildOrderAction[] = [placeHolderAction, placeHolderAction, placeHolderAction];
+export const initialState: BuildOrderAction[] = [placeHolderAction, placeHolderAction, placeHolderAction];
 
 export const clockRegex = /^\d{0,2}:[0-5][0-9]$/;

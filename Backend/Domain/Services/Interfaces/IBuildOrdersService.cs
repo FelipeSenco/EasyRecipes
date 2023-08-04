@@ -6,6 +6,7 @@ namespace Domain.Services.Interfaces
     public interface IBuildOrdersService
     {
         Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder);
+        Task<Guid> EditBuildOrder(ApiBuildOrderData buildOrder);
     }
     public interface IBuildOrdersService<T>: IBuildOrdersService where T : IBuildOrder
     {
