@@ -1,15 +1,18 @@
 import React, { FC, useState } from "react";
 import background from "../../../assets/starcraftbackground.png";
 import BuildOrdersSearchFilters from "../../Collection/BuildOrdersSearchFilters";
-import { starcraftFactionsDisplay, starcraftGameModesDisplay } from "../../../Types&Globals/enums";
-import { useStarcraftBuildOrdersQuery } from "../../../Api/Queries/BuildOrderQueries";
+import { Games, Roles, starcraftFactionsDisplay, starcraftGameModesDisplay } from "../../../Types&Globals/enums";
+import { useDeleteStarcraftBuildOrderMutation, useStarcraftBuildOrdersQuery } from "../../../Api/Queries/BuildOrderQueries";
 import { StarcraftBuildOrder } from "../../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../Types&Globals/Routes";
 import NotFound from "../../Errors/RouterError";
 import { BuildOrdersSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import IntersectionObserverContainer from "../../Collection/IntersectionObserver";
-import { StarcraftVersusDisplay } from "../../Collection/VersusDisplays";
+import { VersusDisplay } from "../../Collection/VersusDisplays";
+import EditDeleteMenu from "../../Collection/EditDeleteMenu";
+import { useUserQuery } from "../../../Api/Queries/UserQueries";
+import DeleteModal from "../../Modals/DeleteModal";
 
 export const StarcraftBuildOrders: FC = () => {
   const [searchFilters, setSearchFilters] = useState({
@@ -19,9 +22,7 @@ export const StarcraftBuildOrders: FC = () => {
     uploadedBy: "",
     gameMode: "",
   });
-  const { buildOrders, isFetching, isError, refetch, hasNextPage, fetchNextPage } = useStarcraftBuildOrdersQuery(false, searchFilters);
-
-  if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
+  const { buildOrders, isFetching, isError, refetch, hasNextPage, fetchNextPage } = useStarcraftBuildOrdersQuery(true, searchFilters);
 
   return (
     <div
@@ -49,6 +50,7 @@ export const StarcraftBuildOrders: FC = () => {
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
           isError={isError}
+          refetch={refetch}
         />
       </div>
     </div>
@@ -61,12 +63,33 @@ type StarcraftBuildOrderListProps = {
   hasNextPage: boolean;
   fetchNextPage: () => void;
   isError: boolean;
+  refetch: () => void;
 };
 
-export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({ buildOrders, isFetching, hasNextPage, fetchNextPage, isError }) => {
+export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({
+  buildOrders,
+  isFetching,
+  hasNextPage,
+  fetchNextPage,
+  isError,
+  refetch,
+}) => {
   const navigate = useNavigate();
+  const { data: user } = useUserQuery();
+  const [deleteModalopen, setDeleteModalOpen] = useState(false);
+  const [deleteBuildOrder, setDeleteBuildOrder] = useState<StarcraftBuildOrder | null>(null);
+  const { mutateAsync: onConfirmDelete, isError: isDeleteError, isLoading: isDeleteLoading } = useDeleteStarcraftBuildOrderMutation(false);
 
   const handleBuildOrderClick = (id: string) => {
+    navigate(AppRoutes.StarcraftBuildOrder.replace(":id", id));
+  };
+
+  const onDeleteClick = (buildOrder: StarcraftBuildOrder) => {
+    setDeleteBuildOrder(buildOrder);
+    setDeleteModalOpen(true);
+  };
+
+  const onEditClick = (id: string) => {
     navigate(AppRoutes.StarcraftBuildOrder.replace(":id", id));
   };
 
@@ -88,7 +111,21 @@ export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({ buil
                 {starcraftFactionsDisplay[buildOrder.faction]} vs {starcraftFactionsDisplay[buildOrder.opponentFaction]}
               </p>
             </div>
-            <StarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} imgSize="14" />
+            <div className="flex flex-col gap-2">
+              <EditDeleteMenu
+                onEditClick={() => onEditClick(buildOrder.id)}
+                onDeleteClick={() => {
+                  onDeleteClick(buildOrder);
+                }}
+                show={user?.role === Roles.ADMIN || user?.id === buildOrder.userId}
+              />
+              <VersusDisplay
+                factionNumber={buildOrder.faction}
+                opponentFactionNumber={buildOrder.opponentFaction}
+                imgSize="14"
+                game={Games.Starcraft_II}
+              />
+            </div>
           </div>
 
           <p className="text-sm text-gray-400">Created by: {buildOrder.createdBy}</p>
@@ -96,6 +133,21 @@ export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({ buil
       ))}
       {isFetching && <BuildOrdersSkeleton />}
       {hasNextPage && <IntersectionObserverContainer handleIntersection={fetchNextPage} />}
+      {deleteModalopen && deleteBuildOrder && (
+        <DeleteModal
+          open={deleteModalopen}
+          onCancel={() => setDeleteModalOpen(false)}
+          onConfirm={async () => {
+            await onConfirmDelete(deleteBuildOrder?.id || "");
+            if (!isDeleteError) {
+              setDeleteModalOpen(false);
+              refetch();
+            }
+          }}
+          isError={isDeleteError}
+          isLoading={isDeleteLoading}
+        />
+      )}
     </div>
   );
 };

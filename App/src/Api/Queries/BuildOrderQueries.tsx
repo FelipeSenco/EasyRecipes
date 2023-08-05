@@ -3,10 +3,9 @@ import BuildOrdersContext from "../../Contexts/BuildOrdersContext";
 import { useContext } from "react";
 import { emptyStarcraftBuildOrder, emptyWarcrafBuildOrder } from "../../__mocks__/buildOrderMocks";
 import { queryKeys } from "../../Types&Globals/queryKeys";
-import { BuildOrderSearchFilters, WarcraftBuildOrder } from "../../Types&Globals/BuildOrders";
+import { BuildOrderSearchFilters } from "../../Types&Globals/BuildOrders";
 import { AppRoutes } from "../../Types&Globals/Routes";
-import { json, useNavigate } from "react-router-dom";
-import { emptySearchFilters } from "../../Components/Collection/BuildOrdersSearchFilters";
+import { useNavigate } from "react-router-dom";
 
 //Warcraft
 export const useWarcraftBuildOrdersQuery = (enabled = false, searchFilters: BuildOrderSearchFilters) => {
@@ -96,6 +95,36 @@ export const useStarcraftBuildOrderByIdQuery = (id: string, enabled: boolean) =>
     enabled,
     initialData: emptyStarcraftBuildOrder,
     onError: (error: Error) => console.log(error),
+  });
+};
+
+export const useCreateStarcraftBuildOrderMutation = () => {
+  const { createStarcraftBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+
+  return useMutation(createStarcraftBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      navigate(AppRoutes.StarcraftBuildOrder.replace(":id", data));
+    },
+  });
+};
+
+export const useDeleteStarcraftBuildOrderMutation = (routeBack = true) => {
+  const { deleteStarcraftBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteStarcraftBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.setQueryData([queryKeys.starcraftBuildOrder, data], null);
+      routeBack && navigate(AppRoutes.StarcraftBuildOrders);
+    },
   });
 };
 

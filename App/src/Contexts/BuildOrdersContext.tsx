@@ -17,6 +17,8 @@ interface BuildOrdersContextType {
   getStormgateBuildOrderById: (id: string) => Promise<StormgateBuildOrder>;
   createWarcraftBuildOrder: (buildOrder: ApiBuildOrderData) => Promise<string>;
   deleteWarcraftBuildOrder: (id: string) => Promise<string>;
+  createStarcraftBuildOrder: (buildOrder: ApiBuildOrderData) => Promise<string>;
+  deleteStarcraftBuildOrder: (id: string) => Promise<string>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
@@ -28,6 +30,8 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
   getStormgateBuildOrderById: () => Promise.resolve({} as StormgateBuildOrder),
   createWarcraftBuildOrder: () => Promise.resolve(""),
   deleteWarcraftBuildOrder: () => Promise.resolve(""),
+  createStarcraftBuildOrder: () => Promise.resolve(""),
+  deleteStarcraftBuildOrder: () => Promise.resolve(""),
 });
 
 interface BuildOrdersProviderProps {
@@ -68,12 +72,23 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
+  const createStarcraftBuildOrder = async (buildOrder: ApiBuildOrderData): Promise<string> => {
+    const res = await api.createStarcraftBuildOrder(buildOrder);
+    return res;
+  };
+
+  const deleteStarcraftBuildOrder = async (id: string): Promise<string> => {
+    const res = await api.deleteStarcraftBuildOrder(id);
+    return res;
+  };
+
+  //Stormgate
+
   const getStormgateBuildOrders = async (searchFilters: BuildOrderSearchFilters, page = 1): Promise<StormgateBuildOrder[]> => {
     const res = await api.getStormgateBuildOrders(searchFilters, page);
     return res;
   };
 
-  //Stormgate
   const getStormgateBuildOrderById = async (id: string): Promise<StormgateBuildOrder> => {
     const res = await api.getStormgateBuildOrderById(id);
     return res;
@@ -90,6 +105,8 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
         getStormgateBuildOrderById,
         createWarcraftBuildOrder,
         deleteWarcraftBuildOrder,
+        createStarcraftBuildOrder,
+        deleteStarcraftBuildOrder,
       }}
     >
       {children}

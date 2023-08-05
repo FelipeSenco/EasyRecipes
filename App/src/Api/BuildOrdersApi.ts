@@ -17,15 +17,18 @@ export class BuildOrdersApi {
     this.endpoints = {
       getWarcraftBuildOrders: this.apiUrl + "/WarcraftBuildOrders?",
       getWarcraftBuildOrderById: this.apiUrl + "/WarcraftBuildOrders/detail?id={id}",
-      getStarcraftBuildOrders: this.apiUrl + "/StarcraftBuildOrders?",
-      getStarcraftBuildOrderById: this.apiUrl + "/StarcraftBuildOrders/detail?id={id}",
-      getStormgateBuildOrders: this.apiUrl + "/StormgateBuildOrders?",
-      getStormgateBuildOrderById: this.apiUrl + "/StormgateBuildOrders/detail?id={id}",
       createWarcraftBuildOrder: this.apiUrl + "/WarcraftBuildOrders/create",
       deleteWarcraftBuildOrder: this.apiUrl + "/WarcraftBuildOrders/delete?id={id}",
+      getStarcraftBuildOrders: this.apiUrl + "/StarcraftBuildOrders?",
+      getStarcraftBuildOrderById: this.apiUrl + "/StarcraftBuildOrders/detail?id={id}",
+      createStarcraftBuildOrder: this.apiUrl + "/StarcraftBuildOrders/create",
+      deleteStarcraftBuildOrder: this.apiUrl + "/StarcraftBuildOrders/delete?id={id}",
+      getStormgateBuildOrders: this.apiUrl + "/StormgateBuildOrders?",
+      getStormgateBuildOrderById: this.apiUrl + "/StormgateBuildOrders/detail?id={id}",
     };
   }
 
+  //Warcraft api
   async getWarcraftBuildOrders(searchFilters: BuildOrderSearchFilters, page = 1): Promise<WarcraftBuildOrder[]> {
     const queryParams = createBuildOrdersFiltersString(searchFilters, page);
     const response = await axios.get(this.endpoints.getWarcraftBuildOrders + queryParams);
@@ -47,6 +50,7 @@ export class BuildOrdersApi {
     return id;
   }
 
+  //Starcraft api
   async getStarcraftBuildOrders(searchFilters: BuildOrderSearchFilters, page = 1): Promise<StarcraftBuildOrder[]> {
     const queryParams = createBuildOrdersFiltersString(searchFilters, page);
     const response = await axios.get(this.endpoints.getStarcraftBuildOrders + queryParams);
@@ -58,6 +62,17 @@ export class BuildOrdersApi {
     return response.data;
   }
 
+  async createStarcraftBuildOrder(buildOrder: ApiBuildOrderData): Promise<string> {
+    const response = await axios.post(this.endpoints.createStarcraftBuildOrder, buildOrder);
+    return response.data;
+  }
+
+  async deleteStarcraftBuildOrder(id: string): Promise<string> {
+    await axios.delete(this.endpoints.deleteStarcraftBuildOrder.replace("{id}", id));
+    return id;
+  }
+
+  //Stormgate api
   async getStormgateBuildOrders(searchFilters: BuildOrderSearchFilters, page = 1): Promise<StormgateBuildOrder[]> {
     const queryParams = createBuildOrdersFiltersString(searchFilters, page);
     const response = await axios.get(this.endpoints.getStormgateBuildOrders + queryParams);

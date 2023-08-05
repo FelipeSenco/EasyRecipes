@@ -12,5 +12,6 @@ export const AppRoutes = {
   WarcraftCreate: "/warcraft/create",
   WarcraftEdit: "/warcraft/edit/:id",
   StarcraftCreate: "/starcraft/create",
+  StarcraftEdit: "/starcraft/edit/:id",
   StormgateCreate: "/stormgate/create",
 };

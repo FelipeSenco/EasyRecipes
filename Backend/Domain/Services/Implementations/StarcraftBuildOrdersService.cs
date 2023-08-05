@@ -45,6 +45,10 @@ namespace Domain.Services.Implementations
         public async Task<BuildOrderProjection> GetBuildOrderById(Guid id)
         {
             StarcraftBuildOrder response = await _buildOrdersRepository.GetBuildOrderById(id);
+            if (response == null)
+            {
+                throw new Exception("No build order found for id");
+            }
             BuildOrderProjection projection = new()
             {
                 Id = response.Id,
@@ -62,19 +66,67 @@ namespace Domain.Services.Implementations
             return projection;
         }
 
-        public Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder)
+        public async Task<Guid> CreateBuildOrder(ApiBuildOrderData buildOrder)
         {
-            throw new NotImplementedException();
+            if (!Utility.ValidateBuildOrderEnums<WarcraftFactions, WarcraftGameModes>(buildOrder))
+            {
+                throw new Exception("Invalid faction or game mode");
+            }
+
+            if (buildOrder.Id != null)
+            {
+                return await EditBuildOrder(buildOrder);
+            }
+
+            StarcraftBuildOrder databaseBuildOrder = new StarcraftBuildOrder();
+
+            databaseBuildOrder.Id = Guid.NewGuid();
+            databaseBuildOrder.Name = buildOrder.Name;
+            databaseBuildOrder.Faction = buildOrder.Faction;
+            databaseBuildOrder.OpponentFaction = buildOrder.OpponentFaction;
+            databaseBuildOrder.GameMode = buildOrder.GameMode;
+            databaseBuildOrder.Description = buildOrder.Description;
+            databaseBuildOrder.Actions = buildOrder.Actions;
+            databaseBuildOrder.Conclusion = buildOrder.Conclusion;
+            databaseBuildOrder.UserId = MockIdentity.MockIdentity.User.Id;
+            databaseBuildOrder.CreatedBy = buildOrder.CreatedBy;
+
+            Guid response = await _buildOrdersRepository.CreateBuildOrder(databaseBuildOrder);
+            return response;
         }
 
         public async Task DeleteBuildOrder(Guid id)
         {
+            StarcraftBuildOrder buildOrder = await _buildOrdersRepository.GetBuildOrderById(id);
+            if (!Utility.ValidateBuildOrderOwner(buildOrder))
+            {
+                throw new Exception("No build order, or sufficient credentials found");
+            }
             await _buildOrdersRepository.DeleteBuildOrder(id);
         }
 
-        public Task<Guid> EditBuildOrder(ApiBuildOrderData buildOrder)
+        public async Task<Guid> EditBuildOrder(ApiBuildOrderData buildOrder)
         {
-            throw new NotImplementedException();
+            StarcraftBuildOrder currentBuildOrder = await _buildOrdersRepository.GetBuildOrderById(buildOrder.Id ?? Guid.Empty);
+            if (!Utility.ValidateBuildOrderOwner(currentBuildOrder))
+            {
+                throw new Exception("No build order, or sufficient credentials found");
+            }
+            StarcraftBuildOrder editedBuildOrder = new StarcraftBuildOrder();
+
+            editedBuildOrder.Id = buildOrder.Id ?? Guid.Empty;
+            editedBuildOrder.Name = buildOrder.Name;
+            editedBuildOrder.Faction = buildOrder.Faction;
+            editedBuildOrder.OpponentFaction = buildOrder.OpponentFaction;
+            editedBuildOrder.GameMode = buildOrder.GameMode;
+            editedBuildOrder.Description = buildOrder.Description;
+            editedBuildOrder.Actions = buildOrder.Actions;
+            editedBuildOrder.Conclusion = buildOrder.Conclusion;
+            editedBuildOrder.UserId = MockIdentity.MockIdentity.User.Id;
+            editedBuildOrder.CreatedBy = buildOrder.CreatedBy;
+
+            Guid response = await _buildOrdersRepository.EditBuildOrder(editedBuildOrder);
+            return response;
         }
     }
 }

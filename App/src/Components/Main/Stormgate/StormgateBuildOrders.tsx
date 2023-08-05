@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import background from "../../../assets/stormgatebackground.png";
 import BuildOrdersSearchFilters from "../../Collection/BuildOrdersSearchFilters";
-import { stormgateFactionsDisplay, stormgateGameModesDisplay } from "../../../Types&Globals/enums";
+import { Games, stormgateFactionsDisplay, stormgateGameModesDisplay } from "../../../Types&Globals/enums";
 import { useStormgateBuildOrdersQuery } from "../../../Api/Queries/BuildOrderQueries";
 import { StormgateBuildOrder } from "../../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { AppRoutes } from "../../../Types&Globals/Routes";
 import NotFound from "../../Errors/RouterError";
 import { BuildOrdersSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import IntersectionObserverContainer from "../../Collection/IntersectionObserver";
-import { StormgateVersusDisplay } from "../../Collection/VersusDisplays";
+import { VersusDisplay } from "../../Collection/VersusDisplays";
 
 export const StormgateBuildOrders: FC = () => {
   const [searchFilters, setSearchFilters] = useState({
@@ -88,7 +88,12 @@ export const StormgateBuildOrderList: FC<StormgateBuildOrderListProps> = ({ buil
                 {stormgateFactionsDisplay[buildOrder.faction]} vs {stormgateFactionsDisplay[buildOrder.opponentFaction]}
               </p>
             </div>
-            <StormgateVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} imgSize="14" />
+            <VersusDisplay
+              factionNumber={buildOrder.faction}
+              opponentFactionNumber={buildOrder.opponentFaction}
+              imgSize="14"
+              game={Games.Stormgate}
+            />
           </div>
 
           <p className="text-sm text-gray-400">Created by: {buildOrder.createdBy}</p>

@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BuildOrderAction, StormgateBuildOrder } from "../../../Types&Globals/BuildOrders";
 import { useStormgateBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
 import NotFound from "../../Errors/RouterError";
-import { stormgateFactionsDisplay } from "../../../Types&Globals/enums";
+import { Games, stormgateFactionsDisplay } from "../../../Types&Globals/enums";
 import background from "../../../assets/stormgatebackground.png";
 import { BuildOrderDetailSkeleton } from "../../Collection/BuildOrdersSkeleton";
-import { StormgateVersusDisplay } from "../../Collection/VersusDisplays";
+import { VersusDisplay } from "../../Collection/VersusDisplays";
 
 export const StormgateBuildOrderPage: FC = () => {
   const { id } = useParams();
@@ -54,7 +54,7 @@ const StormgateBuildOrderDetail: FC<StormgateBuildOrderDetailProps> = ({ buildOr
               </p>
               <p className="text-sm text-gray-400">Uploaded By: {buildOrder.createdBy}</p>
             </div>
-            <StormgateVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} />
+            <VersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} game={Games.Stormgate} />
           </div>
           <div className="bg-gray-900 rounded p-4" data-testid="stormgate-build-order-description">
             <h2 className="text-xl pb-3 text-yellow-200 font-semibold">Description</h2>
@@ -74,7 +74,7 @@ const StormgateBuildOrderDetail: FC<StormgateBuildOrderDetailProps> = ({ buildOr
           </div>
           <div className="bg-gray-900 rounded p-4" data-testid="stormgate-build-order-considerations">
             <h2 className="text-xl pb-3 font-semibold text-yellow-200">Considerations</h2>
-            <p>{buildOrder.considerations}</p>
+            <p>{buildOrder.conclusion}</p>
           </div>
         </div>
         <button

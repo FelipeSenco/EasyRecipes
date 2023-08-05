@@ -1,18 +1,18 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { useDeleteWarcraftBuildOrderMutation, useWarcraftBuildOrdersQuery } from "../../../Api/Queries/BuildOrderQueries";
 import { WarcraftBuildOrder } from "../../../Types&Globals/BuildOrders";
 import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "../../../Types&Globals/Routes";
-import { Roles, warcraftFactionsDisplay, warcraftGameModesDisplay } from "../../../Types&Globals/enums";
+import { Games, Roles, warcraftFactionsDisplay, warcraftGameModesDisplay } from "../../../Types&Globals/enums";
 import NotFound from "../../Errors/RouterError";
 import background from "../../../assets/warcraftbackground.png";
 import { BuildOrdersSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import IntersectionObserverContainer from "../../Collection/IntersectionObserver";
 import BuildOrdersSearchFilters from "../../Collection/BuildOrdersSearchFilters";
-import { WarcraftVersusDisplay } from "../../Collection/VersusDisplays";
 import EditDeleteMenu from "../../Collection/EditDeleteMenu";
 import DeleteModal from "../../Modals/DeleteModal";
 import { useUserQuery } from "../../../Api/Queries/UserQueries";
+import { VersusDisplay } from "../../Collection/VersusDisplays";
 
 export const WarcraftBuildOrders: FC = () => {
   const [searchFilters, setSearchFilters] = useState({
@@ -23,8 +23,6 @@ export const WarcraftBuildOrders: FC = () => {
     gameMode: "",
   });
   const { buildOrders, isFetching, isError, refetch, hasNextPage, fetchNextPage } = useWarcraftBuildOrdersQuery(true, searchFilters);
-
-  if (buildOrders?.length === 0 && !isFetching && !isError) refetch();
 
   return (
     <div
@@ -122,7 +120,12 @@ export const WarcraftBuildOrderList: FC<WarcraftBuildOrderListProps> = ({
                 }}
                 show={user?.role === Roles.ADMIN || user?.id === buildOrder.userId}
               />
-              <WarcraftVersusDisplay factionNumber={buildOrder.faction} opponentFactionNumber={buildOrder.opponentFaction} imgSize="14" />
+              <VersusDisplay
+                factionNumber={buildOrder.faction}
+                opponentFactionNumber={buildOrder.opponentFaction}
+                imgSize="14"
+                game={Games.Warcraft_III}
+              />
             </div>
           </div>
 

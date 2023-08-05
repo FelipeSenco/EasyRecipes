@@ -4,14 +4,27 @@ import {
   useStormgateFactionImageSource,
   useWarcraftFactionImageSource,
 } from "../../CustomHooks/useFactionImageSource";
+import { Games } from "../../Types&Globals/enums";
 
 type VersusDisplayProps = {
   factionNumber: number;
   opponentFactionNumber: number;
   imgSize?: string;
+  game?: Games;
 };
 
-export const WarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
+export const VersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = "20", game }) => {
+  switch (game) {
+    case Games.Starcraft_II:
+      return <StarcraftVersusDisplay factionNumber={factionNumber} opponentFactionNumber={opponentFactionNumber} imgSize={imgSize} />;
+    case Games.Stormgate:
+      return <StormgateVersusDisplay factionNumber={factionNumber} opponentFactionNumber={opponentFactionNumber} imgSize={imgSize} />;
+    default:
+      return <WarcraftVersusDisplay factionNumber={factionNumber} opponentFactionNumber={opponentFactionNumber} imgSize={imgSize} />;
+  }
+};
+
+const WarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
   const factionImageSrc = useWarcraftFactionImageSource(factionNumber);
   const opponentFactionImgSrc = useWarcraftFactionImageSource(opponentFactionNumber);
 
@@ -24,7 +37,7 @@ export const WarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, o
   );
 };
 
-export const StarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
+const StarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
   const factionImageSrc = useStarcraftFactionImageSource(factionNumber);
   const opponentFactionImgSrc = useStarcraftFactionImageSource(opponentFactionNumber);
 
@@ -37,7 +50,7 @@ export const StarcraftVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, 
   );
 };
 
-export const StormgateVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
+const StormgateVersusDisplay: FC<VersusDisplayProps> = ({ factionNumber, opponentFactionNumber, imgSize = 20 }) => {
   const factionImageSrc = useStormgateFactionImageSource(factionNumber);
   const opponentFactionImgSrc = useStormgateFactionImageSource(opponentFactionNumber);
 

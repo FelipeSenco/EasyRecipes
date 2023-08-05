@@ -1,4 +1,6 @@
-﻿using Domain.Models.BuildOrderModels;
+﻿using Domain.Filters;
+using Domain.MockIdentity;
+using Domain.Models.BuildOrderModels;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +33,42 @@ public class StarcraftBuildOrdersController : ControllerBase
     [HttpGet("detail")]
     public async Task<IActionResult> GetStarcraftBuildOrderById([FromQuery] Guid id)
     {
-        var response = await _buildOrdersService.GetBuildOrderById(id);
-        return Ok(response);
+        try
+        {
+            var response = await _buildOrdersService.GetBuildOrderById(id);
+            return Ok(response);
+        }
+        catch (Exception ex) { return BadRequest(ex.Message); }
+    }
+
+    [ServiceFilter(typeof(ValidateUserAndModelFilter))]
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateStarcraftBuildOrder([FromBody] ApiBuildOrderData buildOrder)
+    {
+        try
+        {
+            Guid response = await _buildOrdersService.CreateBuildOrder(buildOrder);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("delete")]
+    public async Task<IActionResult> DeleteStarcraftBuildOrder([FromQuery] Guid id)
+    {
+        if (MockIdentity.User == null) { return BadRequest("No credentials"); }
+        if (id == Guid.Empty) { return BadRequest("No build order id provided"); }
+        try
+        {
+            await _buildOrdersService.DeleteBuildOrder(id);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
