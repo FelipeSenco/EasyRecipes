@@ -4,9 +4,9 @@ export enum Roles {
 }
 
 export enum Games {
-  Warcraft_III = "warcraft",
-  Starcraft_II = "starcraft",
-  Stormgate = "stormgate",
+  Warcraft_III = "Warcraft",
+  Starcraft_II = "Starcraft",
+  Stormgate = "Stormgate",
 }
 
 export enum WarcraftFactions {

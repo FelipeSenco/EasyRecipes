@@ -157,3 +157,33 @@ export const useStormgateBuildOrderByIdQuery = (id: string, enabled: boolean) =>
     onError: (error: Error) => console.log(error),
   });
 };
+
+export const useCreateStormgateBuildOrderMutation = () => {
+  const { createStormgateBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+
+  return useMutation(createStormgateBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      navigate(AppRoutes.StormgateBuildOrder.replace(":id", data));
+    },
+  });
+};
+
+export const useDeleteStormgateBuildOrderMutation = (routeBack = true) => {
+  const { deleteStormgateBuildOrder } = useContext(BuildOrdersContext);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteStormgateBuildOrder, {
+    onError: (error: Error) => {
+      console.log(error);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.setQueryData([queryKeys.stormgateBuildOrder, data], null);
+      routeBack && navigate(AppRoutes.StormgateBuildOrders);
+    },
+  });
+};

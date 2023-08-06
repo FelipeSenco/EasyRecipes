@@ -19,6 +19,8 @@ interface BuildOrdersContextType {
   deleteWarcraftBuildOrder: (id: string) => Promise<string>;
   createStarcraftBuildOrder: (buildOrder: ApiBuildOrderData) => Promise<string>;
   deleteStarcraftBuildOrder: (id: string) => Promise<string>;
+  createStormgateBuildOrder: (buildOrder: ApiBuildOrderData) => Promise<string>;
+  deleteStormgateBuildOrder: (id: string) => Promise<string>;
 }
 
 const BuildOrdersContext = createContext<BuildOrdersContextType>({
@@ -32,6 +34,8 @@ const BuildOrdersContext = createContext<BuildOrdersContextType>({
   deleteWarcraftBuildOrder: () => Promise.resolve(""),
   createStarcraftBuildOrder: () => Promise.resolve(""),
   deleteStarcraftBuildOrder: () => Promise.resolve(""),
+  createStormgateBuildOrder: () => Promise.resolve(""),
+  deleteStormgateBuildOrder: () => Promise.resolve(""),
 });
 
 interface BuildOrdersProviderProps {
@@ -94,6 +98,16 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
     return res;
   };
 
+  const createStormgateBuildOrder = async (buildOrder: ApiBuildOrderData): Promise<string> => {
+    const res = await api.createStormgateBuildOrder(buildOrder);
+    return res;
+  };
+
+  const deleteStormgateBuildOrder = async (id: string): Promise<string> => {
+    const res = await api.deleteStormgateBuildOrder(id);
+    return res;
+  };
+
   return (
     <BuildOrdersContext.Provider
       value={{
@@ -107,6 +121,8 @@ export const BuildOrdersProvider: React.FC<BuildOrdersProviderProps> = ({ childr
         deleteWarcraftBuildOrder,
         createStarcraftBuildOrder,
         deleteStarcraftBuildOrder,
+        createStormgateBuildOrder,
+        deleteStormgateBuildOrder,
       }}
     >
       {children}

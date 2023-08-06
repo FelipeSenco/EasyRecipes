@@ -1,25 +1,39 @@
 import React, { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BuildOrderAction, StormgateBuildOrder } from "../../../Types&Globals/BuildOrders";
-import { useStormgateBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
+import { useDeleteStormgateBuildOrderMutation, useStormgateBuildOrderByIdQuery } from "../../../Api/Queries/BuildOrderQueries";
 import NotFound from "../../Errors/RouterError";
 import { Games, stormgateFactionsDisplay } from "../../../Types&Globals/enums";
 import background from "../../../assets/stormgatebackground.png";
 import { BuildOrderDetailSkeleton } from "../../Collection/BuildOrdersSkeleton";
 import { VersusDisplay } from "../../Collection/VersusDisplays";
+import { AppRoutes } from "../../../Types&Globals/Routes";
+import BuildOrderDetail from "../BuildOrderDetails";
 
 export const StormgateBuildOrderPage: FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const onEditClick = (id: string) => {
+    navigate(AppRoutes.StormgateEdit.replace(":id", id));
+  };
+  const { data: buildOrder, isFetching, isError } = useStormgateBuildOrderByIdQuery(id as string, true);
+  const { mutateAsync: onConfirmDelete, isError: deleteError, isLoading: deleteLoading } = useDeleteStormgateBuildOrderMutation();
 
-  const { data: buildOrder, isFetching, isError, refetch } = useStormgateBuildOrderByIdQuery(id as string, false);
-
-  if (!buildOrder?.id && !isFetching && !isError) refetch();
-
-  if (isError && !isFetching) return <NotFound />;
+  if (isError && !isFetching && !buildOrder) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="stormgate-build-order-page">
-      <StormgateBuildOrderDetail buildOrder={buildOrder as StormgateBuildOrder} isFetching={isFetching} />
+      <BuildOrderDetail
+        buildOrder={buildOrder as StormgateBuildOrder}
+        game={Games.Stormgate}
+        isFetching={isFetching}
+        onConfirmDelete={onConfirmDelete}
+        deleteError={deleteError}
+        deleteLoading={deleteLoading}
+        factionDisplay={stormgateFactionsDisplay}
+        background={background}
+        onEditClick={onEditClick}
+      />
     </div>
   );
 };

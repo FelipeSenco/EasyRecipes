@@ -11,13 +11,7 @@ import { queryKeys } from "../../../Types&Globals/queryKeys";
 
 export const CreateWarcraftBuildOrder: React.FC = () => {
   const { mutateAsync, isError, isLoading } = useCreateWarcraftBuildOrderMutation();
-  const queryClient = useQueryClient();
-  const { data: user } = useUserQuery();
-  const { id } = useParams();
-  //check if build order exists so we can edit it
-  const shouldLoadBuildOrder = id ? !queryClient.getQueryData<WarcraftBuildOrder>([queryKeys.warcraftBuildOrder, id])?.id : false;
-  const { data: initialBuildOrder, isError: isEditError } = useWarcraftBuildOrderByIdQuery(id || "", shouldLoadBuildOrder);
-  if (isEditError || (user?.role !== Roles.ADMIN && initialBuildOrder?.id && user?.id !== initialBuildOrder?.userId)) return <NotFound />;
+
   return (
     <CreateBuildOrder
       gameName={Games.Warcraft_III}
@@ -26,7 +20,30 @@ export const CreateWarcraftBuildOrder: React.FC = () => {
       onSubmit={mutateAsync}
       apiError={isError}
       isSubmitting={isLoading}
-      initialBuildOrder={initialBuildOrder?.id ? initialBuildOrder : undefined}
+      initialBuildOrder={undefined}
+    />
+  );
+};
+
+export const EditWarcraftBuildOrder: React.FC = () => {
+  const { mutateAsync, isError, isLoading } = useCreateWarcraftBuildOrderMutation();
+  const queryClient = useQueryClient();
+  const { data: user } = useUserQuery();
+  const { id } = useParams();
+  //check if build order exists so we can edit it
+  const shouldLoadBuildOrder = id ? !queryClient.getQueryData<WarcraftBuildOrder>([queryKeys.warcraftBuildOrder, id])?.id : false;
+  const { data: initialBuildOrder, isError: isEditError } = useWarcraftBuildOrderByIdQuery(id || "", shouldLoadBuildOrder);
+  if (isEditError || !initialBuildOrder || (user?.role !== Roles.ADMIN && initialBuildOrder?.id && user?.id !== initialBuildOrder?.userId))
+    return <NotFound />;
+  return (
+    <CreateBuildOrder
+      gameName={Games.Warcraft_III}
+      gameFactions={warcraftFactionsDisplay}
+      gameModes={warcraftGameModesDisplay}
+      onSubmit={mutateAsync}
+      apiError={isError}
+      isSubmitting={isLoading}
+      initialBuildOrder={initialBuildOrder}
     />
   );
 };

@@ -37,8 +37,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const minBuildOrderActions = 3;
 
   const updateSelectedGame = (currentPath: string) => {
-    if (currentPath.includes("starcraft")) setSelectedGame(Games.Starcraft_II);
-    else if (currentPath.includes("stormgate")) setSelectedGame(Games.Stormgate);
+    if (currentPath.includes(Games.Starcraft_II)) setSelectedGame(Games.Starcraft_II);
+    else if (currentPath.includes(Games.Stormgate)) setSelectedGame(Games.Stormgate);
     else setSelectedGame(Games.Warcraft_III);
   };
 

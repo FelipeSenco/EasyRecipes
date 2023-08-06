@@ -91,7 +91,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({
   if (isSubmitting) return <BuildOrderDetailSkeleton />;
   return (
     <div className="bg-gray-900 text-white p-6 max-h-full overflow-y-auto rounded shadow-md flex flex-col flex-grow gap-3">
-      <h1 className="text-xl font-bold">Create Warcraft Build Order</h1>
+      <h1 className="text-xl font-bold">Create {gameName} Build Order</h1>
       {apiError && <p className="text-red-400 font-bold text-l italic">There was an error submitting the build order. Please try again later.</p>}
       <div className="flex flex-col gap-2">
         <div>

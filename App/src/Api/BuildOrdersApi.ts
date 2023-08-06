@@ -25,6 +25,8 @@ export class BuildOrdersApi {
       deleteStarcraftBuildOrder: this.apiUrl + "/StarcraftBuildOrders/delete?id={id}",
       getStormgateBuildOrders: this.apiUrl + "/StormgateBuildOrders?",
       getStormgateBuildOrderById: this.apiUrl + "/StormgateBuildOrders/detail?id={id}",
+      createStormgateBuildOrder: this.apiUrl + "/StormgateBuildOrders/create",
+      deleteStormgateBuildOrder: this.apiUrl + "/StormgateBuildOrders/delete?id={id}",
     };
   }
 
@@ -82,5 +84,15 @@ export class BuildOrdersApi {
   async getStormgateBuildOrderById(id: string): Promise<StormgateBuildOrder> {
     const response = await axios.get(this.endpoints.getStormgateBuildOrderById.replace("{id}", id));
     return response.data;
+  }
+
+  async createStormgateBuildOrder(buildOrder: ApiBuildOrderData): Promise<string> {
+    const response = await axios.post(this.endpoints.createStormgateBuildOrder, buildOrder);
+    return response.data;
+  }
+
+  async deleteStormgateBuildOrder(id: string): Promise<string> {
+    await axios.delete(this.endpoints.deleteStormgateBuildOrder.replace("{id}", id));
+    return id;
   }
 }

@@ -90,7 +90,7 @@ export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({
   };
 
   const onEditClick = (id: string) => {
-    navigate(AppRoutes.StarcraftBuildOrder.replace(":id", id));
+    navigate(AppRoutes.StarcraftEdit.replace(":id", id));
   };
 
   if ((!buildOrders || isError) && !isFetching) return <NotFound />;
@@ -105,7 +105,7 @@ export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({
           className="p-4 border bg-gray-800 hover:bg-green-800 border-gray-700 rounded shadow-lg cursor-pointer transition ease-in duration-200 transform hover:scale-105"
         >
           <div className="flex justify-between gap-2 flex-wrap">
-            <div>
+            <div className="w-4/6">
               <h2 className="text-xl font-bold max-w-3xl">{buildOrder.name} </h2>
               <p className="text-l  text-gray-300">
                 {starcraftFactionsDisplay[buildOrder.faction]} vs {starcraftFactionsDisplay[buildOrder.opponentFaction]}

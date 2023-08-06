@@ -38,7 +38,6 @@ const BuildOrderDetail: FC<BuildOrderDetailProps> = ({
   const { editor: descriptionEditor } = useRichEditor(2000);
   const { editor: conclusionEditor } = useRichEditor(2000);
 
-  console.log(user);
   const onDeleteClick = () => {
     setDeleteModalOpen(true);
   };
@@ -109,7 +108,7 @@ const BuildOrderDetail: FC<BuildOrderDetailProps> = ({
           )}
         </div>
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/${game}`)}
           data-testid="go-back-button"
           className="w-auto flex items-center self-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-900 md:py-4 md:text-lg md:px-10"
         >
