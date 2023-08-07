@@ -2,8 +2,6 @@ bin/
 .vs/
 obj/
 appsettings.json
-appsettings.Development.json
-appsettings.Production.json
 app/*.pfx
 app/*.log
 app/*.txt
