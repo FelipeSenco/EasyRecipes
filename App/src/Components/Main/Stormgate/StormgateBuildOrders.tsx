@@ -123,7 +123,7 @@ export const StormgateBuildOrderList: FC<StormgateBuildOrderListProps> = ({
                 factionNumber={buildOrder.faction}
                 opponentFactionNumber={buildOrder.opponentFaction}
                 imgSize="14"
-                game={Games.Warcraft_III}
+                game={Games.Stormgate}
               />
             </div>
           </div>

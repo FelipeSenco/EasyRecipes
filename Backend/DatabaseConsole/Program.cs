@@ -1,45 +1,43 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿
+using DatabaseConsole;
+using Microsoft.Extensions.DependencyInjection;
 
 public class Program
-{
+{   
     public static async Task Main(string[] args)
     {
-        MongoClient client = new MongoClient("mongodb://localhost:27017");
-        var database = client.GetDatabase("RTSBuildOrderBuilder");
-        var collection = database.GetCollection<BsonDocument>("StormgateBuildOrders");  
-
-        // Fetch all documents from the collection
-        var documents = collection.Find(new BsonDocument()).ToList();
-
-        foreach (var document in documents)
+        await GenerateDatabasePrompt();
+    }
+    
+    public static async Task GenerateDatabasePrompt()
+    {
+        Console.WriteLine("Do you want to setup a local DB? You need to have MongoDb installed in your machine");
+        Console.WriteLine("You need to have MongoDb installed in your machine");
+        Console.WriteLine("This will add 4 mock users and 25 build orders for each game if the collections are currently empty");
+        Console.WriteLine("Type 'y' to accept. Any other key to skip...");
+        var setupLocalDB = Console.ReadLine();
+      
+        
+      
+        if (setupLocalDB?.ToLower() == "y")
         {
-            // Extract the string ID and convert to Guid
-            string oldIdString = document["_id"].AsString;
-            Guid oldIdGuid;
-
-            if (Guid.TryParse(oldIdString, out oldIdGuid))
+            string? databaseName = null;
+            while (String.IsNullOrWhiteSpace(databaseName))
             {
-                // Copy the old document and remove the old _id
-                var newDocument = document;
-                newDocument.Remove("_id");
-
-                // Convert old Guid _id to BsonBinaryData
-                BsonBinaryData newId = new BsonBinaryData(oldIdGuid, GuidRepresentation.Standard);
-
-                // Add the new _id
-                newDocument.Add("_id", newId);
-
-                // Insert the new document
-                collection.InsertOne(newDocument);
-
-                // Remove the old document
-                collection.DeleteOne(new FilterDefinitionBuilder<BsonDocument>().Eq("_id", oldIdString));
+                Console.WriteLine("Choose a name for your database");
+                databaseName = Console.ReadLine();
             }
-            else
+            var setupLocalDatabase = new SetupLocalDatabase(databaseName);
+            try
             {
-                Console.WriteLine($"Failed to parse Guid from ID: {oldIdString}");
+                await setupLocalDatabase.SetupLocalDb();
+                Console.WriteLine("CREATED DB SUCCESSFULLY!");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("There was an error generating the database structure:");
+                Console.WriteLine(ex.Message);
+            };           
         }
     }
 }

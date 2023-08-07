@@ -18,7 +18,7 @@ namespace Domain.Repositories.Implementations
         }       
         public async Task<ApplicationUser> GetUserById(Guid id)
         {
-            FilterDefinition<ApplicationUser> filter = Builders<ApplicationUser>.Filter.Eq("_id", id.ToString());
+            FilterDefinition<ApplicationUser> filter = Builders<ApplicationUser>.Filter.Eq("_id", id);
             ApplicationUser appUser = await _collection.Find(filter).FirstOrDefaultAsync();
             return appUser;
         }
