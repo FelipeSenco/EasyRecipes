@@ -18,7 +18,7 @@ export const StarcraftBuildOrderPage: FC = () => {
   const { data: buildOrder, isFetching, isError } = useStarcraftBuildOrderByIdQuery(id as string, true);
   const { mutateAsync: onConfirmDelete, isError: deleteError, isLoading: deleteLoading } = useDeleteStarcraftBuildOrderMutation();
 
-  if (isError && !isFetching && !buildOrder) return <NotFound />;
+  if (isError && !isFetching && !buildOrder?.id) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="starcraft-build-order-page">

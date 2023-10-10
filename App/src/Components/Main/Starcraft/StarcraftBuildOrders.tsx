@@ -93,7 +93,7 @@ export const StarcraftBuildOrderList: FC<StarcraftBuildOrderListProps> = ({
     navigate(AppRoutes.StarcraftEdit.replace(":id", id));
   };
 
-  if ((!buildOrders || isError) && !isFetching) return <NotFound />;
+  if ((buildOrders.length === 0 || isError) && !isFetching) return <NotFound />;
 
   return (
     <div className="flex flex-col space-y-4 text-yellow-200 p-4 font-fantasy w-full" data-testid="starcraft-build-order-list">

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useContext, useEffect, useMemo, useState } from "react";
 import { useUserQuery } from "../../Api/Queries/UserQueries";
 import { BuildOrderAction, ApiBuildOrderData, WarcraftBuildOrder, StarcraftBuildOrder, StormgateBuildOrder } from "../../Types&Globals/BuildOrders";
 import { FactionSelection } from "../Collection/FactionSelection";
@@ -8,6 +8,7 @@ import { Games } from "../../Types&Globals/enums";
 import { RichTextEditor, useRichEditor } from "../Collection/RichEditor/RichEditor";
 import { BuildOrderDetailSkeleton } from "../Collection/BuildOrdersSkeleton";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../../Contexts/AppContext";
 
 type CreateBuildOrderProps = {
   onSubmit: (buildOrderData: ApiBuildOrderData) => Promise<string>;
@@ -31,6 +32,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({
   console.log(initialBuildOrder);
   const { data: user } = useUserQuery();
   const navigate = useNavigate();
+  const { selectedGame } = useContext(AppContext);
   const [name, setName] = useState("");
   const [faction, setFaction] = useState("");
   const [opponentFaction, setOpponentFaction] = useState("");
@@ -161,7 +163,7 @@ export const CreateBuildOrder: FC<CreateBuildOrderProps> = ({
       <div className="flex justify-between">
         <button
           className="hover:bg-red-500 bg-red-600 w-1/6 flex items-center justify-center px-2 py-2 text-lg rounded mt-3 cursor-pointer"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/${selectedGame}`)}
         >
           Cancel
         </button>

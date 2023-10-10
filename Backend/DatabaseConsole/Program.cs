@@ -21,12 +21,8 @@ public class Program
       
         if (setupLocalDB?.ToLower() == "y")
         {
-            string? databaseName = null;
-            while (String.IsNullOrWhiteSpace(databaseName))
-            {
-                Console.WriteLine("Choose a name for your database");
-                databaseName = Console.ReadLine();
-            }
+            string? databaseName = "RTSBuildOrderBuilder";
+           
             var setupLocalDatabase = new SetupLocalDatabase(databaseName);
             try
             {
@@ -37,7 +33,8 @@ public class Program
             {
                 Console.WriteLine("There was an error generating the database structure:");
                 Console.WriteLine(ex.Message);
-            };           
+            };
+            Console.ReadLine();
         }
     }
 }

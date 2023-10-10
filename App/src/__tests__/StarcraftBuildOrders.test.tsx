@@ -53,7 +53,9 @@ describe("Starcraft Build Orders", () => {
   });
 
   test("Render the build order list if data is loaded", async () => {
-    renderContainer();
+    await act(async () => {
+      renderContainer();
+    });
 
     const notFound = document.querySelector(locators.notFound);
     const list = document.querySelector(locators.buildOrderList);
@@ -76,7 +78,16 @@ describe("Starcraft Build Orders", () => {
             <Routes>
               <Route
                 path="/"
-                element={<StarcraftBuildOrderList buildOrders={[]} isFetching={false} hasNextPage={false} fetchNextPage={() => {}} isError={true} />}
+                element={
+                  <StarcraftBuildOrderList
+                    buildOrders={[]}
+                    isFetching={false}
+                    hasNextPage={false}
+                    fetchNextPage={() => {}}
+                    isError={true}
+                    refetch={() => []}
+                  />
+                }
               />
             </Routes>
           </Providers>
@@ -103,7 +114,16 @@ describe("Starcraft Build Orders", () => {
             <Routes>
               <Route
                 path="/"
-                element={<StarcraftBuildOrderList buildOrders={[]} isFetching={true} hasNextPage={false} fetchNextPage={() => {}} isError={false} />}
+                element={
+                  <StarcraftBuildOrderList
+                    buildOrders={[]}
+                    isFetching={true}
+                    hasNextPage={false}
+                    fetchNextPage={() => {}}
+                    isError={false}
+                    refetch={() => []}
+                  />
+                }
               />
             </Routes>
           </Providers>

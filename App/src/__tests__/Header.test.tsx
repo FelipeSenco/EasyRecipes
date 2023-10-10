@@ -72,6 +72,8 @@ describe("Header", () => {
   });
 
   test("Clicking Create triggers '/create' route", () => {
+    queryClient.setQueryData([queryKeys.userLogin], mockUserOne);
+
     renderHeader();
 
     const button = screen.getByTestId("create-link");

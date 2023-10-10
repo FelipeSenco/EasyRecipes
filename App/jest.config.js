@@ -3,6 +3,6 @@ module.exports = {
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapper: {
-    "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/src/__mocks__/fileMock.js",
+    "\\.(jpg|jpeg|png|gif|webp|svg|css|scss)$": "<rootDir>/src/__mocks__/fileMock.js",
   },
 };

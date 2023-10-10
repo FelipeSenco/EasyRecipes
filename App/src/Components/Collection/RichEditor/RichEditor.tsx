@@ -140,7 +140,6 @@ export const setEditorContentFromRaw = (editorContent: string, editor: Editor) =
     const content = JSON.parse(editorContent);
     editor?.commands.setContent(content.serializedContent);
   } catch (error) {
-    console.error("Content not in correct format");
     editor?.commands.setContent(editorContent);
   }
 };

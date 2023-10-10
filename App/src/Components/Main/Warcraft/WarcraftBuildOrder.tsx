@@ -18,7 +18,7 @@ export const WarcraftBuildOrderPage: FC = () => {
   const { data: buildOrder, isFetching, isError } = useWarcraftBuildOrderByIdQuery(id as string, true);
   const { mutateAsync: onConfirmDelete, isError: deleteError, isLoading: deleteLoading } = useDeleteWarcraftBuildOrderMutation();
 
-  if (isError && !isFetching && !buildOrder) return <NotFound />;
+  if (isError && !isFetching && !buildOrder?.id) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="warcraft-build-order-page">

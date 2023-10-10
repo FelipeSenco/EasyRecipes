@@ -19,7 +19,7 @@ export const StormgateBuildOrderPage: FC = () => {
   const { data: buildOrder, isFetching, isError } = useStormgateBuildOrderByIdQuery(id as string, true);
   const { mutateAsync: onConfirmDelete, isError: deleteError, isLoading: deleteLoading } = useDeleteStormgateBuildOrderMutation();
 
-  if (isError && !isFetching && !buildOrder) return <NotFound />;
+  if (isError && !isFetching && !buildOrder?.id) return <NotFound />;
 
   return (
     <div className="flex flex-grow" data-testid="stormgate-build-order-page">

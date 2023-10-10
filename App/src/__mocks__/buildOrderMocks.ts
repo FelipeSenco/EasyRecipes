@@ -97,6 +97,7 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
     opponentFaction: 3,
     createdBy: "John Doe",
     gameMode: 0,
+    userId: "1",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
     actions: [
@@ -124,6 +125,7 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
     faction: 0,
     opponentFaction: 1,
     gameMode: 0,
+    userId: "1",
     createdBy: "Alice is Pains",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -152,6 +154,7 @@ export const Sc2BuildOrderMocks: StarcraftBuildOrder[] = [
     faction: 0,
     opponentFaction: 2,
     gameMode: 0,
+    userId: "1",
     createdBy: "HookShot HotShot",
     description:
       "The  sit amet, consectetur adip are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -183,6 +186,7 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
     faction: 0,
     opponentFaction: 2,
     gameMode: 0,
+    userId: "1",
     createdBy: "John Doe",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -211,6 +215,7 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
     faction: 0,
     opponentFaction: 1,
     gameMode: 0,
+    userId: "1",
     createdBy: "Alice is Pains",
     description:
       "The Humans are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -239,6 +244,7 @@ export const StgBuildOrderMocks: StormgateBuildOrder[] = [
     faction: 1,
     opponentFaction: 0,
     gameMode: 0,
+    userId: "1",
     createdBy: "HookShot HotShot",
     description:
       "The  sit amet, consectetur adip are a great um dolor sit amet, consectetur adipiscing elit. Proin in quam finibus massa consequat feugiat. Ut velit urna, sagittis vel aliquam",
@@ -284,6 +290,7 @@ export const emptyStarcraftBuildOrder: StarcraftBuildOrder = {
   description: "",
   actions: [],
   gameMode: 0,
+  userId: "",
 };
 
 export const emptyStormgateBuildOrder: StormgateBuildOrder = {
@@ -295,4 +302,5 @@ export const emptyStormgateBuildOrder: StormgateBuildOrder = {
   description: "",
   actions: [],
   gameMode: 0,
+  userId: "",
 };

@@ -1,8 +1,6 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import RegisterModal from "../Components/Modals/UserRegisterModal";
 import { Games } from "../Types&Globals/enums";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useUserQuery } from "../Api/Queries/UserQueries";
 import { AppRoutes } from "../Types&Globals/Routes";
 
 interface AppContextType {
@@ -37,9 +35,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const minBuildOrderActions = 3;
 
   const updateSelectedGame = (currentPath: string) => {
-    if (currentPath.includes(Games.Starcraft_II)) setSelectedGame(Games.Starcraft_II);
-    else if (currentPath.includes(Games.Stormgate)) setSelectedGame(Games.Stormgate);
-    else setSelectedGame(Games.Warcraft_III);
+    if (currentPath.toLowerCase().includes(Games.Starcraft_II.toLowerCase())) {
+      setSelectedGame(Games.Starcraft_II);
+    } else if (currentPath.toLowerCase().includes(Games.Stormgate.toLowerCase())) {
+      setSelectedGame(Games.Stormgate);
+    } else setSelectedGame(Games.Warcraft_III);
   };
 
   return (

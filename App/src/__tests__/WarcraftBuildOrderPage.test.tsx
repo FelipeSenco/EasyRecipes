@@ -36,7 +36,7 @@ const renderComponent = () => {
       <Providers userApi={mockUserApi} buildOrdersApi={mockBuildOrdersApi} queryClient={queryClient}>
         <Routes>
           <Route path={AppRoutes.WarcraftBuildOrder.replace(":id", id)} element={<WarcraftBuildOrderPage />} />
-          <Route path="/" element={<div data-testid="test-route">Test Route</div>} />
+          <Route path={AppRoutes.WarcraftBuildOrders} element={<div data-testid="test-route">Test Route</div>} />
         </Routes>
       </Providers>
     </MemoryRouter>
@@ -109,7 +109,9 @@ describe("Warcraft Build Order", () => {
   });
 
   test("Clicking a Go Back button will redirect to '/", async () => {
-    renderComponent();
+    await act(async () => {
+      renderComponent();
+    });
 
     const goBack = screen.getByTestId("go-back-button");
 
@@ -117,9 +119,8 @@ describe("Warcraft Build Order", () => {
       fireEvent.click(goBack);
     });
 
-    const routTest = screen.getByTestId("test-route");
-
     await waitFor(() => {
+      const routTest = screen.getByTestId("test-route");
       expect(routTest).toBeDefined();
     });
   });
